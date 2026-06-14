@@ -348,6 +348,8 @@ const QUESTIONS = [
   { dim:'tk', text:'AI对你来说是什么？', opts:['效率工具，帮我省时间','创作伙伴，和我一起碰撞想法','一个值得深入理解的黑箱','算不上什么，我自己写模型'] },
   { dim:'im', text:'看到一条热门微博时，你是？', opts:['先看评论区再决定态度','转发前先独立查证事实','顺手转发，跟着大家一起嗨','默默围观，从不参与'] },
   { dim:'tk', text:'你的密码管理方式是？', opts:['三组密码轮换，全凭记忆','密码管理器，每个网站独立随机','能不改默认密码就不改','全部不同，并且每周手动更换'] },
+  { dim:'di', text:'你更愿意把钱花在？', opts:['实体书、唱片和线下体验','云存储、订阅服务和数字资产','无人机、机械键盘和智能硬件','旅行基金和随机冒险'] },
+  { dim:'ts', text:'学一样新东西时，你是？', opts:['找最权威的教科书从头啃起','看一个5分钟视频教程直接开干','请教已经会了的朋友','先搞清楚它的底层原理再学'] },
 ];
 
 const VALUE_PROPS = [
@@ -425,13 +427,31 @@ const App = {
     return DIMS.map(d => dc[d.id]>0 ? Math.round((ds[d.id]/(dc[d.id]*3))*3*100)/100 : 0);
   },
 
-  findType(vec) {
-    let best = TYPES[0], bestD = Infinity;
-    TYPES.forEach(t => {
-      const d = Math.sqrt(t.vec.reduce((s,v,i)=>s+(v-vec[i])**2,0));
-      if (d < bestD) { bestD = d; best = t; }
+    findBestType() {
+    // Accumulative scoring: each answer directly scores every type
+    const scores = new Array(TYPES.length).fill(0);
+    const dimIdx = { di:0, im:1, ts:2, tk:3 };
+
+    this.answers.forEach((ans, i) => {
+      const qDim = QUESTIONS[i].dim;
+      const dIdx = dimIdx[qDim];
+      TYPES.forEach((t, ti) => {
+        // Score = 4 - distance between type's vec value and answer
+        // Gives 1-4 points per question per type
+        scores[ti] += 4 - Math.abs(t.vec[dIdx] - ans);
+      });
     });
-    return best;
+
+    // Find type with highest accumulative score
+    let bestIdx = 0, bestScore = -1;
+    scores.forEach((s, i) => { if (s > bestScore) { bestScore = s; bestIdx = i; } });
+
+    // Log for debugging
+    console.log('Answers:', this.answers.join(''));
+    console.log('Top scores:', TYPES.map((t,i) => `${t.name}:${scores[i]}`).sort((a,b) => parseInt(b.split(':')[1])-parseInt(a.split(':')[1])).slice(0,5).join(', '));
+    console.log('Result:', TYPES[bestIdx].name);
+
+    return { type: TYPES[bestIdx], scores, bestIdx };
   },
 
   showResult() {
@@ -441,7 +461,7 @@ const App = {
     document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
 
     const vec = this.calcScores();
-    const type = this.findType(vec);
+    const { type } = this.findBestType();
 
     document.getElementById('r-emoji').textContent = type.emoji;
     document.getElementById('r-name').textContent = type.name;
