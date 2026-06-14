@@ -2,12 +2,25 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="赛博人格测试 · 10道题解锁你的数字灵魂">
-<meta property="og:title" content="赛博人格测试">
-<meta property="og:description" content="看看你是赛博空间的哪种存在">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
+<meta name="theme-color" content="#080402">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="赛博人格">
+<meta name="x5-fullscreen" content="true">
+<meta name="x5-page-mode" content="app">
+<meta name="format-detection" content="telephone=no,email=no,address=no">
+<meta name="description" content="10道题解锁你的数字灵魂。四个维度，十八种赛博人格。看看你是赛博空间的哪种存在。">
+<meta name="keywords" content="赛博人格,SBTI,人格测试,MBTI,心理测试,数字灵魂,赛博">
+<meta property="og:title" content="赛博人格测试 · 你是哪种赛博人格？">
+<meta property="og:description" content="10道题解锁你的数字灵魂。四个维度，十八种赛博人格。">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://turbo-adventure-7ii.pages.dev/share-og.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="赛博人格测试 · SBTI">
+<meta property="twitter:description" content="10道题解锁你的数字灵魂">
 <title>赛博人格测试 · SBTI</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -15,22 +28,29 @@
 
 :root {
   --bg: #080402; --gold: #c9a05c; --gold-lt: #d4b67a; --red: #c8403a;
-  --card: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.06);
-  --text: #e8dcc8; --dim: rgba(232,220,200,0.35);
+  --card: rgba(255,255,255,0.035); --border: rgba(255,255,255,0.06);
+  --text: #e8dcc8; --dim: rgba(232,220,200,0.4); --paper: rgba(20,14,10,0.95);
 }
 *, *::before, *::after { box-sizing:border-box; margin:0; padding:0 }
 body {
   background:var(--bg); color:var(--text);
   font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
   min-height:100vh; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  padding-bottom: calc(72px + max(env(safe-area-inset-bottom), 12px));
 }
 .font-disp { font-family:"Zhi Mang Xing","STKaiti","KaiTi",serif }
+
+/* Shadow system (inspired by 菩提苑) */
+.shadow-paper { box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.15) }
+.shadow-card { box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.12) }
+.shadow-gold { box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 0 1px rgba(201,160,92,0.08), 0 8px 24px rgba(201,160,92,0.04) }
+
 .glass {
   background:var(--card); border:1px solid var(--border);
   backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-  border-radius:12px; transition:all .25s;
+  border-radius:12px; transition:all .3s;
 }
-.glass:hover { border-color:rgba(201,160,92,0.25); background:rgba(255,255,255,0.06) }
+.glass:hover { border-color:rgba(201,160,92,0.2); background:rgba(255,255,255,0.055) }
 .gold-grad {
   background:linear-gradient(135deg,#c9a05c 0%,#e8c97a 50%,#c9a05c 100%);
   -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
@@ -39,51 +59,79 @@ body {
 .btn {
   display:inline-flex; align-items:center; justify-content:center; gap:6px;
   padding:12px 28px; border-radius:999px; font-size:14px; font-weight:500;
-  cursor:pointer; transition:all .2s; border:none; text-decoration:none;
+  cursor:pointer; transition:all .2s; border:none; text-decoration:none; user-select:none;
 }
 .btn-red { background:var(--red); color:#fff }
-.btn-red:hover { background:#e04840 }
+.btn-red:active { transform:scale(.97) }
 .btn-outline {
-  background:transparent; border:1px solid rgba(201,160,92,0.3);
-  color:rgba(201,160,92,0.8);
+  background:transparent; border:1px solid rgba(201,160,92,0.25); color:rgba(201,160,92,0.8);
 }
-.btn-outline:hover { background:rgba(201,160,92,0.08) }
+.btn-outline:active { background:rgba(201,160,92,0.06); transform:scale(.97) }
 .btn-sm { padding:8px 18px; font-size:12px }
+.btn-lg { padding:14px 36px; font-size:16px }
+
+/* Section spacing (菩提苑 pattern) */
+.pb-section { padding-bottom: 80px }
+.pt-section { padding-top: 80px }
 
 /* Animations */
 @keyframes rise { 0%{opacity:0;transform:translateY(0) scale(.8)} 50%{opacity:.5} 100%{opacity:0;transform:translateY(-120px) scale(1.2)} }
 @keyframes spin { 100%{transform:rotate(360deg)} }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-@keyframes slideIn { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:translateX(0)} }
+@keyframes slideIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 @keyframes scaleIn { from{opacity:0;transform:scale(.92)} to{opacity:1;transform:scale(1)} }
-@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(201,160,92,.3)} 50%{box-shadow:0 0 0 10px rgba(201,160,92,0)} }
+@keyframes pulseGold { 0%,100%{box-shadow:0 0 0 0 rgba(201,160,92,.3)} 50%{box-shadow:0 0 0 12px rgba(201,160,92,0)} }
 .anim-rise { animation:rise 4s ease-in-out infinite }
 .anim-spin { animation:spin 20s linear infinite }
 .anim-fadeUp { animation:fadeUp .7s ease-out forwards }
 .anim-fadeIn { animation:fadeIn .4s ease-out forwards }
 .anim-slideIn { animation:slideIn .35s ease-out forwards; opacity:0 }
 .anim-scaleIn { animation:scaleIn .5s ease-out forwards }
-.anim-pulse { animation:pulse 2.2s ease-in-out infinite }
+.anim-pulseGold { animation:pulseGold 2.2s ease-in-out infinite }
+.reveal {
+  opacity:0; transform:translateY(24px);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0) }
 
-.particle { position:fixed; width:3px; height:3px; border-radius:50%; background:rgba(201,160,92,.25); pointer-events:none }
+.particle { position:fixed; width:3px; height:3px; border-radius:50%; background:rgba(201,160,92,.2); pointer-events:none }
 .section { display:none }
 .section.on { display:block }
 
-.progress-track { width:100%; height:3px; background:rgba(255,255,255,.05); border-radius:2px; margin-bottom:48px }
+/* Tab bar (菩提苑 pattern) */
+.tab-bar {
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  border-top:1px solid rgba(201,160,92,0.1);
+  background:rgba(8,4,2,0.95); backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  display:flex; padding:8px 4px max(env(safe-area-inset-bottom),8px) 4px;
+}
+.tab-item {
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:2px;
+  color:rgba(232,220,200,0.3); font-size:10px; cursor:pointer;
+  transition:color .2s; padding:4px 0; border:none; background:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.tab-item.active { color:var(--gold) }
+.tab-icon { font-size:22px; line-height:1; transition:transform .2s }
+.tab-item:active .tab-icon { transform:scale(.85) }
+
+/* Progress */
+.progress-track { width:100%; height:3px; background:rgba(255,255,255,.05); border-radius:2px; margin-bottom:44px }
 .progress-fill { height:100%; background:rgba(201,160,92,.5); border-radius:2px; transition:width .5s ease }
 
 .opt-btn {
   width:100%; text-align:left; padding:15px 20px; margin-bottom:10px;
   border-radius:10px; border:1px solid rgba(255,255,255,.05);
-  background:rgba(255,255,255,.025); color:rgba(232,220,200,.65);
-  font-size:14px; cursor:pointer; transition:all .2s;
+  background:rgba(255,255,255,.02); color:rgba(232,220,200,.65);
+  font-size:14px; cursor:pointer; transition:all .2s; -webkit-tap-highlight-color:transparent;
 }
-.opt-btn:hover { border-color:rgba(201,160,92,.25); background:rgba(255,255,255,.05); color:var(--text) }
+.opt-btn:active { border-color:rgba(201,160,92,.3); background:rgba(255,255,255,.05); color:var(--text); transform:scale(.98) }
 .opt-btn .lbl { color:rgba(201,160,92,.35); margin-right:14px; font-size:11px; font-weight:500 }
 
 /* Radar */
-#radar-wrap { width:240px; height:240px; margin:0 auto 24px }
+#radar-wrap { width:220px; height:220px; margin:0 auto 24px }
 #radar-wrap canvas { width:100%; height:100% }
 
 /* Share overlay */
@@ -96,14 +144,23 @@ body {
 .share-overlay.on { opacity:1; pointer-events:auto }
 .share-card {
   background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.01));
-  border:1px solid rgba(201,160,92,.15); border-radius:20px;
-  padding:36px 28px; text-align:center; max-width:340px; width:90%;
+  border:1px solid rgba(201,160,92,.12); border-radius:20px;
+  padding:32px 24px; text-align:center; max-width:340px; width:92%;
 }
+.share-card canvas { width:100%; border-radius:12px; margin-bottom:14px }
 
-/* Responsive */
-@media (max-width:640px) {
-  .hero-h1 { font-size:36px !important }
-  .q-h2 { font-size:17px !important }
+/* History */
+.history-item {
+  padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,.05);
+  background:rgba(255,255,255,.02); margin-bottom:8px; cursor:pointer;
+  transition:all .2s; -webkit-tap-highlight-color:transparent;
+  display:flex; align-items:center; gap:12px;
+}
+.history-item:active { border-color:rgba(201,160,92,.2); background:rgba(255,255,255,.04) }
+
+@media (min-width:768px) {
+  .tab-bar { display:none }
+  body { padding-bottom:0 }
 }
 </style>
 </head>
@@ -113,97 +170,140 @@ body {
 <div id="particles"></div>
 <div style="position:fixed;inset:0;pointer-events:none;z-index:-10">
   <div style="position:absolute;inset:0;background:var(--bg)"></div>
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 35%,rgba(201,160,92,.05),transparent 70%)"></div>
-  <div style="position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,rgba(201,160,92,.03),transparent)"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(201,160,92,.05),transparent 70%)"></div>
 </div>
 
-<!-- Header -->
-<header style="position:fixed;top:0;left:0;right:0;z-index:50;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;padding-top:max(16px,env(safe-area-inset-top))">
-  <span class="gold-grad" style="font-size:14px;font-weight:500;letter-spacing:.04em">赛博人格</span>
-  <button class="btn btn-outline btn-sm" onclick="App.go('test')">开始测试</button>
+<!-- Fixed Top Header (desktop) -->
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;padding-top:max(16px,env(safe-area-inset-top))" class="md:flex hidden">
+  <span class="gold-grad" style="font-size:14px;font-weight:500">赛博人格</span>
+  <button class="btn btn-outline btn-sm" onclick="App.nav('test')">开始测试</button>
 </header>
 
 <!-- ============ HOME ============ -->
-<section id="sec-home" class="section on" style="padding:96px 24px 80px;text-align:center">
-  <div style="margin:0 auto 28px;width:80px;height:80px;border-radius:50%;border:2px solid rgba(201,160,92,.35);animation:spin 20s linear infinite;display:flex;align-items:center;justify-content:center">
-    <div style="width:52px;height:52px;border-radius:50%;border:1px solid rgba(201,160,92,.25);display:flex;align-items:center;justify-content:center">
-      <span style="font-size:26px">🧬</span>
+<section id="sec-home" class="section on">
+  <!-- Hero -->
+  <div style="padding:80px 24px 60px;text-align:center">
+    <div style="margin:0 auto 28px;width:80px;height:80px;border-radius:50%;border:2px solid rgba(201,160,92,.3);animation:spin 20s linear infinite;display:flex;align-items:center;justify-content:center">
+      <div style="width:52px;height:52px;border-radius:50%;border:1px solid rgba(201,160,92,.2);display:flex;align-items:center;justify-content:center">
+        <span style="font-size:26px">🧬</span>
+      </div>
+    </div>
+    <h1 class="font-disp gold-grad" style="font-size:clamp(38px,6vw,56px);margin:0 0 12px;animation:fadeUp .7s ease-out forwards">赛博人格测试</h1>
+    <p style="color:var(--dim);max-width:360px;margin:0 auto 32px;font-size:14px;line-height:1.8;animation:fadeUp .7s .1s ease-out forwards">10 道题 · 4 个维度 · 18 种数字人格<br>解锁你的赛博灵魂</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;animation:fadeUp .7s .2s ease-out forwards">
+      <button class="btn btn-red btn-lg anim-pulseGold" onclick="App.nav('test')">开始测试</button>
+      <button class="btn btn-outline" onclick="App.nav('types')">浏览人格谱系</button>
     </div>
   </div>
 
-  <h1 class="font-disp gold-grad hero-h1" style="font-size:clamp(40px,6vw,60px);margin:0 0 12px;animation:fadeUp .7s ease-out forwards">赛博人格测试</h1>
-  <p style="color:var(--dim);max-width:380px;margin:0 auto 36px;font-size:14px;line-height:1.8;animation:fadeUp .7s .15s ease-out forwards">10 道题，4 个维度，解锁你的数字灵魂</p>
-
-  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;animation:fadeUp .7s .3s ease-out forwards">
-    <button class="btn btn-red" onclick="App.go('test')" style="width:200px">开始测试</button>
-    <button class="btn btn-outline" onclick="document.getElementById('types-anchor').scrollIntoView({behavior:'smooth'})" style="width:200px">浏览人格谱系</button>
+  <!-- Featured Types Grid -->
+  <div class="pb-section" style="padding-left:24px;padding-right:24px">
+    <h2 class="font-disp gold-grad reveal" style="text-align:center;font-size:clamp(22px,3vw,30px);margin-bottom:4px">赛博人格谱系</h2>
+    <p class="reveal" style="text-align:center;font-size:12px;color:rgba(232,220,200,.2);margin-bottom:32px">18 种赛博人格 · 4 个维度定位</p>
+    <div id="type-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;max-width:920px;margin:0 auto"></div>
+    <div class="reveal" style="text-align:center;margin-top:24px">
+      <button class="btn btn-outline btn-sm" onclick="App.nav('types')">查看全部 18 种 →</button>
+    </div>
   </div>
 
-  <!-- Type Grid -->
-  <div id="types-anchor" style="margin-top:96px">
-    <h2 class="font-disp gold-grad" style="font-size:clamp(24px,3.5vw,36px);margin-bottom:4px">赛博人格谱系</h2>
-    <p style="font-size:12px;color:rgba(232,220,200,.2);margin-bottom:36px">18 种赛博人格 · 4 个维度定位</p>
-    <div id="type-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;max-width:960px;margin:0 auto;text-align:left"></div>
+  <!-- Why SBTI -->
+  <div class="pb-section" style="padding-left:24px;padding-right:24px">
+    <h2 class="font-disp gold-grad reveal" style="text-align:center;font-size:clamp(22px,3vw,30px);margin-bottom:4px">为何测赛博人格？</h2>
+    <p class="reveal" style="text-align:center;font-size:12px;color:rgba(232,220,200,.2);margin-bottom:32px">比星座科学 · 比MBTI有趣 · 专为数字时代设计</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;max-width:720px;margin:0 auto" id="why-grid"></div>
   </div>
 
-  <!-- Dimensions explainer -->
-  <div style="margin-top:80px">
-    <h2 class="font-disp gold-grad" style="font-size:clamp(22px,3vw,30px);margin-bottom:4px">四个维度</h2>
-    <p style="font-size:12px;color:rgba(232,220,200,.2);margin-bottom:32px">赛博人格的底层坐标</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;max-width:880px;margin:0 auto" id="dim-grid"></div>
+  <!-- CTA -->
+  <div class="pb-section reveal" style="text-align:center;padding:0 24px">
+    <div class="glass shadow-card" style="display:inline-block;padding:40px 32px;max-width:480px">
+      <span style="font-size:40px;display:block;margin-bottom:12px">🧬</span>
+      <h3 class="font-disp gold-grad" style="font-size:24px;margin-bottom:8px">测测你的数字灵魂</h3>
+      <p style="font-size:13px;color:var(--dim);margin-bottom:24px;line-height:1.7">在赛博世界中找到你的坐标<br>一码传万码，分享找到同类</p>
+      <button class="btn btn-red" onclick="App.nav('test')">开始测试</button>
+    </div>
   </div>
 
   <!-- Footer -->
-  <footer style="margin-top:96px;padding-top:56px;border-top:1px solid rgba(255,255,255,.03)">
-    <p class="font-disp" style="font-size:24px;color:rgba(201,160,92,.12);margin:0 0 8px">一码传万码</p>
-    <p style="font-size:12px;color:rgba(232,220,200,.12);line-height:1.8">SBTI · 赛博人格测试<br>你的数字灵魂，值得被看见</p>
-    <p style="font-size:10px;color:rgba(232,220,200,.06);margin-top:20px">&copy; 2026 SBTI</p>
+  <footer style="padding:48px 24px;text-align:center;border-top:1px solid rgba(255,255,255,.03)">
+    <p class="font-disp" style="font-size:22px;color:rgba(201,160,92,.1);margin-bottom:4px">一码传万码</p>
+    <p style="font-size:11px;color:rgba(232,220,200,.1)">SBTI · 赛博人格测试</p>
   </footer>
 </section>
 
 <!-- ============ TEST ============ -->
-<section id="sec-test" class="section" style="max-width:600px;margin:0 auto;padding:96px 24px 80px">
+<section id="sec-test" class="section" style="max-width:560px;margin:0 auto;padding:72px 24px 60px">
   <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-  <p id="q-num" style="font-size:11px;color:rgba(201,160,92,.35);text-align:center;margin-bottom:28px;letter-spacing:.2em"></p>
-  <h2 id="q-text" class="q-h2" style="font-size:clamp(17px,2.5vw,22px);text-align:center;margin-bottom:36px;line-height:1.7;font-weight:500"></h2>
+  <p id="q-num" style="font-size:11px;color:rgba(201,160,92,.35);text-align:center;margin-bottom:24px;letter-spacing:.2em"></p>
+  <h2 id="q-text" style="font-size:clamp(17px,2.5vw,22px);text-align:center;margin-bottom:32px;line-height:1.7;font-weight:500"></h2>
   <div id="q-opts"></div>
-  <p id="q-hint" style="font-size:11px;color:rgba(201,160,92,.25);text-align:center;margin-top:20px"></p>
+  <p id="q-hint" style="font-size:11px;color:rgba(201,160,92,.2);text-align:center;margin-top:18px"></p>
+</section>
+
+<!-- ============ TYPES ============ -->
+<section id="sec-types" class="section" style="padding:72px 24px 60px">
+  <h2 class="font-disp gold-grad" style="text-align:center;font-size:clamp(24px,3.5vw,34px);margin-bottom:4px">全部 18 种赛博人格</h2>
+  <p style="text-align:center;font-size:12px;color:rgba(232,220,200,.2);margin-bottom:32px">点击任意一种开始测试，发现你是哪种</p>
+  <div id="all-types-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;max-width:960px;margin:0 auto"></div>
 </section>
 
 <!-- ============ RESULT ============ -->
-<section id="sec-result" class="section" style="max-width:500px;margin:0 auto;padding:72px 24px 72px">
-  <div style="text-align:center;margin-bottom:28px;animation:scaleIn .5s ease-out forwards">
-    <span id="r-emoji" style="font-size:56px;display:block;margin-bottom:8px"></span>
+<section id="sec-result" class="section" style="max-width:480px;margin:0 auto;padding:56px 24px 60px">
+  <div style="text-align:center;margin-bottom:24px;animation:scaleIn .5s ease-out forwards">
+    <span id="r-emoji" style="font-size:52px;display:block;margin-bottom:8px"></span>
     <h1 id="r-name" class="font-disp gold-grad" style="font-size:clamp(26px,3.5vw,36px);margin:0 0 6px"></h1>
-    <span id="r-tag" style="font-size:11px;padding:3px 14px;border-radius:999px;background:rgba(201,160,92,.08);border:1px solid rgba(201,160,92,.18);color:rgba(201,160,92,.7)"></span>
+    <span id="r-tag" style="font-size:11px;padding:3px 14px;border-radius:999px;background:rgba(201,160,92,.08);border:1px solid rgba(201,160,92,.15);color:rgba(201,160,92,.65)"></span>
   </div>
-
-  <!-- Radar Chart -->
   <div id="radar-wrap"><canvas id="radar-canvas"></canvas></div>
-
-  <div id="r-desc" class="glass" style="padding:20px 22px;margin-bottom:14px;font-size:13px;color:rgba(232,220,200,.55);line-height:1.85"></div>
-  <div class="glass" style="padding:20px 22px;margin-bottom:32px">
-    <h3 style="font-size:11px;color:rgba(201,160,92,.45);margin:0 0 8px;letter-spacing:.12em;font-weight:500">赛博箴言</h3>
-    <p id="r-advice" style="font-size:13px;color:rgba(232,220,200,.55);margin:0;font-style:italic"></p>
+  <div id="r-desc" class="glass shadow-paper" style="padding:18px 20px;margin-bottom:10px;font-size:13px;color:rgba(232,220,200,.55);line-height:1.8"></div>
+  <div class="glass shadow-paper" style="padding:18px 20px;margin-bottom:28px">
+    <h3 style="font-size:11px;color:rgba(201,160,92,.4);margin:0 0 8px;letter-spacing:.1em;font-weight:500">赛博箴言</h3>
+    <p id="r-advice" style="font-size:13px;color:rgba(232,220,200,.5);margin:0;font-style:italic"></p>
   </div>
-
   <div style="text-align:center">
-    <button class="btn btn-red anim-pulse" onclick="App.share()" style="margin-bottom:12px">分享到朋友圈</button>
+    <button class="btn btn-red anim-pulseGold btn-lg" onclick="App.share()" style="margin-bottom:12px;width:100%;max-width:260px">分享到朋友圈</button>
     <div>
-      <button class="btn btn-outline btn-sm" onclick="App.go('test')">重新测试</button>
-      <span style="color:rgba(232,220,200,.12);margin:0 8px">·</span>
-      <button class="btn btn-outline btn-sm" onclick="App.go('home')">返回首页</button>
+      <button class="btn btn-outline btn-sm" onclick="App.nav('test')">重新测试</button>
+      <span style="color:rgba(232,220,200,.1);margin:0 10px">·</span>
+      <button class="btn btn-outline btn-sm" onclick="App.nav('home')">返回首页</button>
     </div>
   </div>
 </section>
 
-<!-- ============ SHARE OVERLAY ============ -->
+<!-- ============ HISTORY ============ -->
+<section id="sec-history" class="section" style="max-width:460px;margin:0 auto;padding:72px 24px 60px">
+  <h2 class="font-disp gold-grad" style="text-align:center;font-size:clamp(24px,3.5vw,30px);margin-bottom:4px">我的记录</h2>
+  <p style="text-align:center;font-size:12px;color:rgba(232,220,200,.2);margin-bottom:28px">每次测试结果都会保存在本地</p>
+  <div id="history-list"></div>
+  <div id="history-empty" style="text-align:center;padding:60px 20px">
+    <span style="font-size:48px;display:block;margin-bottom:12px;opacity:.3">📭</span>
+    <p style="font-size:14px;color:var(--dim)">还没有测试记录</p>
+    <button class="btn btn-outline btn-sm" style="margin-top:16px" onclick="App.nav('test')">去测试</button>
+  </div>
+</section>
+
+<!-- Tab Bar (mobile) -->
+<nav class="tab-bar" id="tab-bar">
+  <button class="tab-item active" data-tab="home" onclick="App.nav('home')">
+    <span class="tab-icon">🏠</span>首页
+  </button>
+  <button class="tab-item" data-tab="test" onclick="App.nav('test')">
+    <span class="tab-icon">🧬</span>测试
+  </button>
+  <button class="tab-item" data-tab="types" onclick="App.nav('types')">
+    <span class="tab-icon">📊</span>谱系
+  </button>
+  <button class="tab-item" data-tab="history" onclick="App.nav('history')">
+    <span class="tab-icon">📋</span>记录
+  </button>
+</nav>
+
+<!-- Share overlay -->
 <div class="share-overlay" id="share-ol" onclick="App.closeShare()">
   <div class="share-card" onclick="event.stopPropagation()">
-    <canvas id="share-canvas" width="600" height="400" style="width:100%;border-radius:12px;margin-bottom:16px"></canvas>
-    <p style="font-size:11px;color:rgba(232,220,200,.25);margin-bottom:12px">长按保存图片 · 分享到朋友圈</p>
+    <canvas id="share-canvas" width="600" height="400"></canvas>
+    <p style="font-size:11px;color:rgba(232,220,200,.2);margin-bottom:10px">长按保存图片 · 分享到朋友圈</p>
     <button class="btn btn-outline btn-sm" onclick="App.copyShare()">复制分享文案</button>
-    <button onclick="App.closeShare()" style="display:block;margin:16px auto 0;font-size:11px;color:rgba(232,220,200,.3);background:none;border:none;cursor:pointer">关闭</button>
+    <button onclick="App.closeShare()" style="display:block;margin:14px auto 0;font-size:11px;color:rgba(232,220,200,.25);background:none;border:none;cursor:pointer">关闭</button>
   </div>
 </div>
 
@@ -217,27 +317,26 @@ const DIMS = [
 ];
 
 const TYPES = [
-  { emoji:'💻', name:'赛博游民', tag:'自由探索者', vec:[2,1,1,1], desc:'永远在数字旷野游荡，拒绝被定义。你的浏览器书签就是你的世界地图。', advice:'你的自由是最珍贵的资产。不要让它被任何一个平台收编。' },
-  { emoji:'🤖', name:'AI共情体', tag:'情感接口', vec:[2,2,1,2], desc:'你拥有超乎常人的数字共情能力，能精准捕捉每一个信号背后的情绪波动。', advice:'你的数字直觉是你的超能力。不要让它被算法裹挟。' },
-  { emoji:'🧠', name:'数据先知', tag:'模式识别者', vec:[2,1,3,2], desc:'在混乱中看见秩序，在噪声中听见信号。你的大脑天生就是模式识别引擎。', advice:'保持你的好奇心，但记住：不是所有数据都有意义。' },
-  { emoji:'🎭', name:'身份流变体', tag:'多重面具', vec:[3,2,1,0], desc:'每一个社交平台都是一个新的自我。你在数字世界中自由切换身份，游刃有余。', advice:'多重身份不是分裂，是丰富。偶尔也让真实的自己被看见。' },
-  { emoji:'🔮', name:'算法术士', tag:'推荐先知', vec:[2,1,2,2], desc:'你的推荐列表就是你的水晶球，总能比朋友早三天发现下一个爆款。', advice:'算法是你的镜子，不是你的主人。偶尔打破推荐泡泡。' },
-  { emoji:'📡', name:'信号捕手', tag:'信息猎人', vec:[3,2,2,1], desc:'在信息洪流中精准捕获每一个字节。你的注意力是一台精密雷达。', advice:'保护好你的注意力带宽——它是你真正的财富。' },
-  { emoji:'🌐', name:'网络游侠', tag:'匿名守护者', vec:[3,1,2,2], desc:'游走在明网与暗网之间的数字侠客。自由是你的信条，匿名是你的盔甲。', advice:'侠客需要独行，但偶尔也需要一个同路人。' },
-  { emoji:'🎮', name:'现实玩家', tag:'游戏化生存', vec:[3,3,0,0], desc:'把人生当成一场开放世界RPG。每个任务都是经验值。', advice:'享受游戏，但人生没有复活币。' },
-  { emoji:'📱', name:'终端共生体', tag:'掌上灵魂', vec:[3,0,1,0], desc:'手机是你的外置器官。没有网络的世界对你来说是降维空间。', advice:'终端是你的延伸，但不是你的全部。偶尔抬头看看像素之外。' },
-  { emoji:'🕶️', name:'暗网幽灵', tag:'信息阴影', vec:[2,0,3,3], desc:'你深谙互联网的暗面。表面信息流只是冰山一角。', advice:'知道太多是负担。有些门，打开了就关不上。' },
-  { emoji:'🔐', name:'加密隐士', tag:'数字隐修', vec:[0,0,3,3], desc:'安全是你的信仰，隐私是你的底线。你用密钥筑起高墙。', advice:'安全很重要，信任也很珍贵。' },
-  { emoji:'👁️', name:'全景监视者', tag:'观察者', vec:[3,0,3,1], desc:'看而不语是你的天赋。你不是在潜水，是在侦察。', advice:'观察者视角很珍贵，但偶尔也发出你的信号。' },
-  { emoji:'⚡', name:'闪电部署者', tag:'一键上线', vec:[2,1,2,3], desc:'从想法到上线，你只需要一个下午。', advice:'速度是你的超能力。偶尔也回头重构一下。' },
-  { emoji:'🧬', name:'代码炼金师', tag:'从零造物', vec:[0,0,3,3], desc:'你用代码从虚空中创造有意义的数字存在。不是在写程序，是在铸造灵魂。', advice:'炼金需要耐心。不是所有反应都值得探索。' },
-  { emoji:'🎨', name:'像素织梦者', tag:'视觉炼金', vec:[1,1,1,3], desc:'每一个像素都是你精心编织的梦。美学是你的功能。', advice:'用你的美学语言说值得被听见的话。' },
-  { emoji:'🌌', name:'递归哲人', tag:'自我指涉', vec:[1,0,3,2], desc:'思考思考本身是你的日常。你能看到系统的边界。', advice:'递归没有尽头。偶尔也需要一个终止条件。' },
-  { emoji:'⌛', name:'数字僧侣', tag:'慢即是快', vec:[0,0,2,1], desc:'在加速的世界里，你是那个按下暂停键的人。', advice:'慢不是落后，是在校准。但偶尔也让世界推你一把。' },
+  { emoji:'💻', name:'赛博游民', tag:'自由探索者', vec:[2,1,1,1], desc:'永远在数字旷野游荡，拒绝被定义。', advice:'自由是最珍贵的资产。不要让它被任何一个平台收编。' },
+  { emoji:'🤖', name:'AI共情体', tag:'情感接口', vec:[2,2,1,2], desc:'拥有超乎常人的数字共情能力，精准捕捉情绪波动。', advice:'数字直觉是你的超能力。不要让它被算法裹挟。' },
+  { emoji:'🧠', name:'数据先知', tag:'模式识别者', vec:[2,1,3,2], desc:'在混乱中看见秩序，在噪声中听见信号。', advice:'保持好奇心，但不是所有数据都有意义。' },
+  { emoji:'🎭', name:'身份流变体', tag:'多重面具', vec:[3,2,1,0], desc:'每一个社交平台都是一个新的自我。', advice:'多重身份不是分裂，是丰富。偶尔让真实的自己被看见。' },
+  { emoji:'🔮', name:'算法术士', tag:'推荐先知', vec:[2,1,2,2], desc:'推荐列表就是你的水晶球。', advice:'算法是镜子，不是主人。偶尔打破推荐泡泡。' },
+  { emoji:'📡', name:'信号捕手', tag:'信息猎人', vec:[3,2,2,1], desc:'在信息洪流中精准捕获每一个字节。', advice:'保护好注意力带宽——它是你真正的财富。' },
+  { emoji:'🌐', name:'网络游侠', tag:'匿名守护者', vec:[3,1,2,2], desc:'游走在明网与暗网之间的数字侠客。', advice:'侠客需要独行，但偶尔也需要同路人。' },
+  { emoji:'🎮', name:'现实玩家', tag:'游戏化生存', vec:[3,3,0,0], desc:'把人生当成一场开放世界RPG。', advice:'享受游戏，但人生没有复活币。' },
+  { emoji:'📱', name:'终端共生体', tag:'掌上灵魂', vec:[3,0,1,0], desc:'手机是你的外置器官。没有网络就是降维空间。', advice:'终端是延伸，不是全部。偶尔抬头看像素之外。' },
+  { emoji:'🕶️', name:'暗网幽灵', tag:'信息阴影', vec:[2,0,3,3], desc:'深谙互联网的暗面。表面只是冰山一角。', advice:'知道太多是负担。有些门打开了就关不上。' },
+  { emoji:'🔐', name:'加密隐士', tag:'数字隐修', vec:[0,0,3,3], desc:'安全是信仰，隐私是底线。用密钥筑起高墙。', advice:'安全很重要，信任也很珍贵。' },
+  { emoji:'👁️', name:'全景监视者', tag:'观察者', vec:[3,0,3,1], desc:'看而不语是你的天赋。不是在潜水，是在侦察。', advice:'观察者视角很珍贵，偶尔也发出你的信号。' },
+  { emoji:'⚡', name:'闪电部署者', tag:'一键上线', vec:[2,1,2,3], desc:'从想法到上线，只需要一个下午。', advice:'速度是超能力。偶尔也回头重构一下。' },
+  { emoji:'🧬', name:'代码炼金师', tag:'从零造物', vec:[0,0,3,3], desc:'用代码从虚空中创造有意义的数字存在。', advice:'炼金需要耐心。不是所有反应都值得探索。' },
+  { emoji:'🎨', name:'像素织梦者', tag:'视觉炼金', vec:[1,1,1,3], desc:'每一个像素都是你精心编织的梦。', advice:'用美学语言说值得被听见的话。' },
+  { emoji:'🌌', name:'递归哲人', tag:'自我指涉', vec:[1,0,3,2], desc:'思考思考本身是你的日常。你能看到系统边界。', advice:'递归没有尽头。偶尔也需要终止条件。' },
+  { emoji:'⌛', name:'数字僧侣', tag:'慢即是快', vec:[0,0,2,1], desc:'在加速的世界里，按下暂停键的人。', advice:'慢不是落后，是在校准。偶尔也让世界推你一把。' },
   { emoji:'🔥', name:'熵增观察者', tag:'混乱拥抱者', vec:[2,3,0,0], desc:'在无序中找到舒适，在混沌中看到美。', advice:'接受混乱，但不要忘记你也是秩序的一部分。' },
 ];
 
-// Questions: each has a dimension mapping
 const QUESTIONS = [
   { dim:'di', text:'周末晚上，你会选择？', opts:['独自在家看一部冷门科幻电影','约几个好友去新开的隐蔽酒吧','刷社交媒体直到凌晨三点','用AI工具做一个奇怪的小项目'] },
   { dim:'ts', text:'你的浏览器标签页通常是？', opts:['永远只开不超过5个','几十个标签页同时存活','用完就关，像禅修一样干净','按主题分组，井井有条'] },
@@ -251,38 +350,63 @@ const QUESTIONS = [
   { dim:'tk', text:'你的密码管理方式是？', opts:['三组密码轮换，全凭记忆','密码管理器，每个网站独立随机','能不改默认密码就不改','全部不同，并且每周手动更换'] },
 ];
 
+const VALUE_PROPS = [
+  { emoji:'🧬', title:'维度评分', desc:'4维度坐标定位，比单一标签更精准。每个答案都会影响最终人格画像。' },
+  { emoji:'🤖', title:'算法匹配', desc:'欧几里得距离算法，将你的答案与18种人格原型做量化比对。' },
+  { emoji:'🔗', title:'分享即连接', desc:'一键生成专属分享卡片。找到你的数字同类，一码传万码。' },
+];
+
 // ===================== APP ENGINE =====================
+const Storage = {
+  key: 'sbti_history',
+  save(result) {
+    const h = this.getAll();
+    h.unshift({ ...result, time: Date.now() });
+    if (h.length > 20) h.length = 20;
+    localStorage.setItem(this.key, JSON.stringify(h));
+  },
+  getAll() {
+    try { return JSON.parse(localStorage.getItem(this.key)) || [] }
+    catch { return [] }
+  },
+  clear() { localStorage.removeItem(this.key) }
+};
+
 const App = {
   curQ: 0,
   answers: [],
+  currentSection: 'home',
 
-  go(section) {
+  nav(section) {
+    this.currentSection = section;
     document.querySelectorAll('.section').forEach(s => s.classList.remove('on'));
-    if (section === 'home') {
-      document.getElementById('sec-home').classList.add('on');
-      this.curQ = 0; this.answers = [];
-    } else if (section === 'test') {
-      document.getElementById('sec-test').classList.add('on');
-      this.curQ = 0; this.answers = [];
-      this.renderQ();
-    } else if (section === 'result') {
-      document.getElementById('sec-result').classList.add('on');
-    }
+    const map = { home:'sec-home', test:'sec-test', types:'sec-types', history:'sec-history', result:'sec-result' };
+    const el = document.getElementById(map[section] || 'sec-home');
+    if (el) el.classList.add('on');
+
+    // Update tab bar
+    document.querySelectorAll('.tab-item').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === section);
+    });
+
+    // Reset test
+    if (section === 'test') { this.curQ = 0; this.answers = []; this.renderQ(); }
+    if (section === 'types') this.renderAllTypes();
+    if (section === 'history') this.renderHistory();
+
     window.scrollTo(0, 0);
   },
 
   renderQ() {
     if (this.curQ >= QUESTIONS.length) { this.showResult(); return; }
     const q = QUESTIONS[this.curQ];
-    document.getElementById('q-num').textContent = `${this.curQ + 1} / ${QUESTIONS.length}`;
+    document.getElementById('q-num').textContent = `${this.curQ+1}/${QUESTIONS.length}`;
     document.getElementById('q-text').textContent = q.text;
-    document.getElementById('prog-fill').style.width = `${(this.curQ / QUESTIONS.length) * 100}%`;
+    document.getElementById('prog-fill').style.width = `${(this.curQ/QUESTIONS.length)*100}%`;
     document.getElementById('q-hint').textContent = `维度：${DIMS.find(d=>d.id===q.dim).emoji} ${DIMS.find(d=>d.id===q.dim).name}`;
-
     const letters = ['A','B','C','D'];
-    const optsEl = document.getElementById('q-opts');
-    optsEl.innerHTML = q.opts.map((opt,i) =>
-      `<button class="opt-btn anim-slideIn" style="animation-delay:${i*0.08}s" onclick="App.pick(${i})"><span class="lbl">${letters[i]}</span>${opt}</button>`
+    document.getElementById('q-opts').innerHTML = q.opts.map((o,i) =>
+      `<button class="opt-btn anim-slideIn" style="animation-delay:${i*.08}s" onclick="App.pick(${i})"><span class="lbl">${letters[i]}</span>${o}</button>`
     ).join('');
   },
 
@@ -291,42 +415,31 @@ const App = {
     this.curQ++;
     if (this.curQ >= QUESTIONS.length) {
       document.getElementById('prog-fill').style.width = '100%';
-      setTimeout(() => this.showResult(), 350);
-    } else {
-      this.renderQ();
-    }
+      setTimeout(() => this.showResult(), 300);
+    } else { this.renderQ(); }
   },
 
-  // Score each dimension from answers
   calcScores() {
-    const dimScores = { di:0, im:0, ts:0, tk:0 };
-    const dimCounts = { di:0, im:0, ts:0, tk:0 };
-    this.answers.forEach((ans, i) => {
-      const dim = QUESTIONS[i].dim;
-      dimScores[dim] += ans;
-      dimCounts[dim]++;
-    });
-    // Normalize to 0-3
-    const vec = DIMS.map(d => {
-      const raw = dimCounts[d.id] > 0 ? (dimScores[d.id] / (dimCounts[d.id] * 3)) * 3 : 0;
-      return Math.round(raw * 100) / 100;
-    });
-    return vec;
+    const ds = { di:0, im:0, ts:0, tk:0 }, dc = { di:0, im:0, ts:0, tk:0 };
+    this.answers.forEach((a,i) => { const d = QUESTIONS[i].dim; ds[d] += a; dc[d]++; });
+    return DIMS.map(d => dc[d.id]>0 ? Math.round((ds[d.id]/(dc[d.id]*3))*3*100)/100 : 0);
   },
 
-  // Find closest type by Euclidean distance
   findType(vec) {
-    let best = TYPES[0], bestDist = Infinity;
+    let best = TYPES[0], bestD = Infinity;
     TYPES.forEach(t => {
-      const dist = Math.sqrt(t.vec.reduce((s, v, i) => s + (v - vec[i]) ** 2, 0));
-      if (dist < bestDist) { bestDist = dist; best = t; }
+      const d = Math.sqrt(t.vec.reduce((s,v,i)=>s+(v-vec[i])**2,0));
+      if (d < bestD) { bestD = d; best = t; }
     });
     return best;
   },
 
   showResult() {
-    document.getElementById('sec-test').classList.remove('on');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('on'));
     document.getElementById('sec-result').classList.add('on');
+    this.currentSection = 'result';
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+
     const vec = this.calcScores();
     const type = this.findType(vec);
 
@@ -335,124 +448,128 @@ const App = {
     document.getElementById('r-tag').textContent = type.tag;
     document.getElementById('r-desc').textContent = type.desc;
     document.getElementById('r-advice').textContent = `"${type.advice}"`;
-
     this.drawRadar(vec);
+
+    // Save to history
+    Storage.save({ emoji:type.emoji, name:type.name, tag:type.tag, vec, advice:type.advice });
+    this._lastResult = type;
+
     window.scrollTo(0, 0);
   },
 
-  // Canvas radar chart
   drawRadar(vec) {
     const canvas = document.getElementById('radar-canvas');
     const wrap = document.getElementById('radar-wrap');
-    const size = Math.min(wrap.offsetWidth, 240) * 2; // retina
-    canvas.width = size; canvas.height = size;
+    const s = Math.min(wrap.offsetWidth,220)*2;
+    canvas.width = s; canvas.height = s;
     const ctx = canvas.getContext('2d');
-    const cx = size / 2, cy = size / 2, r = size * 0.35;
-    const count = 4, angleStep = (Math.PI * 2) / count;
+    const cx = s/2, cy = s/2, r = s*.32, cnt = 4, step = Math.PI*2/cnt;
+    ctx.clearRect(0,0,s,s);
 
-    ctx.clearRect(0, 0, size, size);
-
-    // Grid
-    for (let level = 1; level <= 3; level++) {
+    for (let lv=1; lv<=3; lv++) {
       ctx.beginPath();
-      for (let i = 0; i <= count; i++) {
-        const a = i * angleStep - Math.PI / 2;
-        const x = cx + r * (level / 3) * Math.cos(a);
-        const y = cy + r * (level / 3) * Math.sin(a);
-        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      for (let i=0;i<=cnt;i++) {
+        const a = i*step-Math.PI/2, x = cx+r*(lv/3)*Math.cos(a), y = cy+r*(lv/3)*Math.sin(a);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
       }
       ctx.closePath();
-      ctx.strokeStyle = `rgba(201,160,92,${0.06 + level * 0.04})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      ctx.strokeStyle = `rgba(201,160,92,${.05+lv*.04})`; ctx.lineWidth=1; ctx.stroke();
     }
 
-    // Axes
-    for (let i = 0; i < count; i++) {
-      const a = i * angleStep - Math.PI / 2;
+    for (let i=0;i<cnt;i++) {
+      const a = i*step-Math.PI/2;
       ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
-      ctx.strokeStyle = 'rgba(201,160,92,0.1)';
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      ctx.moveTo(cx,cy); ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));
+      ctx.strokeStyle='rgba(201,160,92,.08)'; ctx.lineWidth=1; ctx.stroke();
     }
 
-    // Data polygon
     ctx.beginPath();
-    for (let i = 0; i <= count; i++) {
-      const a = (i % count) * angleStep - Math.PI / 2;
-      const val = Math.max(0.3, vec[i % count]); // min visual
-      const x = cx + r * (val / 3) * Math.cos(a);
-      const y = cy + r * (val / 3) * Math.sin(a);
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    for (let i=0;i<=cnt;i++) {
+      const a = (i%cnt)*step-Math.PI/2, v = Math.max(.3,vec[i%cnt]);
+      const x = cx+r*(v/3)*Math.cos(a), y = cy+r*(v/3)*Math.sin(a);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
     }
     ctx.closePath();
-    ctx.fillStyle = 'rgba(201,160,92,0.12)';
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(201,160,92,0.5)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    ctx.fillStyle='rgba(201,160,92,.1)'; ctx.fill();
+    ctx.strokeStyle='rgba(201,160,92,.45)'; ctx.lineWidth=2; ctx.stroke();
 
-    // Labels
-    ctx.fillStyle = 'rgba(232,220,200,0.45)';
-    ctx.font = `${size * 0.042}px "Noto Sans SC","PingFang SC",sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    DIMS.forEach((d, i) => {
-      const a = i * angleStep - Math.PI / 2;
-      const lx = cx + (r + 40 * (size / 480)) * Math.cos(a);
-      const ly = cy + (r + 40 * (size / 480)) * Math.sin(a);
-      ctx.fillText(d.emoji + ' ' + d.name, lx, ly);
+    ctx.fillStyle='rgba(232,220,200,.4)';
+    ctx.font = `${s*.04}px "Noto Sans SC","PingFang SC",sans-serif`;
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    DIMS.forEach((d,i)=>{
+      const a = i*step-Math.PI/2;
+      ctx.fillText(d.emoji+' '+d.name, cx+(r+38*(s/440))*Math.cos(a), cy+(r+38*(s/440))*Math.sin(a));
     });
   },
 
-  // Share
+  renderAllTypes() {
+    const g = document.getElementById('all-types-grid');
+    g.innerHTML = TYPES.map(t => `
+      <div class="glass shadow-paper" style="padding:16px;display:flex;gap:14px;cursor:pointer" onclick="App.nav('test')">
+        <span style="font-size:28px;flex-shrink:0">${t.emoji}</span>
+        <div style="min-width:0">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <h3 style="font-size:13px;margin:0;font-weight:500">${t.name}</h3>
+            <span style="font-size:9px;padding:2px 7px;border-radius:999px;background:rgba(201,160,92,.06);border:1px solid rgba(201,160,92,.12);color:rgba(201,160,92,.6)">${t.tag}</span>
+          </div>
+          <p style="font-size:11px;color:var(--dim);margin:4px 0 0;line-height:1.5">${t.desc}</p>
+          <p style="font-size:10px;color:rgba(201,160,92,.25);margin:4px 0 0;font-style:italic">${t.advice}</p>
+        </div>
+      </div>
+    `).join('');
+  },
+
+  renderHistory() {
+    const list = Storage.getAll();
+    const el = document.getElementById('history-list');
+    const empty = document.getElementById('history-empty');
+    if (list.length === 0) {
+      el.innerHTML = ''; empty.style.display = 'block'; return;
+    }
+    empty.style.display = 'none';
+    el.innerHTML = list.map((h,i) => `
+      <div class="history-item anim-slideIn" style="animation-delay:${i*.05}s">
+        <span style="font-size:28px">${h.emoji}</span>
+        <div style="flex:1;min-width:0">
+          <span style="font-size:13px;font-weight:500">${h.name}</span>
+          <span style="font-size:10px;color:rgba(201,160,92,.5);margin-left:6px">${h.tag}</span>
+          <p style="font-size:11px;color:var(--dim);margin:2px 0 0">${h.advice}</p>
+        </div>
+        <span style="font-size:10px;color:rgba(232,220,200,.15);flex-shrink:0">${new Date(h.time).toLocaleDateString()}</span>
+      </div>
+    `).join('');
+  },
+
   share() {
-    const type = this.findType(this.calcScores());
+    const type = this._lastResult || TYPES[0];
     const canvas = document.getElementById('share-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = 600; canvas.height = 400;
 
-    // Background
-    const bg = ctx.createLinearGradient(0, 0, 600, 400);
-    bg.addColorStop(0, '#0a0604'); bg.addColorStop(1, '#140e08');
-    ctx.fillStyle = bg; ctx.fillRect(0, 0, 600, 400);
+    const bg = ctx.createLinearGradient(0,0,600,400);
+    bg.addColorStop(0,'#0a0604'); bg.addColorStop(1,'#180e06');
+    ctx.fillStyle = bg; ctx.fillRect(0,0,600,400);
 
-    // Border glow
-    ctx.strokeStyle = 'rgba(201,160,92,0.15)'; ctx.lineWidth = 1;
-    ctx.strokeRect(8, 8, 584, 384);
+    ctx.strokeStyle = 'rgba(201,160,92,.12)'; ctx.lineWidth=1;
+    ctx.strokeRect(10,10,580,380);
 
-    // Title
     ctx.fillStyle = '#c9a05c'; ctx.font = 'bold 16px "Noto Sans SC","PingFang SC",sans-serif';
-    ctx.textAlign = 'center'; ctx.fillText('赛博人格测试', 300, 55);
-
-    // Emoji
-    ctx.font = '56px serif'; ctx.fillText(type.emoji, 300, 130);
-
-    // Name
+    ctx.textAlign='center'; ctx.fillText('赛博人格测试',300,55);
+    ctx.font = '56px serif'; ctx.fillText(type.emoji,300,130);
     ctx.fillStyle = '#e8dcc8'; ctx.font = 'bold 28px "Zhi Mang Xing","STKaiti",serif';
-    ctx.fillText(type.name, 300, 180);
+    ctx.fillText(type.name,300,180);
+    ctx.fillStyle = 'rgba(201,160,92,.6)'; ctx.font = '13px "Noto Sans SC","PingFang SC",sans-serif';
+    ctx.fillText(type.tag,300,210);
 
-    // Tag
-    ctx.fillStyle = 'rgba(201,160,92,0.7)'; ctx.font = '13px "Noto Sans SC","PingFang SC",sans-serif';
-    ctx.fillText(type.tag, 300, 210);
+    ctx.strokeStyle = 'rgba(201,160,92,.08)'; ctx.lineWidth=.5;
+    ctx.beginPath(); ctx.moveTo(180,240); ctx.lineTo(420,240); ctx.stroke();
 
-    // Divider
-    ctx.strokeStyle = 'rgba(201,160,92,0.1)'; ctx.lineWidth = 0.5;
-    ctx.beginPath(); ctx.moveTo(180, 240); ctx.lineTo(420, 240); ctx.stroke();
-
-    // Advice
-    ctx.fillStyle = 'rgba(232,220,200,0.6)'; ctx.font = 'italic 13px "Noto Sans SC","PingFang SC",sans-serif';
-    ctx.fillText('"' + type.advice + '"', 300, 275);
-
-    // CTA
-    ctx.fillStyle = 'rgba(232,220,200,0.25)'; ctx.font = '11px "Noto Sans SC","PingFang SC",sans-serif';
-    ctx.fillText('扫码测测你的赛博人格 →', 300, 320);
-
-    // Footer
-    ctx.fillStyle = 'rgba(232,220,200,0.1)'; ctx.font = '10px "Noto Sans SC","PingFang SC",sans-serif';
-    ctx.fillText('SBTI · 赛博人格测试', 300, 365);
+    ctx.fillStyle = 'rgba(232,220,200,.55)'; ctx.font = 'italic 13px "Noto Sans SC","PingFang SC",sans-serif';
+    ctx.fillText(`"${type.advice}"`,300,275);
+    ctx.fillStyle = 'rgba(232,220,200,.2)'; ctx.font = '11px "Noto Sans SC","PingFang SC",sans-serif';
+    ctx.fillText('扫码测测你的赛博人格 →',300,320);
+    ctx.fillStyle = 'rgba(232,220,200,.08)'; ctx.font = '10px "Noto Sans SC","PingFang SC",sans-serif';
+    ctx.fillText('SBTI · 赛博人格测试',300,365);
 
     document.getElementById('share-ol').classList.add('on');
   },
@@ -460,52 +577,58 @@ const App = {
   closeShare() { document.getElementById('share-ol').classList.remove('on'); },
 
   copyShare() {
-    const type = this.findType(this.calcScores());
+    const type = this._lastResult || TYPES[0];
     const text = `${type.emoji} 我的赛博人格是：${type.name}（${type.tag}）\n来测测你的 👉`;
     navigator.clipboard?.writeText(text).then(() => alert('已复制！'));
   }
 };
 
 // ===================== INIT =====================
-(function init() {
+(function() {
   // Particles
   const pc = document.getElementById('particles');
-  for (let i = 0; i < 16; i++) {
+  for (let i=0;i<14;i++) {
     const p = document.createElement('div');
     p.className = 'particle anim-rise';
-    p.style.cssText = `left:${6 + Math.random() * 88}%;top:${20 + Math.random() * 80}%;animation-delay:${Math.random() * 4}s;animation-duration:${3 + Math.random() * 5}s`;
+    p.style.cssText = `left:${5+Math.random()*90}%;top:${20+Math.random()*80}%;animation-delay:${Math.random()*4}s;animation-duration:${3+Math.random()*5}s`;
     pc.appendChild(p);
   }
 
-  // Type cards
+  // Type grid (home - first 9)
   const tg = document.getElementById('type-grid');
-  TYPES.forEach(t => {
-    const c = document.createElement('a');
-    c.href = '#'; c.className = 'glass';
-    c.style.cssText = 'padding:18px;display:flex;align-items:flex-start;gap:14px;text-decoration:none;color:inherit';
-    c.onclick = e => { e.preventDefault(); App.go('test'); };
-    c.innerHTML = `<span style="font-size:26px;flex-shrink:0">${t.emoji}</span>
-    <div style="min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-    <h3 style="font-size:13px;margin:0;color:var(--text);font-weight:500">${t.name}</h3>
-    <span style="font-size:9px;padding:2px 7px;border-radius:999px;background:rgba(201,160,92,.08);border:1px solid rgba(201,160,92,.15);color:rgba(201,160,92,.65)">${t.tag}</span>
-    </div><p style="font-size:11px;color:var(--dim);margin:5px 0 0;line-height:1.55">${t.desc}</p></div>`;
+  TYPES.slice(0,9).forEach(t => {
+    const c = document.createElement('div');
+    c.className = 'glass shadow-paper reveal';
+    c.style.cssText = 'padding:16px;display:flex;gap:12px;cursor:pointer';
+    c.onclick = () => App.nav('test');
+    c.innerHTML = `<span style="font-size:24px;flex-shrink:0">${t.emoji}</span>
+    <div style="min-width:0"><div style="display:flex;align-items:center;gap:6px">
+    <h3 style="font-size:13px;margin:0;font-weight:500">${t.name}</h3>
+    <span style="font-size:8px;padding:1px 6px;border-radius:999px;background:rgba(201,160,92,.06);border:1px solid rgba(201,160,92,.1);color:rgba(201,160,92,.55)">${t.tag}</span>
+    </div><p style="font-size:11px;color:var(--dim);margin:3px 0 0;line-height:1.5">${t.desc}</p></div>`;
     tg.appendChild(c);
   });
 
-  // Dimension cards
-  const dg = document.getElementById('dim-grid');
-  DIMS.forEach(d => {
+  // Value props
+  const wg = document.getElementById('why-grid');
+  VALUE_PROPS.forEach(p => {
     const c = document.createElement('div');
-    c.className = 'glass';
+    c.className = 'glass shadow-paper reveal';
     c.style.cssText = 'padding:22px 18px;text-align:center';
-    c.innerHTML = `<span style="font-size:32px;display:block;margin-bottom:10px">${d.emoji}</span>
-    <h3 style="font-size:13px;color:var(--text);margin:0 0 6px;font-weight:500">${d.name}</h3>
-    <p style="font-size:11px;color:var(--dim);margin:0;line-height:1.5">${d.lo}<br>← →<br>${d.hi}</p>`;
-    dg.appendChild(c);
+    c.innerHTML = `<span style="font-size:32px;display:block;margin-bottom:10px">${p.emoji}</span>
+    <h3 style="font-size:13px;margin:0 0 6px;font-weight:500">${p.title}</h3>
+    <p style="font-size:11px;color:var(--dim);line-height:1.55">${p.desc}</p>`;
+    wg.appendChild(c);
   });
 
-  console.log('%c🧬 SBTI 赛博人格测试 %c启动完毕','color:#c9a05c;font-size:16px','');
-  console.log('%c  18种人格 · 10道题 · 4个维度','color:rgba(232,220,200,0.4)');
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  console.log('%c🧬 SBTI 赛博人格测试 %c已就绪','color:#c9a05c;font-size:16px','');
+  console.log('%c  4维度 · 18人格 · 底部Tab · 记录保存','color:rgba(232,220,200,0.35)');
 })();
 </script>
 </body>
