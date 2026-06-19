@@ -10,15 +10,11 @@
 <meta property="og:description" content="基于你的身体状况，匹配最适合的保健成分。20种明星成分，均有研究文献支持。">
 <meta property="og:type" content="website">
 <title>保健成分匹配引擎 · 循证营养</title>
-<script src="https://cdn.tailwindcss.com"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
-
 :root {
   --bg: #f8fbf9; --card: #fff; --text: #1a2e23; --dim: #5a7d6a;
   --green: #1a5632; --teal: #0d7377; --gold: #b8860b;
-  --green-lt: #e8f5e9; --teal-lt: #e0f7fa; --border: #dce8e0;
-  --red: #c62828; --orange: #e65100;
+  --green-lt: #e8f5e9; --border: #dce8e0; --red: #c62828;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{
@@ -55,11 +51,10 @@ h1,h2,h3{line-height:1.3}
 
 .tag{
   display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;
-  font-weight:500;cursor:pointer;transition:all .15s;
+  font-weight:500;
   border:1px solid var(--border);background:var(--card);color:var(--dim);
   -webkit-tap-highlight-color:transparent;
 }
-.tag.selected{border-color:var(--green);background:var(--green-lt);color:var(--green)}
 
 .section{display:none}
 .section.on{display:block}
@@ -105,7 +100,7 @@ h1,h2,h3{line-height:1.3}
   <!-- Quick Start -->
   <div class="card" style="padding:32px 24px;text-align:center;margin-bottom:32px">
     <h2 style="font-size:18px;font-weight:600;margin-bottom:16px">开始匹配</h2>
-    <p style="color:var(--dim);font-size:13px;margin-bottom:24px">回答 15 个健康问题，获得个性化保健成分方案</p>
+    <p style="color:var(--dim);font-size:13px;margin-bottom:24px">回答几个健康问题，获得个性化保健成分方案</p>
     <button class="btn btn-primary btn-lg" onclick="App.go('quiz')" style="width:100%;max-width:280px">
       开始健康问卷 →
     </button>
@@ -132,7 +127,7 @@ h1,h2,h3{line-height:1.3}
     <div style="flex:1;height:4px;background:#e0e8e2;border-radius:2px">
       <div id="quiz-progress" style="height:100%;background:var(--green);border-radius:2px;width:0%;transition:width .4s ease"></div>
     </div>
-    <span id="quiz-num" style="font-size:12px;color:var(--dim);white-space:nowrap">1/15</span>
+    <span id="quiz-num" style="font-size:12px;color:var(--dim);white-space:nowrap"></span>
   </div>
   <h2 id="quiz-q" style="font-size:18px;font-weight:600;margin-bottom:24px;line-height:1.6"></h2>
   <div id="quiz-opts"></div>
@@ -316,13 +311,13 @@ const SUPPLEMENTS = [
     refs:[{t:'B Vitamins and the Brain: Mechanisms, Dose and Efficacy',j:'Nutrients',y:2016}]
   },
   {
-    id:'lionsmane',name:'猴头菇 (Lion's Mane)',cat:'菌类提取物',emoji:'🍄',
+    id:'lionsmane',name:"猴头菇 (Lion's Mane)",cat:'菌类提取物',emoji:'🍄',
     desc:'药用蘑菇，传统用于认知增强和神经保护。促进神经生长因子(NGF)合成。',
     evidence:'emerging',
     dosage:'500-3000mg/天',
     targets:['脑雾/认知','记忆下降','情绪低落','神经恢复'],
     warnings:['蘑菇过敏者慎用','长期安全数据有限'],
-    refs:[{t:'Neurotrophic properties of the Lion's mane medicinal mushroom',j:'J Neurochem',y:2012}]
+    refs:[{t:"Neurotrophic properties of the Lion's mane medicinal mushroom",j:'J Neurochem',y:2012}]
   },
   {
     id:'glycine',name:'甘氨酸 (Glycine)',cat:'氨基酸',emoji:'😴',
@@ -346,80 +341,68 @@ const SUPPLEMENTS = [
 
 // ==================== HEALTH QUESTIONNAIRE ====================
 const QUIZ = [
-  { q:'您的年龄段？',opts:['18-25','26-35','36-50','51+'] },
-  { q:'您的性别？',opts:['男性','女性','不愿透露'] },
-  { q:'您的运动频率？',opts:['几乎不动','每周1-2次','每周3-5次','几乎每天运动'] },
-  { q:'您的睡眠质量？',opts:['很好，一觉到天亮','一般，偶尔失眠','差，经常入睡困难','很差，依赖药物'] },
-  { q:'您近期的压力水平？',opts:['轻松自在','轻度压力','中度压力','高压，身心俱疲'] },
-  { q:'您的饮食类型？',opts:['什么都吃','偏素食/少吃肉','严格素食','低碳水/生酮'] },
-  { q:'您最关心的健康领域？（选最重要的）',opts:['大脑/认知/情绪','运动/体能/恢复','心脏/代谢/体重','免疫/抗炎/抗老'] },
-  { q:'您是否有血压偏高的困扰？',opts:['没有，血压正常','偏高，在监测中','确诊高血压，在用药'] },
-  { q:'您的消化系统状况？',opts:['很好，没有不适','偶尔腹胀/消化不良','经常便秘或腹泻','确诊IBS/IBD等消化疾病'] },
-  { q:'您的关节/骨骼状况？',opts:['很好，没有不适','偶尔酸痛','经常关节不适','确诊关节炎/骨质疏松等'] },
-  { q:'您的皮肤状况？',opts:['很好','偏干燥','有痤疮/痘痘困扰','有明显的皮肤老化/炎症'] },
-  { q:'您的注意力/记忆力？',opts:['很好，思路清晰','偶尔脑雾/走神','经常注意力不集中','明显下降，影响工作'] },
-  { q:'您是否经常感到疲劳？',opts:['精力充沛','偶尔疲劳','经常疲劳','严重影响生活'] },
-  { q:'您是否容易生病/感染？',opts:['很少生病','一年1-2次感冒','一年3次以上','免疫力明显偏低'] },
-  { q:'您是否有过敏问题？',opts:['没有','季节性过敏（花粉/尘螨）','食物过敏','药物或接触性过敏'] },
+  {
+    q:'您的运动频率？',
+    opts:['几乎不动','每周1-2次','每周3-5次','几乎每天运动'],
+    boosts:[[],[],['creatine','citrulline','magnesium'],['creatine','citrulline','magnesium']]
+  },
+  {
+    q:'您的睡眠质量？',
+    opts:['很好，一觉到天亮','一般，偶尔失眠','差，经常入睡困难','很差，依赖药物'],
+    targets:[[],['睡眠质量差'],['睡眠质量差','压力/焦虑'],['睡眠质量差','压力/焦虑']]
+  },
+  {
+    q:'您近期的压力水平？',
+    opts:['轻松自在','轻度压力','中度压力','高压，身心俱疲'],
+    targets:[[],['压力/焦虑'],['压力/焦虑'],['压力/焦虑']]
+  },
+  {
+    q:'您最关心的健康领域？（选最重要的）',
+    opts:['大脑/认知/情绪','运动/体能/恢复','心脏/代谢/体重','免疫/抗炎/抗老'],
+    targets:[['脑雾/认知','情绪低落'],['运动表现提升','肌肉恢复'],['心血管健康','高甘油三酯'],['免疫力低下','关节炎症']]
+  },
+  {
+    id:'bp',
+    q:'您是否有血压偏高的困扰？',
+    opts:['没有，血压正常','偏高，在监测中','确诊高血压，在用药'],
+    targets:[[],['血压偏高'],['血压偏高']]
+  },
+  {
+    q:'您的消化系统状况？',
+    opts:['很好，没有不适','偶尔腹胀/消化不良','经常便秘或腹泻','确诊IBS/IBD等消化疾病'],
+    targets:[[],['消化问题'],['消化问题'],['消化问题']]
+  },
+  {
+    q:'您的关节/骨骼状况？',
+    opts:['很好，没有不适','偶尔酸痛','经常关节不适','确诊关节炎/骨质疏松等'],
+    targets:[[],['关节炎症'],['关节炎症'],['关节炎症','骨质疏松风险']]
+  },
+  {
+    q:'您的皮肤状况？',
+    opts:['很好','偏干燥','有痤疮/痘痘困扰','有明显的皮肤老化/炎症'],
+    targets:[[],['皮肤干燥'],['皮肤问题/痤疮'],['皮肤干燥']]
+  },
+  {
+    q:'您的注意力/记忆力？',
+    opts:['很好，思路清晰','偶尔脑雾/走神','经常注意力不集中','明显下降，影响工作'],
+    targets:[[],['脑雾/认知'],['注意力不集中','脑雾/认知'],['记忆下降','脑雾/认知']]
+  },
+  {
+    q:'您是否经常感到疲劳？',
+    opts:['精力充沛','偶尔疲劳','经常疲劳','严重影响生活'],
+    targets:[[],['疲劳感'],['疲劳感'],['疲劳感']]
+  },
+  {
+    q:'您是否容易生病/感染？',
+    opts:['很少生病','一年1-2次感冒','一年3次以上','免疫力明显偏低'],
+    targets:[[],['免疫力低下'],['免疫力低下'],['免疫力低下']]
+  },
+  {
+    q:'您是否有过敏问题？',
+    opts:['没有','季节性过敏（花粉/尘螨）','食物过敏','药物或接触性过敏'],
+    targets:[[],['过敏/季节性不适'],['消化问题'],['过敏/季节性不适']]
+  },
 ];
-
-// Map quiz answers to supplement targets
-const ANSWER_MAP = {
-  // Question 3 (sleep): answer indices 2,3 -> sleep
-  3: {
-    targets: [[],['MILD_SLEEP'],['MOD_SLEEP','STRESS'],['POOR_SLEEP','STRESS']]
-  },
-  // Question 4 (stress): answer indices 1,2,3 -> stress
-  4: {
-    targets: [[],['MILD_STRESS'],['MOD_STRESS'],['HIGH_STRESS']]
-  },
-  // Question 7 (blood pressure): answer indices 1,2
-  7: {
-    targets: [[],['HIGH_BP'],['HIGH_BP']]
-  },
-  // Question 8 (digestion)
-  8: {
-    targets: [[],['MILD_DIGEST'],['MOD_DIGEST'],['POOR_DIGEST']]
-  },
-  // Question 9 (joints)
-  9: {
-    targets: [[],['MILD_JOINT'],['MOD_JOINT'],['POOR_JOINT']]
-  },
-  // Question 10 (skin)
-  10: {
-    targets: [[],['DRY_SKIN'],['ACNE'],['AGING_SKIN']]
-  },
-  // Question 11 (cognitive)
-  11: {
-    targets: [[],['MILD_COG'],['MOD_COG'],['POOR_COG']]
-  },
-  // Question 12 (fatigue)
-  12: {
-    targets: [[],['MILD_FATIGUE'],['MOD_FATIGUE'],['POOR_FATIGUE']]
-  },
-  // Question 13 (immunity)
-  13: {
-    targets: [[],['MILD_IMMUNE'],['MOD_IMMUNE'],['POOR_IMMUNE']]
-  },
-  // Question 14 (allergy)
-  14: {
-    targets: [[],['ALLERGY'],['FOOD_ALLERGY'],['ALLERGY']]
-  },
-};
-
-// Map stored target tags to supplement target strings
-const TAG_TO_TARGET = {
-  'MILD_SLEEP':'睡眠质量差','MOD_SLEEP':'睡眠质量差','POOR_SLEEP':'睡眠质量差',
-  'MILD_STRESS':'压力/焦虑','MOD_STRESS':'压力/焦虑','HIGH_STRESS':'压力/焦虑',
-  'HIGH_BP':'血压偏高',
-  'MILD_DIGEST':'消化问题','MOD_DIGEST':'消化问题','POOR_DIGEST':'消化问题',
-  'MILD_JOINT':'关节炎症','MOD_JOINT':'关节炎症','POOR_JOINT':'关节炎症',
-  'DRY_SKIN':'皮肤干燥','ACNE':'皮肤问题/痤疮','AGING_SKIN':'皮肤干燥',
-  'MILD_COG':'脑雾/认知','MOD_COG':'脑雾/认知','POOR_COG':'脑雾/认知',
-  'MILD_FATIGUE':'疲劳感','MOD_FATIGUE':'疲劳感','POOR_FATIGUE':'疲劳感',
-  'MILD_IMMUNE':'免疫力低下','MOD_IMMUNE':'免疫力低下','POOR_IMMUNE':'免疫力低下',
-  'ALLERGY':'过敏/季节性不适','FOOD_ALLERGY':'消化问题',
-};
 
 // ==================== APP ENGINE ====================
 const App = {
@@ -461,41 +444,28 @@ const App = {
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
     document.getElementById('sec-result').classList.add('on');
     
-    // Collect user's health tags
-    const tags=new Set();
-    this.answers.forEach((a,i)=>{
-      const map=ANSWER_MAP[i];
-      if(map&&map.targets[a])map.targets[a].forEach(t=>tags.add(t));
-    });
-    
-    // Map tags to target strings
     const userTargets=new Set();
-    tags.forEach(t=>{
-      const target=TAG_TO_TARGET[t];
-      if(target)userTargets.add(target);
+    const boostedIds=new Set();
+    let onBpMeds=false;
+    this.answers.forEach((a,i)=>{
+      const q=QUIZ[i];
+      (q.targets?.[a]||[]).forEach(t=>userTargets.add(t));
+      (q.boosts?.[a]||[]).forEach(id=>boostedIds.add(id));
+      if(q.id==='bp'&&a>=2)onBpMeds=true;
     });
     
     // Score supplements
     const scored=SUPPLEMENTS.map(s=>{
       let score=0;
       s.targets.forEach(t=>{if(userTargets.has(t))score++;});
-      // Bonus for exercise question
-      if(this.answers[2]>=2){
-        if(s.id==='creatine'||s.id==='citrulline'||s.id==='magnesium')score++;
-      }
-      return{...s,score,hasWarnings:false};
+      if(boostedIds.has(s.id))score++;
+      const hasWarnings=onBpMeds&&s.warnings.some(w=>w.includes('降压'));
+      return{...s,score,hasWarnings};
     });
     
     scored.sort((a,b)=>b.score-a.score);
-    
-    // Check warnings based on answers
-    if(this.answers[7]>=2){// On BP meds
-      scored.forEach(s=>{
-        if(s.warnings.some(w=>w.includes('降压')||w.includes('抗凝血')))s.hasWarnings=true;
-      });
-    }
-    
-    // Render results - show top 12, rest collapsed
+
+    // Render top matches
     const top=scored.filter(s=>s.score>0).slice(0,12);
     const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
     const evidenceClass={strong:'badge-strong',moderate:'badge-moderate',emerging:'badge-emerging'};
@@ -538,7 +508,7 @@ const App = {
 (function(){
   // Supplement preview pills
   document.getElementById('supp-preview').innerHTML=SUPPLEMENTS.map(s=>
-    `<span class="tag" style="cursor:default">${s.emoji} ${s.name}</span>`
+    `<span class="tag">${s.emoji} ${s.name}</span>`
   ).join('');
   
   console.log('%c🧬 保健成分匹配引擎 %c已就绪','color:#1a5632;font-size:16px','');
