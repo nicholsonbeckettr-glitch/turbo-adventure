@@ -123,6 +123,7 @@ h1,h2,h3{line-height:1.3}
     本网站仅供教育和信息参考，不提供医疗建议。所有推荐的保健成分均不应替代医生的诊断和治疗。
     在开始服用任何补充剂前，请咨询合格的医疗专业人员。
     本网站不声称任何补充剂可以诊断、治疗、治愈或预防任何疾病。
+    网站会匿名统计访问、问卷完成和匹配偏好，用于改进内容，不收集姓名、电话或身份证件信息。
   </div>
 </section>
 
@@ -166,6 +167,7 @@ const SITE_CONFIG = {
   publicUrl:'https://turbo-adventure-7ii.pages.dev',
   contactUrl:'',
   affiliateUrl:'',
+  analyticsEndpoint:'/api/track',
 };
 
 // ==================== SUPPLEMENT DATABASE ====================
@@ -420,6 +422,7 @@ const QUIZ = [
 // ==================== APP ENGINE ====================
 const ROUTES={home:'sec-home',quiz:'sec-quiz',result:'sec-result'};
 const ANSWERS_KEY='health-match-answers';
+const USER_KEY='health-match-user';
 const $=id=>document.getElementById(id);
 
 const App = {
@@ -429,7 +432,10 @@ const App = {
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
     $(ROUTES[section]).classList.add('on');
     if(updateHash&&location.hash!==`#${section}`)location.hash=section;
-    if(section==='quiz'){this.qIdx=0;this.answers=[];this.renderQ();}
+    if(section==='quiz'){
+      this.qIdx=0;this.answers=[];this.renderQ();
+      if(updateHash)this.track('quiz_start');
+    }
     window.scrollTo(0,0);
   },
   
@@ -520,6 +526,10 @@ const App = {
     }
 
     this.renderNextSteps(top);
+    this.track('result', {
+      supplements:top.slice(0,5).map(s=>s.id),
+      targets:[...userTargets],
+    });
     
     window.scrollTo(0,0);
   },
@@ -545,6 +555,26 @@ const App = {
   copyReport(){
     const text=$('result-list').innerText+'\\n\\n'+SITE_CONFIG.publicUrl+'#result';
     navigator.clipboard?.writeText(text);
+    this.track('copy_report');
+  },
+
+  getUserId(){
+    let id=localStorage.getItem(USER_KEY);
+    if(!id){
+      id=crypto.randomUUID();
+      localStorage.setItem(USER_KEY,id);
+    }
+    return id;
+  },
+
+  track(event, data={}){
+    if(location.protocol==='file:')return;
+    fetch(SITE_CONFIG.analyticsEndpoint,{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({event,userId:this.getUserId(),path:location.pathname+location.hash,...data}),
+      keepalive:true,
+    }).catch(()=>{});
   }
 };
 
@@ -565,6 +595,7 @@ const App = {
     }
   });
   window.dispatchEvent(new HashChangeEvent('hashchange'));
+  App.track('page_view');
   
   console.log('%c🧬 保健成分匹配引擎 %c已就绪','color:#1a5632;font-size:16px','');
   console.log(`%c  ${SUPPLEMENTS.length}种成分 · ${QUIZ.length}道问卷题 · 循证推荐`,'color:#5a7d6a');
