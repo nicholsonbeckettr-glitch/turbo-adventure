@@ -41,6 +41,7 @@ th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left;vertical
       <div class="card"><div class="muted">事件总数</div><div id="events" class="metric">0</div></div>
       <div class="card"><div class="muted">完成匹配</div><div id="results" class="metric">0</div></div>
       <div class="card"><div class="muted">复制报告</div><div id="copies" class="metric">0</div></div>
+      <div class="card"><div class="muted">下载报告</div><div id="downloads" class="metric">0</div></div>
     </div>
 
     <div class="grid">
@@ -85,6 +86,7 @@ const Admin={
     $('events').textContent=data.events||0;
     $('results').textContent=data.byEvent?.result||0;
     $('copies').textContent=data.byEvent?.copy_report||0;
+    $('downloads').textContent=data.byEvent?.download_report||0;
     $('supplements').innerHTML=this.rank(data.supplements);
     $('targets').innerHTML=this.rank(data.targets);
     $('recent').innerHTML=(data.recent||[]).map(item=>`

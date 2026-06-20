@@ -168,6 +168,7 @@ const SITE_CONFIG = {
   contactUrl:'',
   affiliateUrl:'',
   analyticsEndpoint:'/api/track',
+  knowledgeUrl:'knowledge/supplements.json',
 };
 
 // ==================== SUPPLEMENT DATABASE ====================
@@ -426,7 +427,7 @@ const USER_KEY='health-match-user';
 const $=id=>document.getElementById(id);
 
 const App = {
-  qIdx:0, answers:[],
+  qIdx:0, answers:[], knowledge:null, result:null,
   go(section, updateHash=true){
     section=ROUTES[section]?section:'home';
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
@@ -469,29 +470,8 @@ const App = {
     $('sec-result').classList.add('on');
     if(location.hash!=='#result')location.hash='result';
     
-    const userTargets=new Set();
-    const boostedIds=new Set();
-    let onBpMeds=false;
-    this.answers.forEach((a,i)=>{
-      const q=QUIZ[i];
-      (q.targets?.[a]||[]).forEach(t=>userTargets.add(t));
-      (q.boosts?.[a]||[]).forEach(id=>boostedIds.add(id));
-      if(q.id==='bp'&&a>=2)onBpMeds=true;
-    });
-    
-    // Score supplements
-    const scored=SUPPLEMENTS.map(s=>{
-      let score=0;
-      s.targets.forEach(t=>{if(userTargets.has(t))score++;});
-      if(boostedIds.has(s.id))score++;
-      const hasWarnings=onBpMeds&&s.warnings.some(w=>w.includes('降压'));
-      return{...s,score,hasWarnings};
-    });
-    
-    scored.sort((a,b)=>b.score-a.score);
-
-    // Render top matches
-    const top=scored.filter(s=>s.score>0).slice(0,12);
+    this.result=this.scoreResults();
+    const {top,userTargets}=this.result;
     const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
     const evidenceClass={strong:'badge-strong',moderate:'badge-moderate',emerging:'badge-emerging'};
     const fillColors=['var(--green)','var(--teal)','var(--gold)','#5a7d6a','#8d6e63'];
@@ -534,6 +514,28 @@ const App = {
     window.scrollTo(0,0);
   },
 
+  scoreResults(){
+    const userTargets=new Set();
+    const boostedIds=new Set();
+    let onBpMeds=false;
+    this.answers.forEach((a,i)=>{
+      const q=QUIZ[i];
+      (q.targets?.[a]||[]).forEach(t=>userTargets.add(t));
+      (q.boosts?.[a]||[]).forEach(id=>boostedIds.add(id));
+      if(q.id==='bp'&&a>=2)onBpMeds=true;
+    });
+
+    const scored=SUPPLEMENTS.map(s=>{
+      let score=0;
+      s.targets.forEach(t=>{if(userTargets.has(t))score++;});
+      if(boostedIds.has(s.id))score++;
+      const hasWarnings=onBpMeds&&s.warnings.some(w=>w.includes('降压'));
+      return{...s,score,hasWarnings};
+    }).sort((a,b)=>b.score-a.score);
+
+    return {userTargets,top:scored.filter(s=>s.score>0).slice(0,12)};
+  },
+
   renderNextSteps(top){
     const names=top.slice(0,3).map(s=>s.name).join('、')||'当前生活方式';
     const buyButton=SITE_CONFIG.affiliateUrl
@@ -547,6 +549,7 @@ const App = {
       优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
         <button class="btn btn-outline btn-sm" onclick="App.copyReport()">复制报告</button>
+        <button class="btn btn-primary btn-sm" onclick="App.downloadReport()">下载综合报告</button>
         ${buyButton}${contactButton}
       </div>
     </div>`;
@@ -556,6 +559,77 @@ const App = {
     const text=$('result-list').innerText+'\\n\\n'+SITE_CONFIG.publicUrl+'#result';
     navigator.clipboard?.writeText(text);
     this.track('copy_report');
+  },
+
+  async loadKnowledge(){
+    if(this.knowledge)return this.knowledge;
+    try{
+      const res=await fetch(SITE_CONFIG.knowledgeUrl);
+      this.knowledge=res.ok?await res.json():{supplements:{}};
+    }catch(e){
+      this.knowledge={supplements:{}};
+    }
+    return this.knowledge;
+  },
+
+  async downloadReport(){
+    const result=this.result||this.scoreResults();
+    const kb=await this.loadKnowledge();
+    const report=this.buildReport(result,kb);
+    const blob=new Blob([report],{type:'text/markdown;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`保健成分综合报告-${new Date().toISOString().slice(0,10)}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+    this.track('download_report',{supplements:result.top.slice(0,5).map(s=>s.id)});
+  },
+
+  buildReport({top,userTargets},kb){
+    const lines=[
+      '# 保健成分综合报告',
+      '',
+      `生成时间：${new Date().toLocaleString('zh-CN')}`,
+      '',
+      '## 匹配摘要',
+      `你的主要健康目标：${[...userTargets].join('、')||'未识别到明显目标'}`,
+      `推荐优先级：${top.slice(0,5).map(s=>s.name).join('、')||'暂无'}`,
+      '',
+      '## 交叉验证',
+    ];
+
+    top.slice(0,5).forEach((s,i)=>{
+      const info=kb.supplements?.[s.id]||{};
+      const matched=(info.supportedTargets||s.targets).filter(t=>userTargets.has(t));
+      lines.push(
+        '',
+        `### ${i+1}. ${s.name}`,
+        `- 匹配原因：${matched.join('、')||'由问卷加权命中'}`,
+        `- 建议剂量：${s.dosage}`,
+        `- 建议周期：${info.cycle||'未在本地知识库配置，建议咨询专业人士后决定'}`,
+        `- 社交平台常见使用场景：${(info.socialUse||['本地知识库暂未配置']).join('；')}`,
+        `- 风险提示：${s.warnings.join('；')}`,
+        `- 证据等级：${s.evidence}`,
+      );
+      const refs=info.literature?.length?info.literature:s.refs;
+      refs.forEach(ref=>{
+        lines.push(`- 文献：${ref.t||ref.title}${ref.j||ref.journal?`（${ref.j||ref.journal}`:''}${ref.y||ref.year?`，${ref.y||ref.year}`:''}${ref.j||ref.journal?`）`:''}${ref.url?` ${ref.url}`:''}`);
+      });
+      if(info.note)lines.push(`- 知识库备注：${info.note}`);
+    });
+
+    lines.push(
+      '',
+      '## 使用前检查清单',
+      '- 是否正在使用处方药，尤其是抗凝、降压、降糖、镇静类药物？',
+      '- 是否怀孕、哺乳、准备手术，或存在肝肾疾病？',
+      '- 产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？',
+      '- 是否设置了复盘周期，避免长期无目的叠加补剂？',
+      '',
+      '免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。'
+    );
+    return lines.join('\n');
   },
 
   getUserId(){
