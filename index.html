@@ -10,6 +10,8 @@
 <meta property="og:description" content="基于你的身体状况，匹配最适合的保健成分。20种明星成分，均有研究文献支持。">
 <meta property="og:type" content="website">
 <title>保健成分匹配引擎 · 循证营养</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <style>
 :root {
   --bg: #f8fbf9; --card: #fff; --text: #1a2e23; --dim: #5a7d6a;
@@ -80,6 +82,16 @@ h1,h2,h3{line-height:1.3}
 .match-fill{
   height:100%;border-radius:3px;transition:width .6s ease;
 }
+.pdf-report{
+  position:fixed;left:-9999px;top:0;width:794px;background:#fff;color:#1a2e23;
+  padding:42px;font-family:"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;
+}
+.pdf-report h1{font-size:28px;color:var(--green);margin-bottom:8px}
+.pdf-report h2{font-size:18px;color:var(--green);margin:24px 0 10px}
+.pdf-report h3{font-size:15px;margin:18px 0 8px}
+.pdf-report p,.pdf-report li{font-size:12px}
+.pdf-report ul{padding-left:18px}
+.pdf-report .box{border:1px solid var(--border);border-radius:8px;padding:12px;margin:12px 0}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .anim-fade{animation:fadeUp .4s ease-out forwards}
@@ -549,7 +561,7 @@ const App = {
       优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
         <button class="btn btn-outline btn-sm" onclick="App.copyReport()">复制报告</button>
-        <button class="btn btn-primary btn-sm" onclick="App.downloadReport()">下载综合报告</button>
+        <button class="btn btn-primary btn-sm" onclick="App.downloadReport()">下载 PDF 报告</button>
         ${buyButton}${contactButton}
       </div>
     </div>`;
@@ -576,47 +588,65 @@ const App = {
     const result=this.result||this.scoreResults();
     const kb=await this.loadKnowledge();
     const report=this.buildReport(result,kb);
-    const blob=new Blob([report],{type:'text/markdown;charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;
-    a.download=`保健成分综合报告-${new Date().toISOString().slice(0,10)}.md`;
-    a.click();
-    URL.revokeObjectURL(url);
+    await this.savePdf(report);
     this.track('download_report',{supplements:result.top.slice(0,5).map(s=>s.id)});
   },
 
   buildReport({top,userTargets},kb){
+    const generatedAt=new Date().toLocaleString('zh-CN');
+    const items=top.slice(0,5).map((s,i)=>{
+      const info=kb.supplements?.[s.id]||{};
+      const matched=(info.supportedTargets||s.targets).filter(t=>userTargets.has(t));
+      const refs=info.literature?.length?info.literature:s.refs;
+      return {
+        rank:i+1,
+        name:s.name,
+        reason:matched.join('、')||'由问卷加权命中',
+        dosage:s.dosage,
+        cycle:info.cycle||'未在本地知识库配置，建议咨询专业人士后决定',
+        usagePlans:info.usagePlans||['本地知识库暂未配置'],
+        warnings:s.warnings,
+        evidence:s.evidence,
+        literature:refs.map(ref=>({
+          title:ref.title||ref.t,
+          journal:ref.journal||ref.j,
+          year:ref.year||ref.y,
+          url:ref.url||'',
+          summary:ref.summary||'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。',
+        })),
+        note:info.note||'',
+      };
+    });
+    const report={generatedAt,targets:[...userTargets],priority:top.slice(0,5).map(s=>s.name),items};
     const lines=[
       '# 保健成分综合报告',
       '',
-      `生成时间：${new Date().toLocaleString('zh-CN')}`,
+      `生成时间：${report.generatedAt}`,
       '',
       '## 匹配摘要',
-      `你的主要健康目标：${[...userTargets].join('、')||'未识别到明显目标'}`,
-      `推荐优先级：${top.slice(0,5).map(s=>s.name).join('、')||'暂无'}`,
+      `你的主要健康目标：${report.targets.join('、')||'未识别到明显目标'}`,
+      `推荐优先级：${report.priority.join('、')||'暂无'}`,
       '',
       '## 交叉验证',
     ];
 
-    top.slice(0,5).forEach((s,i)=>{
-      const info=kb.supplements?.[s.id]||{};
-      const matched=(info.supportedTargets||s.targets).filter(t=>userTargets.has(t));
+    report.items.forEach(item=>{
       lines.push(
         '',
-        `### ${i+1}. ${s.name}`,
-        `- 匹配原因：${matched.join('、')||'由问卷加权命中'}`,
-        `- 建议剂量：${s.dosage}`,
-        `- 建议周期：${info.cycle||'未在本地知识库配置，建议咨询专业人士后决定'}`,
-        `- 社交平台常见使用场景：${(info.socialUse||['本地知识库暂未配置']).join('；')}`,
-        `- 风险提示：${s.warnings.join('；')}`,
-        `- 证据等级：${s.evidence}`,
+        `### ${item.rank}. ${item.name}`,
+        `- 匹配原因：${item.reason}`,
+        `- 建议剂量：${item.dosage}`,
+        `- 建议周期：${item.cycle}`,
+        `- 其他人使用方案：${item.usagePlans.join('；')}`,
+        `- 风险提示：${item.warnings.join('；')}`,
+        `- 证据等级：${item.evidence}`,
       );
-      const refs=info.literature?.length?info.literature:s.refs;
-      refs.forEach(ref=>{
-        lines.push(`- 文献：${ref.t||ref.title}${ref.j||ref.journal?`（${ref.j||ref.journal}`:''}${ref.y||ref.year?`，${ref.y||ref.year}`:''}${ref.j||ref.journal?`）`:''}${ref.url?` ${ref.url}`:''}`);
+      item.literature.forEach(ref=>{
+        const source=[ref.journal,ref.year].filter(Boolean).join('，');
+        lines.push(`- 文献：${ref.title}${source?`（${source}）`:''}`);
+        lines.push(`  - 一句话总结：${ref.summary}`);
       });
-      if(info.note)lines.push(`- 知识库备注：${info.note}`);
+      if(item.note)lines.push(`- 知识库备注：${item.note}`);
     });
 
     lines.push(
@@ -629,7 +659,75 @@ const App = {
       '',
       '免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。'
     );
-    return lines.join('\n');
+    report.markdown=lines.join('\n');
+    return report;
+  },
+
+  reportHtml(report){
+    const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    return `<div class="pdf-report">
+      <h1>保健成分综合报告</h1>
+      <p>生成时间：${esc(report.generatedAt)}</p>
+      <div class="box">
+        <h2>匹配摘要</h2>
+        <p><strong>主要健康目标：</strong>${esc(report.targets.join('、')||'未识别到明显目标')}</p>
+        <p><strong>推荐优先级：</strong>${esc(report.priority.join('、')||'暂无')}</p>
+      </div>
+      <h2>交叉验证</h2>
+      ${report.items.map(item=>`
+        <div class="box">
+          <h3>${item.rank}. ${esc(item.name)}</h3>
+          <ul>
+            <li><strong>匹配原因：</strong>${esc(item.reason)}</li>
+            <li><strong>建议剂量：</strong>${esc(item.dosage)}</li>
+            <li><strong>建议周期：</strong>${esc(item.cycle)}</li>
+            <li><strong>其他人使用方案：</strong>${esc(item.usagePlans.join('；'))}</li>
+            <li><strong>风险提示：</strong>${esc(item.warnings.join('；'))}</li>
+            <li><strong>证据等级：</strong>${esc(item.evidence)}</li>
+          </ul>
+          <p><strong>文献：</strong></p>
+          <ul>${item.literature.map(ref=>`<li>${esc(ref.title)}${ref.journal||ref.year?`（${esc([ref.journal,ref.year].filter(Boolean).join('，'))}）`:''}<br>一句话总结：${esc(ref.summary)}</li>`).join('')}</ul>
+          ${item.note?`<p><strong>知识库备注：</strong>${esc(item.note)}</p>`:''}
+        </div>
+      `).join('')}
+      <h2>使用前检查清单</h2>
+      <ul>
+        <li>是否正在使用处方药，尤其是抗凝、降压、降糖、镇静类药物？</li>
+        <li>是否怀孕、哺乳、准备手术，或存在肝肾疾病？</li>
+        <li>产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？</li>
+        <li>是否设置了复盘周期，避免长期无目的叠加补剂？</li>
+      </ul>
+      <p>免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。</p>
+    </div>`;
+  },
+
+  async savePdf(report){
+    if(!window.html2canvas||!window.jspdf?.jsPDF){
+      const win=window.open('', '_blank');
+      win.document.write(`<!doctype html><html><head><title>保健成分综合报告</title><style>body{font-family:sans-serif;padding:24px;line-height:1.7}</style></head><body><pre style="white-space:pre-wrap">${report.markdown.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</pre></body></html>`);
+      win.document.close();
+      win.print();
+      return;
+    }
+    const wrap=document.createElement('div');
+    wrap.innerHTML=this.reportHtml(report);
+    document.body.appendChild(wrap);
+    const node=wrap.firstElementChild;
+    const canvas=await html2canvas(node,{scale:2,backgroundColor:'#ffffff'});
+    const pdf=new jspdf.jsPDF('p','pt','a4');
+    const pageW=pdf.internal.pageSize.getWidth();
+    const pageH=pdf.internal.pageSize.getHeight();
+    const imgW=pageW;
+    const imgH=canvas.height*imgW/canvas.width;
+    let y=0;
+    pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,y,imgW,imgH);
+    while(imgH+y>pageH){
+      y-=pageH;
+      pdf.addPage();
+      pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,y,imgW,imgH);
+    }
+    pdf.save(`保健成分综合报告-${new Date().toISOString().slice(0,10)}.pdf`);
+    wrap.remove();
   },
 
   getUserId(){

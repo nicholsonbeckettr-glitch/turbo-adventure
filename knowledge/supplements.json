@@ -4,13 +4,14 @@
     "omega3": {
       "supportedTargets": ["心血管健康", "高甘油三酯", "关节炎症", "脑雾/认知", "皮肤干燥"],
       "cycle": "8-12 周为一个观察周期；用于血脂目标时应结合复查指标。",
-      "socialUse": ["鱼油/藻油常被用于心血管管理", "健身和抗炎场景中常和维生素D、镁一起讨论"],
+      "usagePlans": ["鱼油/藻油常被用于心血管管理", "健身和抗炎场景中常和维生素D、镁一起讨论"],
       "literature": [
         {
           "title": "Omega-3 fatty acids for the primary and secondary prevention of cardiovascular disease",
           "journal": "Cochrane Database Syst Rev",
           "year": 2020,
-          "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD003177.pub5/full"
+          "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD003177.pub5/full",
+          "summary": "系统综述提示 Omega-3 对心血管结局的总体收益需要结合具体人群和剂量判断。"
         }
       ],
       "note": "重点核对 EPA+DHA 实际含量，而不是只看鱼油总克数。"
@@ -18,13 +19,14 @@
     "creatine": {
       "supportedTargets": ["运动表现提升", "肌肉恢复", "脑雾/认知", "疲劳感"],
       "cycle": "4-8 周观察训练表现、体重变化和胃肠耐受；长期使用建议定期评估肾功能风险人群。",
-      "socialUse": ["力量训练和增肌人群常用", "近年也常被讨论用于认知疲劳场景"],
+      "usagePlans": ["力量训练和增肌人群常用", "近年也常被讨论用于认知疲劳场景"],
       "literature": [
         {
           "title": "International Society of Sports Nutrition position stand: safety and efficacy of creatine supplementation",
           "journal": "J Int Soc Sports Nutr",
           "year": 2017,
-          "url": "https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0173-z"
+          "url": "https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0173-z",
+          "summary": "该立场声明认为肌酸是研究较充分的运动表现补剂，常规剂量下整体安全性较好。"
         }
       ],
       "note": "普通维持剂量通常比复杂冲击期更容易坚持。"
@@ -32,13 +34,14 @@
     "magnesium": {
       "supportedTargets": ["睡眠质量差", "压力/焦虑", "肌肉痉挛/紧张", "偏头痛", "血压偏高"],
       "cycle": "2-4 周观察睡眠、肌肉紧张和胃肠耐受；腹泻时应降低剂量或更换形式。",
-      "socialUse": ["睡眠放松场景常见", "甘氨酸镁、柠檬酸镁在社交平台讨论较多"],
+      "usagePlans": ["睡眠放松场景常见", "甘氨酸镁、柠檬酸镁在社交平台讨论较多"],
       "literature": [
         {
           "title": "The Role of Magnesium in Sleep Health",
           "journal": "Nutrients",
           "year": 2021,
-          "url": "https://www.mdpi.com/2072-6643/13/10/3433"
+          "url": "https://www.mdpi.com/2072-6643/13/10/3433",
+          "summary": "综述讨论了镁与睡眠调节之间的可能关系，但实际效果受缺乏状态和个体差异影响。"
         }
       ],
       "note": "肾功能异常者不应自行补充。"
@@ -46,13 +49,14 @@
     "theanine": {
       "supportedTargets": ["压力/焦虑", "睡眠质量差", "注意力不集中", "脑雾/认知"],
       "cycle": "1-2 周即可观察放松、入睡和注意力变化；适合按场景短期评估。",
-      "socialUse": ["常和咖啡因搭配用于专注", "也常在睡前放松场景中出现"],
+      "usagePlans": ["常和咖啡因搭配用于专注", "也常在睡前放松场景中出现"],
       "literature": [
         {
           "title": "Effects of L-Theanine on Stress-Related Symptoms and Cognitive Functions",
           "journal": "Nutrients",
           "year": 2019,
-          "url": "https://www.mdpi.com/2072-6643/11/10/2362"
+          "url": "https://www.mdpi.com/2072-6643/11/10/2362",
+          "summary": "研究显示 L-茶氨酸可能帮助压力相关症状和部分认知表现，但适合先短周期观察。"
         }
       ],
       "note": "镇静药物使用者应先咨询医生。"
@@ -60,13 +64,14 @@
     "vitamind": {
       "supportedTargets": ["免疫力低下", "情绪低落", "骨质疏松风险", "疲劳感", "肌肉恢复"],
       "cycle": "8-12 周后结合 25(OH)D 检测复盘，避免长期高剂量盲补。",
-      "socialUse": ["室内工作者和冬季日照不足人群常讨论", "常与钙、镁、K2 被放在骨骼健康话题中"],
+      "usagePlans": ["室内工作者和冬季日照不足人群常讨论", "常与钙、镁、K2 被放在骨骼健康话题中"],
       "literature": [
         {
           "title": "Vitamin D supplementation and prevention of acute respiratory tract infections",
           "journal": "BMJ",
           "year": 2017,
-          "url": "https://www.bmj.com/content/356/bmj.i6583"
+          "url": "https://www.bmj.com/content/356/bmj.i6583",
+          "summary": "个体参与者数据荟萃分析提示维生素D补充对急性呼吸道感染风险可能有保护作用，低水平人群更值得关注。"
         }
       ],
       "note": "更适合结合检测值调整，而不是只按感觉补。"
