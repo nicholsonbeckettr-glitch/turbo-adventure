@@ -14,31 +14,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <style>
 :root {
-  --bg: #f8fbf9; --card: #fff; --text: #1a2e23; --dim: #5a7d6a;
-  --green: #1a5632; --teal: #0d7377; --gold: #b8860b;
-  --green-lt: #e8f5e9; --gold-lt: #fff8e1; --border: #dce8e0; --red: #c62828;
+  --bg: #f7f3e8; --card: #fffdf7; --text: #17251c; --dim: #617366;
+  --green: #174d32; --teal: #0f7671; --gold: #b7791f; --coral: #d86f58;
+  --green-lt: #e8f2e7; --gold-lt: #fff4d9; --border: #e2dccd; --red: #c62828;
+  --shadow: 0 18px 50px rgba(23,37,28,.1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{
-  background:var(--bg);color:var(--text);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(216,111,88,.16), transparent 28%),
+    radial-gradient(circle at 85% 0%, rgba(15,118,113,.12), transparent 26%),
+    var(--bg);
+  color:var(--text);
   font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
   min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.6;
 }
 h1,h2,h3{line-height:1.3}
 .card{
   background:var(--card);border:1px solid var(--border);
-  border-radius:12px;transition:all .2s;
+  border-radius:10px;transition:all .2s;
 }
-.card:hover{border-color:var(--green);box-shadow:0 2px 12px rgba(26,86,50,.06)}
+.card:hover{border-color:rgba(23,77,50,.42);box-shadow:0 8px 28px rgba(23,77,50,.08)}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  padding:12px 28px;border-radius:10px;font-size:14px;font-weight:500;
+  padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;
   cursor:pointer;transition:all .2s;border:none;user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
-.btn-primary{background:var(--green);color:#fff}
+.btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 24px rgba(23,77,50,.18)}
 .btn-primary:active{transform:scale(.97);opacity:.9}
-.btn-outline{background:transparent;border:2px solid var(--green);color:var(--green)}
+.btn-outline{background:rgba(255,253,247,.78);border:1px solid rgba(23,77,50,.32);color:var(--green)}
 .btn-outline:active{background:var(--green-lt);transform:scale(.97)}
 .btn-sm{padding:8px 16px;font-size:12px}
 .btn-lg{padding:14px 36px;font-size:16px}
@@ -52,9 +57,9 @@ h1,h2,h3{line-height:1.3}
 .badge-emerging{background:#e3f2fd;color:#1565c0}
 
 .tag{
-  display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;
+  display:inline-block;padding:5px 11px;border-radius:999px;font-size:11px;
   font-weight:500;
-  border:1px solid var(--border);background:var(--card);color:var(--dim);
+  border:1px solid rgba(23,77,50,.15);background:rgba(255,253,247,.78);color:var(--dim);
   -webkit-tap-highlight-color:transparent;
 }
 
@@ -82,6 +87,56 @@ h1,h2,h3{line-height:1.3}
 .match-fill{
   height:100%;border-radius:3px;transition:width .6s ease;
 }
+.home-shell{max-width:1180px;margin:0 auto;padding:28px 20px 48px}
+.hero{
+  position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,520px);
+  gap:34px;align-items:stretch;min-height:620px;padding:34px;border:1px solid rgba(23,77,50,.14);
+  border-radius:18px;overflow:hidden;background:rgba(255,253,247,.72);box-shadow:var(--shadow);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;background:url("assets/hero-health-match.jpg") center/cover no-repeat;
+  opacity:.24;filter:saturate(.94);pointer-events:none;
+}
+.hero-copy,.hero-panel{position:relative;z-index:1}
+.hero-copy{display:flex;flex-direction:column;justify-content:space-between;gap:32px;max-width:620px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;width:max-content;
+  padding:7px 12px;border:1px solid rgba(23,77,50,.18);border-radius:999px;
+  background:rgba(255,253,247,.72);color:var(--green);font-size:12px;font-weight:700;
+}
+.hero-title{font-size:54px;font-weight:800;letter-spacing:0;margin:18px 0 18px;color:var(--text)}
+.hero-lead{max-width:520px;color:#42564a;font-size:17px;line-height:1.8}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero-proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:560px}
+.proof-item{
+  min-height:96px;padding:16px;border:1px solid rgba(23,77,50,.13);
+  border-radius:10px;background:rgba(255,253,247,.7);backdrop-filter:blur(10px);
+}
+.proof-num{display:block;color:var(--green);font-size:22px;font-weight:800;line-height:1.1}
+.proof-label{display:block;margin-top:8px;color:var(--dim);font-size:12px;line-height:1.5}
+.hero-panel{
+  align-self:center;padding:22px;border:1px solid rgba(23,77,50,.16);
+  border-radius:14px;background:rgba(255,253,247,.86);backdrop-filter:blur(16px);
+}
+.panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.panel-title h2{font-size:18px;color:var(--green)}
+.panel-kicker{font-size:11px;color:var(--coral);font-weight:800}
+.step-list{display:grid;gap:12px}
+.step{
+  display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;padding:14px;
+  border:1px solid rgba(23,77,50,.12);border-radius:10px;background:#fffdf7;
+}
+.step-mark{
+  display:grid;place-items:center;width:36px;height:36px;border-radius:50%;
+  background:var(--green);color:#fff;font-weight:800;font-size:13px;
+}
+.step h3{font-size:14px;margin-bottom:4px}
+.step p{font-size:12px;color:var(--dim);line-height:1.6}
+.supp-section{margin-top:26px}
+.supp-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:12px}
+.supp-head h3{font-size:15px;color:var(--green)}
+.supp-head span{font-size:12px;color:var(--dim)}
+.fineprint{margin-top:18px}
 .pdf-report{
   position:fixed;left:-9999px;top:0;width:794px;background:#fff;color:#1a2e23;
   padding:42px;font-family:"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;
@@ -96,42 +151,97 @@ h1,h2,h3{line-height:1.3}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .anim-fade{animation:fadeUp .4s ease-out forwards}
 
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding:24px}
+  .hero-title{font-size:42px}
+  .hero-proof{grid-template-columns:1fr 1fr}
+}
 @media(max-width:640px){
-  .hero-title{font-size:26px!important}
+  .home-shell{padding:16px 14px 34px}
+  .hero{padding:18px;border-radius:14px}
+  .hero-title{font-size:32px}
+  .hero-lead{font-size:15px}
+  .hero-actions .btn{width:100%}
+  .hero-proof{grid-template-columns:1fr}
+  .supp-head{display:block}
 }
 </style>
 </head>
 <body>
 
 <!-- ============ HOME ============ -->
-<section id="sec-home" class="section on" style="max-width:720px;margin:0 auto;padding:48px 20px 40px">
-  <!-- Hero -->
-  <div style="text-align:center;margin-bottom:48px">
-    <span style="font-size:48px;display:block;margin-bottom:16px">🧬</span>
-    <h1 class="hero-title" style="font-size:32px;font-weight:700;margin-bottom:8px;color:var(--green)">保健成分匹配引擎</h1>
-    <p style="color:var(--dim);font-size:14px;max-width:400px;margin:0 auto;line-height:1.7">
-      基于循证研究的保健成分推荐。<br>告诉我们的你的身体状况，找到最适合你的营养支持。
-    </p>
+<section id="sec-home" class="section on home-shell">
+  <div class="hero">
+    <div class="hero-copy">
+      <div>
+        <span class="eyebrow">循证营养 · 个人画像 · 少走弯路</span>
+        <h1 class="hero-title">保健成分匹配引擎</h1>
+        <p class="hero-lead">
+          用几个关键健康问题，把补剂选择从“盲买试错”收敛成一份可复盘的个性化方案。先匹配需求，再核对禁忌，最后小步验证。
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" onclick="App.go('quiz')">开始健康问卷</button>
+          <button class="btn btn-outline btn-lg" onclick="document.getElementById('supp-preview').scrollIntoView({behavior:'smooth',block:'center'})">查看收录成分</button>
+        </div>
+      </div>
+
+      <div class="hero-proof" aria-label="产品能力">
+        <div class="proof-item">
+          <span class="proof-num">20</span>
+          <span class="proof-label">种常见明星成分，按健康目标匹配</span>
+        </div>
+        <div class="proof-item">
+          <span class="proof-num">12</span>
+          <span class="proof-label">道问题生成画像，避免一上来堆补剂</span>
+        </div>
+        <div class="proof-item">
+          <span class="proof-num">3步</span>
+          <span class="proof-label">匹配、避险、复盘，控制最小试错成本</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="hero-panel" aria-label="最小试错方案">
+      <div class="panel-title">
+        <h2>定制化方案路径</h2>
+        <span class="panel-kicker">MINIMAL TRIAL</span>
+      </div>
+      <div class="step-list">
+        <div class="step">
+          <span class="step-mark">01</span>
+          <div>
+            <h3>先识别真实目标</h3>
+            <p>从睡眠、压力、代谢、运动和免疫等维度定位主要需求。</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-mark">02</span>
+          <div>
+            <h3>再过滤风险信号</h3>
+            <p>提示药物相互作用、用药场景和需要咨询医生的情况。</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-mark">03</span>
+          <div>
+            <h3>只验证高匹配项</h3>
+            <p>优先从匹配度最高的少数成分开始，降低无效购买和叠加。</p>
+          </div>
+        </div>
+      </div>
+    </aside>
   </div>
 
-  <!-- Quick Start -->
-  <div class="card" style="padding:32px 24px;text-align:center;margin-bottom:32px">
-    <h2 style="font-size:18px;font-weight:600;margin-bottom:16px">开始匹配</h2>
-    <p style="color:var(--dim);font-size:13px;margin-bottom:24px">回答几个健康问题，获得个性化保健成分方案</p>
-    <button class="btn btn-primary btn-lg" onclick="App.go('quiz')" style="width:100%;max-width:280px">
-      开始健康问卷 →
-    </button>
-  </div>
-
-  <!-- Supplement preview -->
-  <div style="margin-bottom:32px">
-    <h3 style="font-size:15px;font-weight:600;margin-bottom:12px;color:var(--green)">收录的明星成分</h3>
+  <div class="supp-section">
+    <div class="supp-head">
+      <h3>收录的明星成分</h3>
+      <span>涵盖睡眠、压力、运动、代谢、免疫与认知支持</span>
+    </div>
     <div id="supp-preview" style="display:flex;flex-wrap:wrap;gap:8px"></div>
   </div>
 
-  <!-- Disclaimer -->
-  <div class="disclaimer">
-    <strong>⚕️ 医学免责声明</strong><br>
+  <div class="disclaimer fineprint">
+    <strong>医学免责声明</strong><br>
     本网站仅供教育和信息参考，不提供医疗建议。所有推荐的保健成分均不应替代医生的诊断和治疗。
     在开始服用任何补充剂前，请咨询合格的医疗专业人员。
     本网站不声称任何补充剂可以诊断、治疗、治愈或预防任何疾病。
