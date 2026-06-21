@@ -1,0 +1,661 @@
+const SITE_CONFIG = {
+  publicUrl:'https://turbo-adventure-7ii.pages.dev',
+  contactUrl:'',
+  affiliateUrl:'',
+  analyticsEndpoint:'/api/track',
+  knowledgeUrl:'knowledge/supplements.json',
+};
+
+// ==================== SUPPLEMENT DATABASE ====================
+const SUPPLEMENTS = [
+  {
+    id:'omega3',name:'Omega-3 (EPA/DHA)',cat:'脂肪酸',emoji:'🐟',
+    desc:'长链Omega-3脂肪酸，主要来自鱼油和藻油。对心血管、大脑和炎症调节至关重要。',
+    evidence:'strong',
+    dosage:'EPA+DHA 1000-3000mg/天',
+    targets:['心血管健康','高甘油三酯','关节炎症','脑雾/认知','情绪低落','皮肤干燥'],
+    warnings:['抗凝血药物使用者需咨询医生','手术前2周停用'],
+    refs:[{t:'Omega-3 fatty acids for the primary and secondary prevention of cardiovascular disease',j:'Cochrane Database Syst Rev',y:2020}]
+  },
+  {
+    id:'creatine',name:'肌酸 (Creatine)',cat:'氨基酸衍生物',emoji:'💪',
+    desc:'最被研究证实的运动表现增强剂。近年研究还发现对认知功能有益。',
+    evidence:'strong',
+    dosage:'3-5g/天，维持期',
+    targets:['运动表现提升','肌肉恢复','脑雾/认知','疲劳感'],
+    warnings:['肾功能不全者需咨询医生','初期可能有轻微水潴留'],
+    refs:[{t:'Creatine supplementation with specific view to exercise/sports performance',j:'J Int Soc Sports Nutr',y:2017}]
+  },
+  {
+    id:'citrulline',name:'L-瓜氨酸 (L-Citrulline)',cat:'氨基酸',emoji:'🏃',
+    desc:'非必需氨基酸，在体内转化为精氨酸，促进一氧化氮生成，改善血流。',
+    evidence:'moderate',
+    dosage:'3-6g/天，运动前60-90分钟',
+    targets:['运动表现提升','血压偏高','血液循环差','疲劳感'],
+    warnings:['低血压患者慎用','可能与降压药相互作用'],
+    refs:[{t:'Effects of Citrulline Supplementation on Exercise Performance',j:'Sports Med',y:2018}]
+  },
+  {
+    id:'theanine',name:'L-茶氨酸 (L-Theanine)',cat:'氨基酸',emoji:'🍵',
+    desc:'绿茶中的天然氨基酸，促进放松而不引起嗜睡。常与咖啡因协同使用。',
+    evidence:'moderate',
+    dosage:'100-400mg/天',
+    targets:['压力/焦虑','睡眠质量差','注意力不集中','脑雾/认知'],
+    warnings:['一般安全','孕期/哺乳期建议咨询医生'],
+    refs:[{t:'Effects of L-Theanine on Stress-Related Symptoms and Cognitive Functions',j:'Nutrients',y:2019}]
+  },
+  {
+    id:'magnesium',name:'镁 (Magnesium)',cat:'矿物质',emoji:'⚡',
+    desc:'参与300+酶反应的必需矿物质。现代饮食中普遍缺乏。甘氨酸镁和柠檬酸镁吸收较好。',
+    evidence:'strong',
+    dosage:'200-400mg/天',
+    targets:['睡眠质量差','压力/焦虑','肌肉痉挛/紧张','偏头痛','血压偏高'],
+    warnings:['肾功能不全者需咨询医生','过量可能导致腹泻'],
+    refs:[{t:'The Role of Magnesium in Sleep Health',j:'Nutrients',y:2021}]
+  },
+  {
+    id:'vitamind',name:'维生素D3',cat:'维生素',emoji:'☀️',
+    desc:'脂溶性维生素，对骨骼、免疫和情绪调节至关重要。多数室内工作者缺乏。',
+    evidence:'strong',
+    dosage:'1000-4000 IU/天，随餐服用',
+    targets:['免疫力低下','情绪低落','骨质疏松风险','疲劳感','肌肉恢复'],
+    warnings:['极高剂量可能有毒','建议定期检测血浓度'],
+    refs:[{t:'Vitamin D supplementation and prevention of acute respiratory infections',j:'BMJ',y:2017}]
+  },
+  {
+    id:'zinc',name:'锌 (Zinc)',cat:'矿物质',emoji:'🛡️',
+    desc:'必需微量矿物质，对免疫、伤口愈合、味觉和男性生殖健康至关重要。',
+    evidence:'moderate',
+    dosage:'15-30mg/天',
+    targets:['免疫力低下','皮肤问题/痤疮','伤口愈合慢','脱发'],
+    warnings:['长期高剂量可能抑制铜吸收','空腹可能引起恶心'],
+    refs:[{t:'Zinc in Wound Healing Modulation',j:'Nutrients',y:2018}]
+  },
+  {
+    id:'ashwagandha',name:'印度人参 (Ashwagandha)',cat:'植物提取物',emoji:'🌿',
+    desc:'阿育吠陀适应原草药，帮助身体应对压力，降低皮质醇水平。',
+    evidence:'moderate',
+    dosage:'300-600mg/天（标准化提取物）',
+    targets:['压力/焦虑','睡眠质量差','疲劳感','运动表现提升'],
+    warnings:['孕期/哺乳期避免','甲状腺疾病患者需咨询医生'],
+    refs:[{t:'An investigation into the stress-relieving effects of an extract of Ashwagandha',j:'Medicine',y:2019}]
+  },
+  {
+    id:'coq10',name:'辅酶Q10 (CoQ10)',cat:'辅酶',emoji:'❤️',
+    desc:'线粒体电子传递链的关键辅酶，随年龄增长合成减少。',
+    evidence:'moderate',
+    dosage:'100-300mg/天',
+    targets:['心血管健康','疲劳感','偏头痛','运动表现提升'],
+    warnings:['可能与华法林相互作用','一般安全'],
+    refs:[{t:'Coenzyme Q10 supplementation in aging and disease',j:'Front Physiol',y:2018}]
+  },
+  {
+    id:'probiotics',name:'益生菌 (Probiotics)',cat:'微生物',emoji:'🦠',
+    desc:'活的微生物补充剂，通过调节肠道菌群促进消化和免疫健康。',
+    evidence:'moderate',
+    dosage:'10-100亿 CFU/天',
+    targets:['消化问题','免疫力低下','皮肤问题/痤疮','情绪低落'],
+    warnings:['免疫力严重低下者慎用','不同菌株效果差异大'],
+    refs:[{t:'Probiotics and the gut-brain axis',j:'Ann Gastroenterol',y:2015}]
+  },
+  {
+    id:'curcumin',name:'姜黄素 (Curcumin)',cat:'植物提取物',emoji:'🟡',
+    desc:'姜黄中的活性成分，强效抗炎和抗氧化剂。需与黑胡椒素同服以提高吸收率。',
+    evidence:'moderate',
+    dosage:'500-1500mg/天，与黑胡椒素同服',
+    targets:['关节炎症','消化问题','运动恢复','脑雾/认知'],
+    warnings:['胆结石患者慎用','可能与抗凝血药物相互作用'],
+    refs:[{t:'Curcumin: A Review of Its Effects on Human Health',j:'Foods',y:2017}]
+  },
+  {
+    id:'melatonin',name:'褪黑素 (Melatonin)',cat:'激素',emoji:'🌙',
+    desc:'松果体分泌的睡眠调节激素。短期使用调整昼夜节律。',
+    evidence:'strong',
+    dosage:'0.5-5mg，睡前30-60分钟',
+    targets:['睡眠质量差','时差/轮班'],
+    warnings:['长期高剂量安全性数据有限','可能引起次日嗜睡'],
+    refs:[{t:'Melatonin for the management of sleep disorders in children and adolescents',j:'Paediatr Child Health',y:2020}]
+  },
+  {
+    id:'collagen',name:'胶原蛋白肽 (Collagen Peptides)',cat:'蛋白质',emoji:'✨',
+    desc:'水解胶原蛋白，为皮肤、关节和骨骼提供结构蛋白的前体。',
+    evidence:'moderate',
+    dosage:'5-10g/天',
+    targets:['皮肤干燥','关节炎症','骨质疏松风险','伤口愈合慢'],
+    warnings:['一般安全','鱼胶原对鱼类过敏者慎用'],
+    refs:[{t:'Oral Collagen Supplementation: A Systematic Review',j:'J Drugs Dermatol',y:2019}]
+  },
+  {
+    id:'nac',name:'N-乙酰半胱氨酸 (NAC)',cat:'氨基酸衍生物',emoji:'🫁',
+    desc:'谷胱甘肽前体，强效抗氧化剂，支持肝脏解毒和呼吸系统健康。',
+    evidence:'moderate',
+    dosage:'600-1200mg/天',
+    targets:['呼吸系统','免疫力低下','脑雾/认知','疲劳感'],
+    warnings:['可能引起胃部不适','对组胺不耐受者慎用'],
+    refs:[{t:'N-Acetylcysteine in the treatment of psychiatric disorders',j:'J Psychiatry Neurosci',y:2011}]
+  },
+  {
+    id:'berberine',name:'小檗碱 (Berberine)',cat:'植物提取物',emoji:'🩸',
+    desc:'黄连等植物中的生物碱，对血糖和血脂调节有显著效果。',
+    evidence:'moderate',
+    dosage:'500mg，2-3次/天，餐前服用',
+    targets:['血糖控制','高甘油三酯','消化问题'],
+    warnings:['可能引起胃肠道不适','孕妇禁用','糖尿病药物使用者需监测血糖'],
+    refs:[{t:'Berberine in the Treatment of Type 2 Diabetes Mellitus',j:'Metabolism',y:2008}]
+  },
+  {
+    id:'rhodiola',name:'红景天 (Rhodiola Rosea)',cat:'植物提取物',emoji:'🏔️',
+    desc:'北极地区传统适应原草药，帮助对抗疲劳，提高精神和身体耐力。',
+    evidence:'moderate',
+    dosage:'200-600mg/天（标准化提取物）',
+    targets:['疲劳感','压力/焦虑','脑雾/认知','运动表现提升'],
+    warnings:['可能引起口干或头晕','双相情感障碍患者避免使用'],
+    refs:[{t:'Rhodiola rosea for physical and mental fatigue',j:'Phytother Res',y:2012}]
+  },
+  {
+    id:'bcomplex',name:'复合维生素B (B-Complex)',cat:'维生素',emoji:'⚙️',
+    desc:'8种B族维生素的综合补充，对能量代谢、神经功能和红细胞生成至关重要。',
+    evidence:'strong',
+    dosage:'随产品而定，通常每天1粒',
+    targets:['疲劳感','脑雾/认知','情绪低落','脱发','皮肤问题/痤疮'],
+    warnings:['高剂量B6长期使用可能引起神经损伤','一般安全范围广泛'],
+    refs:[{t:'B Vitamins and the Brain: Mechanisms, Dose and Efficacy',j:'Nutrients',y:2016}]
+  },
+  {
+    id:'lionsmane',name:"猴头菇 (Lion's Mane)",cat:'菌类提取物',emoji:'🍄',
+    desc:'药用蘑菇，传统用于认知增强和神经保护。促进神经生长因子(NGF)合成。',
+    evidence:'emerging',
+    dosage:'500-3000mg/天',
+    targets:['脑雾/认知','记忆下降','情绪低落','神经恢复'],
+    warnings:['蘑菇过敏者慎用','长期安全数据有限'],
+    refs:[{t:"Neurotrophic properties of the Lion's mane medicinal mushroom",j:'J Neurochem',y:2012}]
+  },
+  {
+    id:'glycine',name:'甘氨酸 (Glycine)',cat:'氨基酸',emoji:'😴',
+    desc:'条件必需氨基酸，作为抑制性神经递质，改善睡眠质量和降低核心体温。',
+    evidence:'moderate',
+    dosage:'3g，睡前服用',
+    targets:['睡眠质量差','肌肉恢复','关节炎症'],
+    warnings:['一般安全','极高剂量可能引起胃肠不适'],
+    refs:[{t:'Glycine ingestion improves subjective sleep quality',j:'Sleep Biol Rhythms',y:2007}]
+  },
+  {
+    id:'quercetin',name:'槲皮素 (Quercetin)',cat:'类黄酮',emoji:'🍎',
+    desc:'洋葱和苹果中富含的类黄酮，天然抗组胺和抗炎作用。',
+    evidence:'emerging',
+    dosage:'500-1000mg/天',
+    targets:['过敏/季节性不适','运动恢复','血压偏高','免疫力低下'],
+    warnings:['可能影响某些药物的肝代谢','一般安全'],
+    refs:[{t:'Quercetin, Inflammation and Immunity',j:'Nutrients',y:2016}]
+  },
+];
+
+// ==================== HEALTH QUESTIONNAIRE ====================
+const QUIZ = [
+  {
+    q:'您的运动频率？',
+    opts:['几乎不动','每周1-2次','每周3-5次','几乎每天运动'],
+    boosts:[[],[],['creatine','citrulline','magnesium'],['creatine','citrulline','magnesium']]
+  },
+  {
+    q:'您的睡眠质量？',
+    opts:['很好，一觉到天亮','一般，偶尔失眠','差，经常入睡困难','很差，依赖药物'],
+    targets:[[],['睡眠质量差'],['睡眠质量差','压力/焦虑'],['睡眠质量差','压力/焦虑']]
+  },
+  {
+    q:'您近期的压力水平？',
+    opts:['轻松自在','轻度压力','中度压力','高压，身心俱疲'],
+    targets:[[],['压力/焦虑'],['压力/焦虑'],['压力/焦虑']]
+  },
+  {
+    q:'您最关心的健康领域？（选最重要的）',
+    opts:['大脑/认知/情绪','运动/体能/恢复','心脏/代谢/体重','免疫/抗炎/抗老'],
+    targets:[['脑雾/认知','情绪低落'],['运动表现提升','肌肉恢复'],['心血管健康','高甘油三酯'],['免疫力低下','关节炎症']]
+  },
+  {
+    id:'bp',
+    q:'您是否有血压偏高的困扰？',
+    opts:['没有，血压正常','偏高，在监测中','确诊高血压，在用药'],
+    targets:[[],['血压偏高'],['血压偏高']]
+  },
+  {
+    id:'risk',
+    q:'以下哪种情况最符合您？',
+    opts:['均不符合','正在使用处方药','备孕/怀孕/哺乳','肝肾疾病或近期手术'],
+    risks:['','正在使用处方药，需要重点核对药物相互作用','备孕/怀孕/哺乳期不建议自行补充，需先咨询医生','肝肾疾病或近期手术属于高风险场景，需先咨询医生']
+  },
+  {
+    q:'您的消化系统状况？',
+    opts:['很好，没有不适','偶尔腹胀/消化不良','经常便秘或腹泻','确诊IBS/IBD等消化疾病'],
+    targets:[[],['消化问题'],['消化问题'],['消化问题']]
+  },
+  {
+    q:'您的关节/骨骼状况？',
+    opts:['很好，没有不适','偶尔酸痛','经常关节不适','确诊关节炎/骨质疏松等'],
+    targets:[[],['关节炎症'],['关节炎症'],['关节炎症','骨质疏松风险']]
+  },
+  {
+    q:'您的皮肤状况？',
+    opts:['很好','偏干燥','有痤疮/痘痘困扰','有明显的皮肤老化/炎症'],
+    targets:[[],['皮肤干燥'],['皮肤问题/痤疮'],['皮肤干燥']]
+  },
+  {
+    q:'您的注意力/记忆力？',
+    opts:['很好，思路清晰','偶尔脑雾/走神','经常注意力不集中','明显下降，影响工作'],
+    targets:[[],['脑雾/认知'],['注意力不集中','脑雾/认知'],['记忆下降','脑雾/认知']]
+  },
+  {
+    q:'您是否经常感到疲劳？',
+    opts:['精力充沛','偶尔疲劳','经常疲劳','严重影响生活'],
+    targets:[[],['疲劳感'],['疲劳感'],['疲劳感']]
+  },
+  {
+    q:'您是否容易生病/感染？',
+    opts:['很少生病','一年1-2次感冒','一年3次以上','免疫力明显偏低'],
+    targets:[[],['免疫力低下'],['免疫力低下'],['免疫力低下']]
+  },
+  {
+    q:'您是否有过敏问题？',
+    opts:['没有','季节性过敏（花粉/尘螨）','食物过敏','药物或接触性过敏'],
+    targets:[[],['过敏/季节性不适'],['消化问题'],['过敏/季节性不适']]
+  },
+];
+
+// ==================== APP ENGINE ====================
+const ROUTES={home:'sec-home',quiz:'sec-quiz',result:'sec-result'};
+const ANSWERS_KEY='health-match-answers';
+const USER_KEY='health-match-user';
+const $=id=>document.getElementById(id);
+
+const App = {
+  qIdx:0, answers:[], knowledge:null, result:null,
+  go(section, updateHash=true){
+    section=ROUTES[section]?section:'home';
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
+    $(ROUTES[section]).classList.add('on');
+    if(updateHash&&location.hash!==`#${section}`)location.hash=section;
+    if(section==='quiz'){
+      this.qIdx=0;this.answers=[];this.result=null;
+      localStorage.removeItem(ANSWERS_KEY);
+      $('result-list').innerHTML='';
+      $('next-steps').innerHTML='';
+      this.renderQ();
+      if(updateHash)this.track('quiz_start');
+    }
+    window.scrollTo(0,0);
+  },
+  
+  renderQ(){
+    if(this.qIdx>=QUIZ.length){this.showResult();return;}
+    const q=QUIZ[this.qIdx];
+    $('quiz-q').textContent=q.q;
+    $('quiz-num').textContent=`${this.qIdx+1}/${QUIZ.length}`;
+    $('quiz-progress').style.width=`${(this.qIdx/QUIZ.length)*100}%`;
+    
+    const l=['A','B','C','D'];
+    $('quiz-opts').innerHTML=q.opts.map((o,i)=>
+      `<button class="btn btn-outline anim-fade quiz-option" style="--delay:${i*.06}s" data-answer="${i}">
+        <span class="quiz-option-letter">${l[i]}</span>${o}
+      </button>`
+    ).join('');
+  },
+  
+  answer(idx){
+    this.answers.push(idx);
+    localStorage.setItem(ANSWERS_KEY,JSON.stringify(this.answers));
+    this.qIdx++;
+    if(this.qIdx>=QUIZ.length){
+      $('quiz-progress').style.width='100%';
+      setTimeout(()=>this.showResult(),200);
+    }else{this.renderQ();}
+  },
+  
+  showResult({updateHash=true,trackResult=true}={}){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
+    $('sec-result').classList.add('on');
+    if(updateHash&&location.hash!=='#result')location.hash='result';
+    
+    this.result=this.scoreResults();
+    const {top,userTargets}=this.result;
+    const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
+    const evidenceClass={strong:'badge-strong',moderate:'badge-moderate',emerging:'badge-emerging'};
+    const fillColors=['var(--green)','var(--teal)','var(--gold)','#5a7d6a','#8d6e63'];
+    
+    const maxScore=Math.max(...top.map(s=>s.score),1);
+    
+    $('result-list').innerHTML=top.map((s,i)=>{
+      const pct=Math.round((s.score/maxScore)*100);
+      return `<div class="card anim-fade result-card" style="--delay:${i*.06}s;--match-pct:${pct}%;--match-color:${fillColors[i%fillColors.length]}">
+        <div class="result-card-inner">
+          <span class="result-emoji">${s.emoji}</span>
+          <div class="result-body">
+            <div class="result-title-row">
+              <h3 class="result-name">${s.name}</h3>
+              <span class="badge ${evidenceClass[s.evidence]}">${evidenceLabel[s.evidence]}</span>
+              ${s.hasWarnings?'<span class="risk-flag">⚠ 需要评估</span>':''}
+            </div>
+            <p class="result-desc">${s.desc}</p>
+            <div class="match-bar result-bar"><div class="match-fill"></div></div>
+            <div class="result-meta">
+              <span>匹配度: ${pct}%</span>
+              <span>💊 ${s.dosage}</span>
+            </div>
+            ${s.refs.length?`<p class="result-ref">📚 ${s.refs[0].t} (${s.refs[0].j}, ${s.refs[0].y})</p>`:''}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    
+    if(top.length===0){
+      $('result-list').innerHTML='<div class="card empty-result"><p>基于您的回答，暂未发现需要特别关注的健康领域。保持当前生活方式！</p></div>';
+    }
+
+    this.renderNextSteps(top);
+    if(trackResult){
+      this.track('result', {
+        supplements:top.slice(0,5).map(s=>s.id),
+        targets:[...userTargets],
+      });
+    }
+    
+    window.scrollTo(0,0);
+  },
+
+  scoreResults(){
+    const userTargets=new Set();
+    const boostedIds=new Set();
+    const riskNotes=[];
+    let onBpMeds=false;
+    this.answers.forEach((a,i)=>{
+      const q=QUIZ[i];
+      (q.targets?.[a]||[]).forEach(t=>userTargets.add(t));
+      (q.boosts?.[a]||[]).forEach(id=>boostedIds.add(id));
+      if(q.risks?.[a])riskNotes.push(q.risks[a]);
+      if(q.id==='bp'&&a>=2)onBpMeds=true;
+    });
+
+    const scored=SUPPLEMENTS.map(s=>{
+      let score=0;
+      s.targets.forEach(t=>{if(userTargets.has(t))score++;});
+      if(boostedIds.has(s.id))score++;
+      const riskText=s.warnings.join(' ');
+      const hasWarnings=(onBpMeds&&riskText.includes('降压'))||
+        (riskNotes.length>0&&/(孕期|哺乳|药物|肾功能|肝|手术|抗凝|降糖|镇静)/.test(riskText));
+      return{...s,score,hasWarnings};
+    }).sort((a,b)=>b.score-a.score);
+
+    return {userTargets,riskNotes,top:scored.filter(s=>s.score>0).slice(0,12)};
+  },
+
+  renderNextSteps(top){
+    const names=top.slice(0,3).map(s=>s.name).join('、')||'当前生活方式';
+    const buyButton=SITE_CONFIG.affiliateUrl
+      ? `<a class="btn btn-primary btn-sm" href="${SITE_CONFIG.affiliateUrl}" target="_blank" rel="sponsored noopener">查看筛选清单</a>`
+      : '';
+    const contactButton=SITE_CONFIG.contactUrl
+      ? `<a class="btn btn-outline btn-sm" href="${SITE_CONFIG.contactUrl}" target="_blank" rel="noopener">品牌合作</a>`
+      : '';
+    $('next-steps').innerHTML=`<div class="sponsor">
+      <strong>下一步建议</strong><br>
+      优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。
+      <div class="next-step-actions">
+        <button class="btn btn-outline btn-sm" data-action="copy-report">复制报告</button>
+        <button class="btn btn-primary btn-sm" data-action="download-report">下载 PDF 报告</button>
+        ${buyButton}${contactButton}
+      </div>
+    </div>`;
+  },
+
+  copyReport(){
+    const text=$('result-list').innerText+'\\n\\n'+SITE_CONFIG.publicUrl+'#result';
+    navigator.clipboard?.writeText(text);
+    this.track('copy_report');
+  },
+
+  async loadKnowledge(){
+    if(this.knowledge)return this.knowledge;
+    try{
+      const res=await fetch(SITE_CONFIG.knowledgeUrl);
+      this.knowledge=res.ok?await res.json():{supplements:{}};
+    }catch(e){
+      this.knowledge={supplements:{}};
+    }
+    return this.knowledge;
+  },
+
+  async downloadReport(){
+    const result=this.result||this.scoreResults();
+    const kb=await this.loadKnowledge();
+    const report=this.buildReport(result,kb);
+    await this.savePdf(report);
+    this.track('download_report',{supplements:result.top.slice(0,5).map(s=>s.id)});
+  },
+
+  buildReport({top,userTargets,riskNotes=[]},kb){
+    const generatedAt=new Date().toLocaleString('zh-CN');
+    const items=top.slice(0,5).map((s,i)=>{
+      const info=kb.supplements?.[s.id]||{};
+      const matched=(info.supportedTargets||s.targets).filter(t=>userTargets.has(t));
+      const refs=info.literature?.length?info.literature:s.refs;
+      return {
+        rank:i+1,
+        name:s.name,
+        reason:matched.join('、')||'由问卷加权命中',
+        dosage:s.dosage,
+        cycle:info.cycle||'未在本地知识库配置，建议咨询专业人士后决定',
+        usagePlans:info.usagePlans||['本地知识库暂未配置'],
+        warnings:s.warnings,
+        evidence:s.evidence,
+        literature:refs.map(ref=>({
+          title:ref.title||ref.t,
+          journal:ref.journal||ref.j,
+          year:ref.year||ref.y,
+          url:ref.url||'',
+          summary:ref.summary||'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。',
+        })),
+        note:info.note||'',
+      };
+    });
+    const report={generatedAt,targets:[...userTargets],riskNotes,priority:top.slice(0,5).map(s=>s.name),items};
+    const lines=[
+      '# 保健成分综合报告',
+      '',
+      `生成时间：${report.generatedAt}`,
+      '',
+      '## 匹配摘要',
+      `你的主要健康目标：${report.targets.join('、')||'未识别到明显目标'}`,
+      `风险筛查：${report.riskNotes.join('；')||'未识别到特殊高风险项'}`,
+      `推荐优先级：${report.priority.join('、')||'暂无'}`,
+      '',
+      '## 交叉验证',
+    ];
+
+    report.items.forEach(item=>{
+      lines.push(
+        '',
+        `### ${item.rank}. ${item.name}`,
+        `- 匹配原因：${item.reason}`,
+        `- 建议剂量：${item.dosage}`,
+        `- 建议周期：${item.cycle}`,
+        `- 其他人使用方案：${item.usagePlans.join('；')}`,
+        `- 风险提示：${item.warnings.join('；')}`,
+        `- 证据等级：${item.evidence}`,
+      );
+      item.literature.forEach(ref=>{
+        const source=[ref.journal,ref.year].filter(Boolean).join('，');
+        lines.push(`- 文献：${ref.title}${source?`（${source}）`:''}`);
+        lines.push(`  - 一句话总结：${ref.summary}`);
+      });
+      if(item.note)lines.push(`- 知识库备注：${item.note}`);
+    });
+
+    lines.push(
+      '',
+      '## 使用前检查清单',
+      '- 是否正在使用处方药，尤其是抗凝、降压、降糖、镇静类药物？',
+      '- 是否怀孕、哺乳、准备手术，或存在肝肾疾病？',
+      '- 产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？',
+      '- 是否设置了复盘周期，避免长期无目的叠加补剂？',
+      '',
+      '## 7 天复盘表',
+      '- 第 0 天：记录目标评分、已用药物、已吃补剂和准备尝试的 1-2 个成分。',
+      '- 第 3 天：记录不良反应、睡眠/精力/压力/训练表现变化。',
+      '- 第 7 天：比较评分变化，决定继续观察、降低剂量、停止或咨询医生。',
+      '- 第 14 天：如仍无明确收益，优先停止无效项，避免长期叠加。',
+      '',
+      '免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。'
+    );
+    report.markdown=lines.join('\n');
+    return report;
+  },
+
+  reportHtml(report){
+    const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    return `<div class="pdf-report">
+      <h1>保健成分综合报告</h1>
+      <p>生成时间：${esc(report.generatedAt)}</p>
+      <div class="box">
+        <h2>匹配摘要</h2>
+        <p><strong>主要健康目标：</strong>${esc(report.targets.join('、')||'未识别到明显目标')}</p>
+        <p><strong>风险筛查：</strong>${esc(report.riskNotes.join('；')||'未识别到特殊高风险项')}</p>
+        <p><strong>推荐优先级：</strong>${esc(report.priority.join('、')||'暂无')}</p>
+      </div>
+      <h2>交叉验证</h2>
+      ${report.items.map(item=>`
+        <div class="box">
+          <h3>${item.rank}. ${esc(item.name)}</h3>
+          <ul>
+            <li><strong>匹配原因：</strong>${esc(item.reason)}</li>
+            <li><strong>建议剂量：</strong>${esc(item.dosage)}</li>
+            <li><strong>建议周期：</strong>${esc(item.cycle)}</li>
+            <li><strong>其他人使用方案：</strong>${esc(item.usagePlans.join('；'))}</li>
+            <li><strong>风险提示：</strong>${esc(item.warnings.join('；'))}</li>
+            <li><strong>证据等级：</strong>${esc(item.evidence)}</li>
+          </ul>
+          <p><strong>文献：</strong></p>
+          <ul>${item.literature.map(ref=>`<li>${esc(ref.title)}${ref.journal||ref.year?`（${esc([ref.journal,ref.year].filter(Boolean).join('，'))}）`:''}<br>一句话总结：${esc(ref.summary)}</li>`).join('')}</ul>
+          ${item.note?`<p><strong>知识库备注：</strong>${esc(item.note)}</p>`:''}
+        </div>
+      `).join('')}
+      <h2>使用前检查清单</h2>
+      <ul>
+        <li>是否正在使用处方药，尤其是抗凝、降压、降糖、镇静类药物？</li>
+        <li>是否怀孕、哺乳、准备手术，或存在肝肾疾病？</li>
+        <li>产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？</li>
+        <li>是否设置了复盘周期，避免长期无目的叠加补剂？</li>
+      </ul>
+      <h2>7 天复盘表</h2>
+      <ul>
+        <li>第 0 天：记录目标评分、已用药物、已吃补剂和准备尝试的 1-2 个成分。</li>
+        <li>第 3 天：记录不良反应、睡眠/精力/压力/训练表现变化。</li>
+        <li>第 7 天：比较评分变化，决定继续观察、降低剂量、停止或咨询医生。</li>
+        <li>第 14 天：如仍无明确收益，优先停止无效项，避免长期叠加。</li>
+      </ul>
+      <p>免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。</p>
+    </div>`;
+  },
+
+  async savePdf(report){
+    if(!window.html2canvas||!window.jspdf?.jsPDF){
+      const win=window.open('', '_blank');
+      if(!win){alert('PDF 组件暂未加载完成，请刷新页面后重试。');return;}
+      win.document.write(`<!doctype html><html><head><title>保健成分综合报告</title><style>body{font-family:sans-serif;padding:24px;line-height:1.7}</style></head><body><pre style="white-space:pre-wrap">${report.markdown.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</pre></body></html>`);
+      win.document.close();
+      win.print();
+      return;
+    }
+    const wrap=document.createElement('div');
+    try{
+      wrap.innerHTML=this.reportHtml(report);
+      document.body.appendChild(wrap);
+      const node=wrap.firstElementChild;
+      const canvas=await html2canvas(node,{scale:2,backgroundColor:'#ffffff'});
+      const pdf=new jspdf.jsPDF('p','pt','a4');
+      const pageW=pdf.internal.pageSize.getWidth();
+      const pageH=pdf.internal.pageSize.getHeight();
+      const imgW=pageW;
+      const imgH=canvas.height*imgW/canvas.width;
+      let y=0;
+      pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,y,imgW,imgH);
+      while(imgH+y>pageH){
+        y-=pageH;
+        pdf.addPage();
+        pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,y,imgW,imgH);
+      }
+      pdf.save(`保健成分综合报告-${new Date().toISOString().slice(0,10)}.pdf`);
+    }finally{
+      wrap.remove();
+    }
+  },
+
+  bindEvents(){
+    document.addEventListener('click',event=>{
+      const answerButton=event.target.closest('[data-answer]');
+      if(answerButton){
+        this.answer(Number(answerButton.dataset.answer));
+        return;
+      }
+
+      const actionButton=event.target.closest('[data-action]');
+      if(!actionButton)return;
+
+      const actions={
+        'go-home':()=>this.go('home'),
+        'go-quiz':()=>this.go('quiz'),
+        'scroll-supplements':()=>$('supp-preview').scrollIntoView({behavior:'smooth',block:'center'}),
+        'copy-report':()=>this.copyReport(),
+        'download-report':()=>this.downloadReport(),
+      };
+      actions[actionButton.dataset.action]?.();
+    });
+  },
+
+  getUserId(){
+    let id=localStorage.getItem(USER_KEY);
+    if(!id){
+      id=crypto.randomUUID();
+      localStorage.setItem(USER_KEY,id);
+    }
+    return id;
+  },
+
+  track(event, data={}){
+    if(location.protocol==='file:')return;
+    if(['localhost','127.0.0.1','::1'].includes(location.hostname))return;
+    fetch(SITE_CONFIG.analyticsEndpoint,{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({event,userId:this.getUserId(),path:location.pathname+location.hash,...data}),
+      keepalive:true,
+    }).catch(()=>{});
+  }
+};
+
+window.App=App;
+
+// ==================== INIT ====================
+(function(){
+  App.bindEvents();
+
+  // Supplement preview pills
+  $('supp-count-proof').textContent=SUPPLEMENTS.length;
+  $('quiz-count-proof').textContent=QUIZ.length;
+  $('supp-preview').innerHTML=SUPPLEMENTS.map(s=>
+    `<span class="tag">${s.emoji} ${s.name}</span>`
+  ).join('');
+
+  window.addEventListener('hashchange',()=>{
+    const section=location.hash.slice(1);
+    if(section==='result'){
+      try{App.answers=JSON.parse(localStorage.getItem(ANSWERS_KEY)||'[]');}catch(e){App.answers=[];}
+      App.showResult({updateHash:false,trackResult:false});
+    }else{
+      App.go(section||'home',false);
+    }
+  });
+  window.dispatchEvent(new HashChangeEvent('hashchange'));
+  App.track('page_view');
+  
+  console.log('%c🧬 保健成分匹配引擎 %c已就绪','color:#1a5632;font-size:16px','');
+  console.log(`%c  ${SUPPLEMENTS.length}种成分 · ${QUIZ.length}道问卷题 · 循证推荐`,'color:#5a7d6a');
+})();

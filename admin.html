@@ -4,24 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>后台统计 · 保健成分匹配引擎</title>
-<style>
-:root{--bg:#f8fbf9;--card:#fff;--text:#1a2e23;--dim:#5a7d6a;--green:#1a5632;--border:#dce8e0}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
-main{max-width:920px;margin:0 auto;padding:28px 16px 48px}
-h1{font-size:24px;margin:0 0 8px;color:var(--green)}
-h2{font-size:16px;margin:0 0 12px}
-.muted{color:var(--dim);font-size:13px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin:14px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.metric{font-size:28px;font-weight:700;color:var(--green)}
-input{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:14px}
-button{margin-top:10px;padding:10px 18px;border:0;border-radius:8px;background:var(--green);color:#fff;font-size:14px;cursor:pointer}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
-.bar{height:8px;background:#e0e8e2;border-radius:4px;overflow:hidden}
-.fill{height:100%;background:var(--green)}
-</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23174d32'/%3E%3Cpath d='M32 12c9 8 15 16 15 25 0 8-6 14-15 14S17 45 17 37c0-9 6-17 15-25Z' fill='%23fffdf7'/%3E%3Cpath d='M32 22v20M23 33h18' stroke='%23174d32' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles/admin.css">
 </head>
 <body>
 <main>
@@ -31,11 +15,11 @@ th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left;vertical
   <section class="card">
     <h2>管理员验证</h2>
     <input id="token" type="password" placeholder="输入 Cloudflare 环境变量 ADMIN_TOKEN">
-    <button onclick="Admin.load()">读取统计</button>
+    <button id="load-stats">读取统计</button>
     <p id="msg" class="muted"></p>
   </section>
 
-  <section id="dashboard" style="display:none">
+  <section id="dashboard" class="is-hidden">
     <div class="grid">
       <div class="card"><div class="muted">匿名用户</div><div id="users" class="metric">0</div></div>
       <div class="card"><div class="muted">事件总数</div><div id="events" class="metric">0</div></div>
@@ -65,57 +49,6 @@ th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left;vertical
   </section>
 </main>
 
-<script>
-const $=id=>document.getElementById(id);
-const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-const Admin={
-  async load(){
-    $('msg').textContent='读取中...';
-    sessionStorage.setItem('admin-token',$('token').value);
-    try{
-      const res=await fetch('/api/admin',{headers:{authorization:`Bearer ${$('token').value}`}});
-      if(!res.ok){$('msg').textContent='验证失败或后台未配置完成';return;}
-      const data=await res.json();
-      this.render(data);
-    }catch(e){
-      $('msg').textContent='网络错误，稍后重试';
-    }
-  },
-
-  render(data){
-    $('dashboard').style.display='block';
-    $('msg').textContent='已更新';
-    $('users').textContent=data.users||0;
-    $('events').textContent=data.events||0;
-    $('results').textContent=data.byEvent?.result||0;
-    $('copies').textContent=data.byEvent?.copy_report||0;
-    $('downloads').textContent=data.byEvent?.download_report||0;
-    $('supplements').innerHTML=this.rank(data.supplements);
-    $('targets').innerHTML=this.rank(data.targets);
-    $('recent').innerHTML=(data.recent||[]).map(item=>`
-      <tr>
-        <td>${esc(item.ts)}</td>
-        <td>${esc(item.event)}</td>
-        <td>${esc(item.path)}</td>
-        <td>${esc([...(item.supplements||[]),...(item.targets||[])].join('、'))}</td>
-      </tr>
-    `).join('');
-  },
-
-  rank(items={}){
-    const rows=Object.entries(items).sort((a,b)=>b[1]-a[1]).slice(0,10);
-    const max=Math.max(...rows.map(([,v])=>v),1);
-    return rows.map(([name,value])=>`
-      <div style="margin:10px 0">
-        <div style="display:flex;justify-content:space-between;gap:8px"><span>${esc(name)}</span><strong>${esc(value)}</strong></div>
-        <div class="bar"><div class="fill" style="width:${Math.round(value/max*100)}%"></div></div>
-      </div>
-    `).join('')||'<p class="muted">暂无数据</p>';
-  },
-};
-
-$('token').value=sessionStorage.getItem('admin-token')||'';
-</script>
+<script src="scripts/admin.js" defer></script>
 </body>
 </html>
