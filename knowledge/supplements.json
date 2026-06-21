@@ -34,7 +34,7 @@
     "magnesium": {
       "supportedTargets": ["睡眠质量差", "压力/焦虑", "肌肉痉挛/紧张", "偏头痛", "血压偏高"],
       "cycle": "2-4 周观察睡眠、肌肉紧张和胃肠耐受；腹泻时应降低剂量或更换形式。",
-      "usagePlans": ["睡眠放松场景常见", "甘氨酸镁、柠檬酸镁在社交平台讨论较多"],
+      "usagePlans": ["睡眠放松场景常见", "甘氨酸镁、柠檬酸镁是用户反馈中较常见的选择"],
       "literature": [
         {
           "title": "The Role of Magnesium in Sleep Health",

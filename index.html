@@ -9,6 +9,7 @@
 <meta property="og:title" content="保健成分匹配引擎 · 循证营养推荐">
 <meta property="og:description" content="基于你的身体状况，匹配最适合的保健成分。20种明星成分，均有研究文献支持。">
 <meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23174d32'/%3E%3Cpath d='M32 12c9 8 15 16 15 25 0 8-6 14-15 14S17 45 17 37c0-9 6-17 15-25Z' fill='%23fffdf7'/%3E%3Cpath d='M32 22v20M23 33h18' stroke='%23174d32' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
 <title>保健成分匹配引擎 · 循证营养</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -80,6 +81,30 @@ h1,h2,h3{line-height:1.3}
   border-radius:0 8px 8px 0;padding:14px 16px;font-size:12px;
   color:#6b5200;line-height:1.7;
 }
+.content-band{max-width:1180px;margin:0 auto;padding:0 20px 46px}
+.section-title{display:flex;align-items:end;justify-content:space-between;gap:18px;margin:34px 0 14px}
+.section-title h2{font-size:22px;color:var(--green)}
+.section-title p{max-width:560px;color:var(--dim);font-size:13px}
+.scenario-grid,.pricing-grid,.loop-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.info-card{padding:16px;min-height:156px;background:rgba(255,253,247,.86)}
+.info-card h3{font-size:15px;margin-bottom:8px;color:var(--green)}
+.info-card p{font-size:12px;color:var(--dim);line-height:1.7}
+.info-card .kicker{display:block;margin-bottom:8px;font-size:11px;font-weight:800;color:var(--coral)}
+.price{font-size:28px;font-weight:800;color:var(--green);line-height:1.1;margin:6px 0}
+.upload-teaser{
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:16px;
+  align-items:stretch;margin-top:14px;padding:18px;border:1px solid rgba(23,77,50,.14);
+  border-radius:12px;background:rgba(255,253,247,.78);
+}
+.upload-box{
+  display:grid;place-items:center;min-height:180px;border:1px dashed rgba(23,77,50,.3);
+  border-radius:10px;background:rgba(232,242,231,.62);text-align:center;padding:20px;
+}
+.upload-box strong{display:block;color:var(--green);margin-bottom:6px}
+.upload-box span{font-size:12px;color:var(--dim)}
+.check-list{display:grid;gap:9px}
+.check-item{display:flex;gap:8px;font-size:12px;color:var(--dim)}
+.check-item b{color:var(--green)}
 
 .match-bar{
   height:6px;background:#e0e8e2;border-radius:3px;overflow:hidden;
@@ -155,15 +180,21 @@ h1,h2,h3{line-height:1.3}
   .hero{grid-template-columns:1fr;min-height:auto;padding:24px}
   .hero-title{font-size:42px}
   .hero-proof{grid-template-columns:1fr 1fr}
+  .scenario-grid,.pricing-grid,.loop-grid{grid-template-columns:1fr 1fr}
+  .upload-teaser{grid-template-columns:1fr}
 }
 @media(max-width:640px){
   .home-shell{padding:16px 14px 34px}
+  .content-band{padding:0 14px 34px}
   .hero{padding:18px;border-radius:14px}
   .hero-title{font-size:32px}
   .hero-lead{font-size:15px}
   .hero-actions .btn{width:100%}
   .hero-proof{grid-template-columns:1fr}
   .supp-head{display:block}
+  .section-title{display:block;margin-top:24px}
+  .section-title h2{font-size:19px;margin-bottom:6px}
+  .scenario-grid,.pricing-grid,.loop-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -187,11 +218,11 @@ h1,h2,h3{line-height:1.3}
 
       <div class="hero-proof" aria-label="产品能力">
         <div class="proof-item">
-          <span class="proof-num">20</span>
+          <span id="supp-count-proof" class="proof-num">20</span>
           <span class="proof-label">种常见明星成分，按健康目标匹配</span>
         </div>
         <div class="proof-item">
-          <span class="proof-num">12</span>
+          <span id="quiz-count-proof" class="proof-num">13</span>
           <span class="proof-label">道问题生成画像，避免一上来堆补剂</span>
         </div>
         <div class="proof-item">
@@ -247,6 +278,105 @@ h1,h2,h3{line-height:1.3}
     本网站不声称任何补充剂可以诊断、治疗、治愈或预防任何疾病。
     网站会匿名统计访问、问卷完成和匹配偏好，用于改进内容，不收集姓名、电话或身份证件信息。
   </div>
+<div class="content-band">
+  <div class="section-title">
+    <h2>优先切入的四类报告</h2>
+    <p>根据前期竞品与商业化分析，先做单一场景的低价报告，比一开始做重资产定制维生素更容易验证需求。</p>
+  </div>
+  <div class="scenario-grid">
+    <article class="card info-card">
+      <span class="kicker">01 · 首推</span>
+      <h3>熬夜睡眠与压力</h3>
+      <p>痛点明确、传播性强，适合用镁、茶氨酸、褪黑素等成分做“先避险再试用”的轻报告。</p>
+    </article>
+    <article class="card info-card">
+      <span class="kicker">02 · 女性基础营养</span>
+      <h3>经期、皮肤与精力</h3>
+      <p>避开夸张美容承诺，转向铁、维D、B族、益生菌等基础营养评估和购买避坑。</p>
+    </article>
+    <article class="card info-card">
+      <span class="kicker">03 · 健身新手</span>
+      <h3>增肌减脂补剂防坑</h3>
+      <p>围绕蛋白粉、肌酸、电解质和咖啡因，帮助用户少买无效组合，先验证训练相关收益。</p>
+    </article>
+    <article class="card info-card">
+      <span class="kicker">04 · 中老年风险筛查</span>
+      <h3>先排除用药风险</h3>
+      <p>心血管、骨骼和关节场景更敏感，报告重点放在禁忌、相互作用和咨询医生提示。</p>
+    </article>
+  </div>
+
+  <div class="section-title">
+    <h2>商业化路径</h2>
+    <p>当前版本先验证免费问卷和报告下载；后续可把体检报告、专家复核和复盘会员分层承接。</p>
+  </div>
+  <div class="pricing-grid">
+    <article class="card info-card">
+      <h3>免费问卷</h3>
+      <div class="price">0元</div>
+      <p>快速生成前 3-5 个匹配成分，主要承担引流、收藏和分享。</p>
+    </article>
+    <article class="card info-card">
+      <h3>轻报告</h3>
+      <div class="price">9.9元</div>
+      <p>输出优先级、剂量核对、禁忌清单、7 天试用计划和购买避坑。</p>
+    </article>
+    <article class="card info-card">
+      <h3>体检报告版</h3>
+      <div class="price">19.9+</div>
+      <p>上传体检报告后抽取关键指标，与问卷和本地知识库交叉验证。</p>
+    </article>
+    <article class="card info-card">
+      <h3>专家复核版</h3>
+      <div class="price">49+</div>
+      <p>面向用药、慢病、孕哺和多补剂叠加人群，增加人工审核入口。</p>
+    </article>
+  </div>
+
+  <div class="upload-teaser">
+    <div>
+      <div class="section-title" style="margin:0 0 12px">
+        <h2>体检报告入口</h2>
+        <p>下一阶段可以接入 OCR 和大模型 API，但产品上必须先讲清楚隐私、用途和删除机制。</p>
+      </div>
+      <div class="check-list">
+        <div class="check-item"><b>✓</b><span>默认只提取营养相关指标，不长期保存原始报告。</span></div>
+        <div class="check-item"><b>✓</b><span>异常指标只提示“建议咨询医生”，不做疾病诊断。</span></div>
+        <div class="check-item"><b>✓</b><span>先用规则结构化指标，再召回少量知识库片段，控制 API 成本。</span></div>
+        <div class="check-item"><b>✓</b><span>高风险人群进入付费复核或医生咨询，而不是直接推荐购买。</span></div>
+      </div>
+    </div>
+    <div class="upload-box" aria-label="体检报告上传功能规划">
+      <div>
+        <strong>上传体检报告</strong>
+        <span>规划中：PDF / 图片 OCR、指标抽取、隐私授权、删除原件</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <h2>7 天复盘闭环</h2>
+    <p>报告真正的壁垒不只是生成，而是帮用户判断“继续、停止、调整或咨询医生”。</p>
+  </div>
+  <div class="loop-grid">
+    <article class="card info-card">
+      <h3>第 0 天</h3>
+      <p>记录目标、当前评分、用药和禁忌，最多选择 1-2 个高匹配成分。</p>
+    </article>
+    <article class="card info-card">
+      <h3>第 3 天</h3>
+      <p>检查不良反应、睡眠/精力变化和依从性，必要时立即停止。</p>
+    </article>
+    <article class="card info-card">
+      <h3>第 7 天</h3>
+      <p>比较目标评分变化，给出继续观察、调整剂量或更换方向的建议。</p>
+    </article>
+    <article class="card info-card">
+      <h3>第 14 天</h3>
+      <p>形成复盘数据，沉淀用户偏好，也为会员订阅和专家服务提供入口。</p>
+    </article>
+  </div>
+</div>
 </section>
 
 <!-- ============ QUIZ ============ -->
@@ -506,6 +636,12 @@ const QUIZ = [
     targets:[[],['血压偏高'],['血压偏高']]
   },
   {
+    id:'risk',
+    q:'以下哪种情况最符合您？',
+    opts:['均不符合','正在使用处方药','备孕/怀孕/哺乳','肝肾疾病或近期手术'],
+    risks:['','正在使用处方药，需要重点核对药物相互作用','备孕/怀孕/哺乳期不建议自行补充，需先咨询医生','肝肾疾病或近期手术属于高风险场景，需先咨询医生']
+  },
+  {
     q:'您的消化系统状况？',
     opts:['很好，没有不适','偶尔腹胀/消化不良','经常便秘或腹泻','确诊IBS/IBD等消化疾病'],
     targets:[[],['消化问题'],['消化问题'],['消化问题']]
@@ -556,7 +692,11 @@ const App = {
     $(ROUTES[section]).classList.add('on');
     if(updateHash&&location.hash!==`#${section}`)location.hash=section;
     if(section==='quiz'){
-      this.qIdx=0;this.answers=[];this.renderQ();
+      this.qIdx=0;this.answers=[];this.result=null;
+      localStorage.removeItem(ANSWERS_KEY);
+      $('result-list').innerHTML='';
+      $('next-steps').innerHTML='';
+      this.renderQ();
       if(updateHash)this.track('quiz_start');
     }
     window.scrollTo(0,0);
@@ -587,10 +727,10 @@ const App = {
     }else{this.renderQ();}
   },
   
-  showResult(){
+  showResult({updateHash=true,trackResult=true}={}){
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
     $('sec-result').classList.add('on');
-    if(location.hash!=='#result')location.hash='result';
+    if(updateHash&&location.hash!=='#result')location.hash='result';
     
     this.result=this.scoreResults();
     const {top,userTargets}=this.result;
@@ -628,10 +768,12 @@ const App = {
     }
 
     this.renderNextSteps(top);
-    this.track('result', {
-      supplements:top.slice(0,5).map(s=>s.id),
-      targets:[...userTargets],
-    });
+    if(trackResult){
+      this.track('result', {
+        supplements:top.slice(0,5).map(s=>s.id),
+        targets:[...userTargets],
+      });
+    }
     
     window.scrollTo(0,0);
   },
@@ -639,11 +781,13 @@ const App = {
   scoreResults(){
     const userTargets=new Set();
     const boostedIds=new Set();
+    const riskNotes=[];
     let onBpMeds=false;
     this.answers.forEach((a,i)=>{
       const q=QUIZ[i];
       (q.targets?.[a]||[]).forEach(t=>userTargets.add(t));
       (q.boosts?.[a]||[]).forEach(id=>boostedIds.add(id));
+      if(q.risks?.[a])riskNotes.push(q.risks[a]);
       if(q.id==='bp'&&a>=2)onBpMeds=true;
     });
 
@@ -651,11 +795,13 @@ const App = {
       let score=0;
       s.targets.forEach(t=>{if(userTargets.has(t))score++;});
       if(boostedIds.has(s.id))score++;
-      const hasWarnings=onBpMeds&&s.warnings.some(w=>w.includes('降压'));
+      const riskText=s.warnings.join(' ');
+      const hasWarnings=(onBpMeds&&riskText.includes('降压'))||
+        (riskNotes.length>0&&/(孕期|哺乳|药物|肾功能|肝|手术|抗凝|降糖|镇静)/.test(riskText));
       return{...s,score,hasWarnings};
     }).sort((a,b)=>b.score-a.score);
 
-    return {userTargets,top:scored.filter(s=>s.score>0).slice(0,12)};
+    return {userTargets,riskNotes,top:scored.filter(s=>s.score>0).slice(0,12)};
   },
 
   renderNextSteps(top){
@@ -668,7 +814,7 @@ const App = {
       : '';
     $('next-steps').innerHTML=`<div class="sponsor">
       <strong>下一步建议</strong><br>
-      优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。
+      优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
         <button class="btn btn-outline btn-sm" onclick="App.copyReport()">复制报告</button>
         <button class="btn btn-primary btn-sm" onclick="App.downloadReport()">下载 PDF 报告</button>
@@ -702,7 +848,7 @@ const App = {
     this.track('download_report',{supplements:result.top.slice(0,5).map(s=>s.id)});
   },
 
-  buildReport({top,userTargets},kb){
+  buildReport({top,userTargets,riskNotes=[]},kb){
     const generatedAt=new Date().toLocaleString('zh-CN');
     const items=top.slice(0,5).map((s,i)=>{
       const info=kb.supplements?.[s.id]||{};
@@ -727,7 +873,7 @@ const App = {
         note:info.note||'',
       };
     });
-    const report={generatedAt,targets:[...userTargets],priority:top.slice(0,5).map(s=>s.name),items};
+    const report={generatedAt,targets:[...userTargets],riskNotes,priority:top.slice(0,5).map(s=>s.name),items};
     const lines=[
       '# 保健成分综合报告',
       '',
@@ -735,6 +881,7 @@ const App = {
       '',
       '## 匹配摘要',
       `你的主要健康目标：${report.targets.join('、')||'未识别到明显目标'}`,
+      `风险筛查：${report.riskNotes.join('；')||'未识别到特殊高风险项'}`,
       `推荐优先级：${report.priority.join('、')||'暂无'}`,
       '',
       '## 交叉验证',
@@ -767,6 +914,12 @@ const App = {
       '- 产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？',
       '- 是否设置了复盘周期，避免长期无目的叠加补剂？',
       '',
+      '## 7 天复盘表',
+      '- 第 0 天：记录目标评分、已用药物、已吃补剂和准备尝试的 1-2 个成分。',
+      '- 第 3 天：记录不良反应、睡眠/精力/压力/训练表现变化。',
+      '- 第 7 天：比较评分变化，决定继续观察、降低剂量、停止或咨询医生。',
+      '- 第 14 天：如仍无明确收益，优先停止无效项，避免长期叠加。',
+      '',
       '免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。'
     );
     report.markdown=lines.join('\n');
@@ -781,6 +934,7 @@ const App = {
       <div class="box">
         <h2>匹配摘要</h2>
         <p><strong>主要健康目标：</strong>${esc(report.targets.join('、')||'未识别到明显目标')}</p>
+        <p><strong>风险筛查：</strong>${esc(report.riskNotes.join('；')||'未识别到特殊高风险项')}</p>
         <p><strong>推荐优先级：</strong>${esc(report.priority.join('、')||'暂无')}</p>
       </div>
       <h2>交叉验证</h2>
@@ -807,6 +961,13 @@ const App = {
         <li>产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？</li>
         <li>是否设置了复盘周期，避免长期无目的叠加补剂？</li>
       </ul>
+      <h2>7 天复盘表</h2>
+      <ul>
+        <li>第 0 天：记录目标评分、已用药物、已吃补剂和准备尝试的 1-2 个成分。</li>
+        <li>第 3 天：记录不良反应、睡眠/精力/压力/训练表现变化。</li>
+        <li>第 7 天：比较评分变化，决定继续观察、降低剂量、停止或咨询医生。</li>
+        <li>第 14 天：如仍无明确收益，优先停止无效项，避免长期叠加。</li>
+      </ul>
       <p>免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。</p>
     </div>`;
   },
@@ -814,30 +975,34 @@ const App = {
   async savePdf(report){
     if(!window.html2canvas||!window.jspdf?.jsPDF){
       const win=window.open('', '_blank');
+      if(!win){alert('PDF 组件暂未加载完成，请刷新页面后重试。');return;}
       win.document.write(`<!doctype html><html><head><title>保健成分综合报告</title><style>body{font-family:sans-serif;padding:24px;line-height:1.7}</style></head><body><pre style="white-space:pre-wrap">${report.markdown.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</pre></body></html>`);
       win.document.close();
       win.print();
       return;
     }
     const wrap=document.createElement('div');
-    wrap.innerHTML=this.reportHtml(report);
-    document.body.appendChild(wrap);
-    const node=wrap.firstElementChild;
-    const canvas=await html2canvas(node,{scale:2,backgroundColor:'#ffffff'});
-    const pdf=new jspdf.jsPDF('p','pt','a4');
-    const pageW=pdf.internal.pageSize.getWidth();
-    const pageH=pdf.internal.pageSize.getHeight();
-    const imgW=pageW;
-    const imgH=canvas.height*imgW/canvas.width;
-    let y=0;
-    pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,y,imgW,imgH);
-    while(imgH+y>pageH){
-      y-=pageH;
-      pdf.addPage();
+    try{
+      wrap.innerHTML=this.reportHtml(report);
+      document.body.appendChild(wrap);
+      const node=wrap.firstElementChild;
+      const canvas=await html2canvas(node,{scale:2,backgroundColor:'#ffffff'});
+      const pdf=new jspdf.jsPDF('p','pt','a4');
+      const pageW=pdf.internal.pageSize.getWidth();
+      const pageH=pdf.internal.pageSize.getHeight();
+      const imgW=pageW;
+      const imgH=canvas.height*imgW/canvas.width;
+      let y=0;
       pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,y,imgW,imgH);
+      while(imgH+y>pageH){
+        y-=pageH;
+        pdf.addPage();
+        pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,y,imgW,imgH);
+      }
+      pdf.save(`保健成分综合报告-${new Date().toISOString().slice(0,10)}.pdf`);
+    }finally{
+      wrap.remove();
     }
-    pdf.save(`保健成分综合报告-${new Date().toISOString().slice(0,10)}.pdf`);
-    wrap.remove();
   },
 
   getUserId(){
@@ -851,6 +1016,7 @@ const App = {
 
   track(event, data={}){
     if(location.protocol==='file:')return;
+    if(['localhost','127.0.0.1','::1'].includes(location.hostname))return;
     fetch(SITE_CONFIG.analyticsEndpoint,{
       method:'POST',
       headers:{'content-type':'application/json'},
@@ -863,6 +1029,8 @@ const App = {
 // ==================== INIT ====================
 (function(){
   // Supplement preview pills
+  $('supp-count-proof').textContent=SUPPLEMENTS.length;
+  $('quiz-count-proof').textContent=QUIZ.length;
   $('supp-preview').innerHTML=SUPPLEMENTS.map(s=>
     `<span class="tag">${s.emoji} ${s.name}</span>`
   ).join('');
@@ -871,7 +1039,7 @@ const App = {
     const section=location.hash.slice(1);
     if(section==='result'){
       try{App.answers=JSON.parse(localStorage.getItem(ANSWERS_KEY)||'[]');}catch(e){App.answers=[];}
-      App.showResult();
+      App.showResult({updateHash:false,trackResult:false});
     }else{
       App.go(section||'home',false);
     }

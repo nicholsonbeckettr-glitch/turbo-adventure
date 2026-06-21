@@ -72,11 +72,15 @@ const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 const Admin={
   async load(){
     $('msg').textContent='读取中...';
-    localStorage.setItem('admin-token',$('token').value);
-    const res=await fetch('/api/admin',{headers:{authorization:`Bearer ${$('token').value}`}});
-    if(!res.ok){$('msg').textContent='验证失败或后台未配置完成';return;}
-    const data=await res.json();
-    this.render(data);
+    sessionStorage.setItem('admin-token',$('token').value);
+    try{
+      const res=await fetch('/api/admin',{headers:{authorization:`Bearer ${$('token').value}`}});
+      if(!res.ok){$('msg').textContent='验证失败或后台未配置完成';return;}
+      const data=await res.json();
+      this.render(data);
+    }catch(e){
+      $('msg').textContent='网络错误，稍后重试';
+    }
   },
 
   render(data){
@@ -111,7 +115,7 @@ const Admin={
   },
 };
 
-$('token').value=localStorage.getItem('admin-token')||'';
+$('token').value=sessionStorage.getItem('admin-token')||'';
 </script>
 </body>
 </html>
