@@ -1,0 +1,66 @@
+# www.com 知识库脉络
+
+本知识库只为网站报告服务：把问卷命中的健康目标，映射到成分、证据、使用周期、风险边界和可追溯文献。它不是医疗建议库，也不存放用户隐私。
+
+## 当前结构
+
+- `supplements.json`：基础结构化知识，提供每个成分的目标、周期、用法、文献和备注。
+- `manifest.json`：线上报告会读取的 Markdown 笔记清单。
+- `notes/*.md`：可被前端解析的证据笔记，通过 YAML front matter 合并进报告。
+
+## 前端读取字段
+
+每篇笔记至少应包含：
+
+```yaml
+---
+id: short-note-id
+supplement: supplement-id
+targets: [目标1, 目标2]
+title: 文献标题
+journal: 期刊或机构
+year: 2026
+url: https://source.example
+summary: 一句话证据结论，避免夸大。
+cycle: 观察或复盘周期。
+usagePlan: 用户场景化用法。
+note: 风险边界或重要备注。
+---
+```
+
+`supplement` 必须匹配 `www.com/scripts/app.js` 里的成分 `id`，否则报告不会命中对应成分。
+
+## 已覆盖成分
+
+| 成分 | 笔记 | 主要目标 | 当前定位 |
+|---|---|---|---|
+| omega3 | `notes/omega3-cardiovascular-Omega3心血管.md` | 心血管健康、高甘油三酯、关节炎症 | 强调 EPA+DHA 含量和抗凝风险 |
+| magnesium | `notes/magnesium-health-maintenance-镁与人体健康维护深度研究.md` | 睡眠、压力、偏头痛、血压、血糖、骨骼 | 综合摄入基线、剂型、人群、慢病、误区和风险边界 |
+| creatine | `notes/creatine-performance-肌酸运动表现.md` | 运动表现、肌肉恢复、疲劳 | 强调维持剂量和肾功能风险 |
+| theanine | `notes/theanine-stress-cognition-茶氨酸压力专注.md` | 压力、睡眠、专注 | 短周期评估放松与专注 |
+| vitamind | `notes/vitamind-bone-immune-维生素D骨骼免疫.md` | 骨骼、免疫、疲劳 | 回到检测复盘，弱化预防感染承诺 |
+
+## 证据分层
+
+- 强证据：系统综述、荟萃分析、权威机构事实表，且结论稳定。
+- 中等证据：人体随机对照研究、多个小型研究方向一致，但仍受样本量或人群限制。
+- 新兴研究：机制、早期人体研究或结果不稳定，只能作为探索方向。
+
+写作时优先回答三件事：适合谁、多久复盘、什么情况下不要自行使用。
+
+## 扩展顺序
+
+下一批优先补齐这些已在前端推荐库中出现、但缺少 Markdown 笔记的成分：
+
+1. `melatonin`：睡眠和时差场景高频，必须写清短期使用和次日嗜睡风险。
+2. `zinc`：免疫和皮肤场景高频，必须写清长期高剂量抑制铜吸收。
+3. `probiotics`：消化和免疫场景高频，必须按菌株而不是泛称写证据。
+4. `berberine`：血糖血脂场景风险较高，必须写清孕期禁用和降糖药叠加风险。
+5. `coq10`：心血管和疲劳场景常见，必须写清华法林相互作用。
+
+## 质量门槛
+
+- 每篇笔记只服务一个成分和一个主要证据问题。
+- `summary` 只写证据支持到哪里，不写营销承诺。
+- `risk boundary` 优先于卖点，尤其是处方药、孕哺、手术、肝肾疾病。
+- 新增笔记后必须加入 `manifest.json`，再运行一次 JSON 校验。

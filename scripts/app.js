@@ -4,6 +4,7 @@ const SITE_CONFIG = {
   affiliateUrl:'',
   analyticsEndpoint:'/api/track',
   knowledgeUrl:'knowledge/supplements.json',
+  knowledgeManifestUrl:'knowledge/manifest.json',
 };
 
 // ==================== SUPPLEMENT DATABASE ====================
@@ -266,6 +267,121 @@ const ROUTES={home:'sec-home',quiz:'sec-quiz',result:'sec-result'};
 const ANSWERS_KEY='health-match-answers';
 const USER_KEY='health-match-user';
 const $=id=>document.getElementById(id);
+const asList=value=>Array.isArray(value)?value.filter(Boolean):(value?[value]:[]);
+const supplementById=id=>SUPPLEMENTS.find(s=>s.id===id);
+
+function parseFrontMatter(markdown, path=''){
+  const match=/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/.exec(markdown);
+  if(!match)return null;
+  const meta={path};
+  match[1].split('\n').forEach(line=>{
+    const m=/^([A-Za-z][\w-]*):\s*(.*)$/.exec(line.trim());
+    if(!m)return;
+    const [,key,raw]=m;
+    meta[key]=parseMetaValue(raw);
+  });
+  meta.body=match[2].trim();
+  return meta;
+}
+
+function parseMetaValue(raw){
+  const value=raw.trim();
+  if(value.startsWith('[')&&value.endsWith(']')){
+    return value.slice(1,-1).split(',').map(item=>cleanMetaString(item)).filter(Boolean);
+  }
+  return cleanMetaString(value);
+}
+
+function cleanMetaString(value){
+  return String(value).trim().replace(/^['"]|['"]$/g,'');
+}
+
+function escHtml(value){
+  return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function markdownToHtml(markdown=''){
+  const lines=String(markdown).split('\n');
+  const html=[];
+  let listOpen=false;
+  const closeList=()=>{if(listOpen){html.push('</ul>');listOpen=false;}};
+  lines.forEach(line=>{
+    const text=line.trim();
+    if(!text){closeList();return;}
+    const heading=/^(#{2,4})\s+(.+)$/.exec(text);
+    if(heading){
+      closeList();
+      const level=Math.min(heading[1].length+1,4);
+      html.push(`<h${level}>${escHtml(heading[2])}</h${level}>`);
+      return;
+    }
+    if(text.startsWith('- ')){
+      if(!listOpen){html.push('<ul>');listOpen=true;}
+      html.push(`<li>${escHtml(text.slice(2))}</li>`);
+      return;
+    }
+    closeList();
+    html.push(`<p>${escHtml(text)}</p>`);
+  });
+  closeList();
+  return html.join('');
+}
+
+function knowledgeFromNotes(notes){
+  const supplements={};
+  notes.forEach(note=>{
+    const supplement=note.supplement||note.supplementId;
+    if(!supplement||!note.title||!note.summary)return;
+    const current=supplements[supplement]||(supplements[supplement]={});
+    if(note.cycle&&!current.cycle)current.cycle=note.cycle;
+    if(note.note&&!current.note)current.note=note.note;
+    current.supportedTargets=[...new Set([...(current.supportedTargets||[]),...asList(note.targets)])];
+    current.usagePlans=[...new Set([...(current.usagePlans||[]),...asList(note.usagePlan||note.usage)])];
+    current.notes=[...(current.notes||[]),{
+      id:note.id||'',
+      title:note.title,
+      summary:note.summary,
+      body:note.body||'',
+      path:note.path||'',
+    }];
+    current.literature=[...(current.literature||[]),{
+      title:note.title,
+      journal:note.journal||'',
+      year:note.year||'',
+      url:note.url||'',
+      summary:note.summary,
+      sourcePath:note.path||'',
+    }];
+  });
+  return {supplements};
+}
+
+function uniqueLiterature(items){
+  const seen=new Set();
+  return items.filter(item=>{
+    const key=`${item.title||item.t}|${item.year||item.y}`;
+    if(seen.has(key))return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function mergeKnowledge(base, extra){
+  const supplements={...(base.supplements||{})};
+  Object.entries(extra.supplements||{}).forEach(([id,info])=>{
+    const existing=supplements[id]||{};
+    supplements[id]={
+      ...existing,
+      ...info,
+      supportedTargets:[...new Set([...(existing.supportedTargets||[]),...(info.supportedTargets||[])])],
+      usagePlans:[...new Set([...(existing.usagePlans||[]),...(info.usagePlans||[])])],
+      literature:uniqueLiterature([...(info.literature||[]),...(existing.literature||[])]),
+      notes:[...(info.notes||[]),...(existing.notes||[])],
+      note:[existing.note,info.note].filter(Boolean).join('；'),
+    };
+  });
+  return {...base,supplements};
+}
 
 const App = {
   qIdx:0, answers:[], knowledge:null, result:null,
@@ -406,6 +522,72 @@ const App = {
     </div>`;
   },
 
+  async showSupplement(id, updateHash=true){
+    const supplement=supplementById(id);
+    if(!supplement){this.go('home',false);return;}
+    if(updateHash&&location.hash!==`#supplement/${id}`){
+      location.hash=`supplement/${id}`;
+      return;
+    }
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
+    $('sec-supplement').classList.add('on');
+    $('supplement-detail').innerHTML='<div class="card detail-card"><p class="detail-muted">正在读取知识库...</p></div>';
+    const kb=await this.loadKnowledge();
+    const info=kb.supplements?.[id]||{};
+    this.renderSupplementDetail(supplement,info);
+    this.track('view_supplement',{supplement:id});
+    window.scrollTo(0,0);
+  },
+
+  renderSupplementDetail(supplement,info){
+    const note=info.notes?.[0];
+    const refs=info.literature?.length?info.literature:supplement.refs.map(ref=>({
+      title:ref.t,journal:ref.j,year:ref.y,url:'',summary:supplement.desc,
+    }));
+    const targets=info.supportedTargets?.length?info.supportedTargets:supplement.targets;
+    const usagePlans=info.usagePlans?.length?info.usagePlans:[supplement.desc];
+    const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
+    $('supplement-detail').innerHTML=`<article class="detail-card card">
+      <header class="detail-hero">
+        <span class="detail-emoji">${supplement.emoji}</span>
+        <div>
+          <p class="detail-kicker">${escHtml(supplement.cat)} · ${escHtml(evidenceLabel[supplement.evidence]||supplement.evidence)}</p>
+          <h1>${escHtml(supplement.name)}</h1>
+          <p>${escHtml(note?.summary||refs[0]?.summary||supplement.desc)}</p>
+        </div>
+      </header>
+
+      <div class="detail-grid">
+        <section>
+          <h2>匹配目标</h2>
+          <div class="detail-tags">${targets.map(t=>`<span class="tag">${escHtml(t)}</span>`).join('')}</div>
+        </section>
+        <section>
+          <h2>使用与复盘</h2>
+          <p><strong>建议剂量：</strong>${escHtml(supplement.dosage)}</p>
+          <p><strong>观察周期：</strong>${escHtml(info.cycle||'知识库暂未配置，建议先咨询专业人士。')}</p>
+          <ul>${usagePlans.map(plan=>`<li>${escHtml(plan)}</li>`).join('')}</ul>
+        </section>
+        <section>
+          <h2>风险边界</h2>
+          <ul>${supplement.warnings.map(warning=>`<li>${escHtml(warning)}</li>`).join('')}</ul>
+          ${info.note?`<p class="detail-note">${escHtml(info.note)}</p>`:''}
+        </section>
+      </div>
+
+      ${note?.body?`<section class="detail-note-body">${markdownToHtml(note.body)}</section>`:''}
+
+      <section class="detail-literature">
+        <h2>文献依据</h2>
+        ${refs.map(ref=>`<div class="detail-ref">
+          <h3>${ref.url?`<a href="${escHtml(ref.url)}" target="_blank" rel="noopener">${escHtml(ref.title)}</a>`:escHtml(ref.title)}</h3>
+          <p>${escHtml([ref.journal,ref.year].filter(Boolean).join(' · '))}</p>
+          <p>${escHtml(ref.summary||'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。')}</p>
+        </div>`).join('')}
+      </section>
+    </article>`;
+  },
+
   copyReport(){
     const text=$('result-list').innerText+'\\n\\n'+SITE_CONFIG.publicUrl+'#result';
     navigator.clipboard?.writeText(text);
@@ -414,13 +596,35 @@ const App = {
 
   async loadKnowledge(){
     if(this.knowledge)return this.knowledge;
+    let base={supplements:{}};
     try{
       const res=await fetch(SITE_CONFIG.knowledgeUrl);
-      this.knowledge=res.ok?await res.json():{supplements:{}};
+      base=res.ok?await res.json():base;
     }catch(e){
-      this.knowledge={supplements:{}};
+      base={supplements:{}};
     }
+    this.knowledge=mergeKnowledge(base, await this.loadKnowledgeNotes());
     return this.knowledge;
+  },
+
+  async loadKnowledgeNotes(){
+    try{
+      const manifestUrl=new URL(SITE_CONFIG.knowledgeManifestUrl, location.href);
+      const manifestRes=await fetch(manifestUrl);
+      if(!manifestRes.ok)return {supplements:{}};
+      const manifest=await manifestRes.json();
+      const notes=await Promise.all((manifest.notes||[]).map(async item=>{
+        const notePath=typeof item==='string'?item:item.path;
+        if(!notePath)return null;
+        const noteUrl=new URL(notePath, manifestUrl);
+        const res=await fetch(noteUrl);
+        if(!res.ok)return null;
+        return parseFrontMatter(await res.text(), notePath);
+      }));
+      return knowledgeFromNotes(notes.filter(Boolean));
+    }catch(e){
+      return {supplements:{}};
+    }
   },
 
   async downloadReport(){
@@ -597,6 +801,11 @@ const App = {
       }
 
       const actionButton=event.target.closest('[data-action]');
+      const supplementButton=event.target.closest('[data-supplement-id]');
+      if(supplementButton){
+        this.showSupplement(supplementButton.dataset.supplementId);
+        return;
+      }
       if(!actionButton)return;
 
       const actions={
@@ -641,12 +850,14 @@ window.App=App;
   $('supp-count-proof').textContent=SUPPLEMENTS.length;
   $('quiz-count-proof').textContent=QUIZ.length;
   $('supp-preview').innerHTML=SUPPLEMENTS.map(s=>
-    `<span class="tag">${s.emoji} ${s.name}</span>`
+    `<button class="tag supp-tag" type="button" data-supplement-id="${s.id}">${s.emoji} ${s.name}</button>`
   ).join('');
 
   window.addEventListener('hashchange',()=>{
     const section=location.hash.slice(1);
-    if(section==='result'){
+    if(section.startsWith('supplement/')){
+      App.showSupplement(section.slice('supplement/'.length),false);
+    }else if(section==='result'){
       try{App.answers=JSON.parse(localStorage.getItem(ANSWERS_KEY)||'[]');}catch(e){App.answers=[];}
       App.showResult({updateHash:false,trackResult:false});
     }else{
