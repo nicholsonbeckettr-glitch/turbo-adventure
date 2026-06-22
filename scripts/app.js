@@ -270,7 +270,7 @@ const $=id=>document.getElementById(id);
 const asList=value=>Array.isArray(value)?value.filter(Boolean):(value?[value]:[]);
 const supplementById=id=>SUPPLEMENTS.find(s=>s.id===id);
 const supplementIconHtml=(supplement,className='')=>
-  `<img class="supp-icon ${className}" src="assets/supplement-icons/${supplement.id}.jpg" alt="">`;
+  `<img class="supp-icon ${className}" src="assets/supplement-icons/${supplement.id}.png" alt="">`;
 
 function parseFrontMatter(markdown, path=''){
   const match=/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/.exec(markdown);
