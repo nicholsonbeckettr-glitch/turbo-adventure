@@ -63,18 +63,18 @@
     },
     "vitamind": {
       "supportedTargets": ["免疫力低下", "情绪低落", "骨质疏松风险", "疲劳感", "肌肉恢复"],
-      "cycle": "8-12 周后结合 25(OH)D 检测复盘，避免长期高剂量盲补。",
-      "usagePlans": ["室内工作者和冬季日照不足人群常讨论", "常与钙、镁、K2 被放在骨骼健康话题中"],
+      "cycle": "8-12 周后结合 25(OH)D、钙、症状、用药和依从性复盘；长期高剂量、合并补钙、肾病或结石风险者更需要医学监测。",
+      "usagePlans": ["优先识别高风险人群，再按需检测血清 25(OH)D", "一般成年人围绕 600-800 IU/日的基础推荐量思考", "明确缺乏时由医生制定纠正方案，再转维持"],
       "literature": [
         {
-          "title": "Vitamin D supplementation and prevention of acute respiratory tract infections",
-          "journal": "BMJ",
-          "year": 2017,
-          "url": "https://www.bmj.com/content/356/bmj.i6583",
-          "summary": "个体参与者数据荟萃分析提示维生素D补充对急性呼吸道感染风险可能有保护作用，低水平人群更值得关注。"
+          "title": "Vitamin D - Health Professional Fact Sheet",
+          "journal": "NIH Office of Dietary Supplements",
+          "year": 2026,
+          "url": "https://ods.od.nih.gov/factsheets/VitaminD-HealthProfessional/",
+          "summary": "权威事实表强调 25(OH)D 检测、骨骼钙磷代谢、高风险人群、摄入上限和过量风险，普通人不应盲目追高。"
         }
       ],
-      "note": "更适合结合检测值调整，而不是只按感觉补。"
+      "note": "更适合结合检测值调整，而不是只按感觉补；不建议长期自行把 4000 IU/日当作保健默认量。"
     }
   }
 }

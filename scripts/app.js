@@ -56,12 +56,12 @@ const SUPPLEMENTS = [
   },
   {
     id:'vitamind',name:'维生素D3',cat:'维生素',emoji:'☀️',
-    desc:'脂溶性维生素，对骨骼、免疫和情绪调节至关重要。多数室内工作者缺乏。',
+    desc:'脂溶性前激素样营养素，核心价值在钙磷代谢、骨骼健康和纠正缺乏。更适合按风险、检测和复查来补。',
     evidence:'strong',
-    dosage:'1000-4000 IU/天，随餐服用',
+    dosage:'600-800 IU/天起，按检测复盘',
     targets:['免疫力低下','情绪低落','骨质疏松风险','疲劳感','肌肉恢复'],
-    warnings:['极高剂量可能有毒','建议定期检测血浓度'],
-    refs:[{t:'Vitamin D supplementation and prevention of acute respiratory infections',j:'BMJ',y:2017}]
+    warnings:['长期高剂量可能导致高钙血症','肾病/结石史需咨询医生','合并补钙或相关药物需监测'],
+    refs:[{t:'Vitamin D - Health Professional Fact Sheet',j:'NIH ODS',y:2026}]
   },
   {
     id:'zinc',name:'锌 (Zinc)',cat:'矿物质',emoji:'🛡️',
