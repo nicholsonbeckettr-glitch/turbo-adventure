@@ -21,7 +21,7 @@ export async function onRequestPost({ request, env }) {
 
   const event = typeof body.event === 'string' ? body.event : '';
   const userId = typeof body.userId === 'string' ? body.userId.slice(0, 80) : '';
-  if (!['page_view', 'quiz_start', 'result', 'copy_report', 'download_report'].includes(event) || !userId) {
+  if (!['page_view', 'quiz_start', 'result', 'copy_report', 'download_report', 'view_supplement'].includes(event) || !userId) {
     return json({ error: 'invalid event' }, 400);
   }
 

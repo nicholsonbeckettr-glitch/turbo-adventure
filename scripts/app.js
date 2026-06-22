@@ -329,6 +329,74 @@ function markdownToHtml(markdown=''){
   return html.join('');
 }
 
+function splitMarkdownSections(markdown=''){
+  const sections=[];
+  let current=null;
+  String(markdown).split('\n').forEach(line=>{
+    const heading=/^##\s+(.+)$/.exec(line.trim());
+    if(heading){
+      current={title:heading[1],lines:[]};
+      sections.push(current);
+      return;
+    }
+    if(current)current.lines.push(line);
+  });
+  return sections.map(section=>({
+    title:section.title,
+    body:section.lines.join('\n').trim(),
+  })).filter(section=>section.body);
+}
+
+function previewMarkdown(markdown='',limit=4){
+  const items=[];
+  String(markdown).split('\n').some(line=>{
+    const text=line.trim();
+    if(!text||text.startsWith('#'))return false;
+    items.push(text.startsWith('- ')?text.slice(2):text);
+    return items.length>=limit;
+  });
+  return items.length
+    ? `<ul>${items.map(item=>`<li>${escHtml(item)}</li>`).join('')}</ul>`
+    : '<p class="detail-muted">知识库暂未配置该部分摘要。</p>';
+}
+
+function focusSectionsFromNote(note){
+  const sections=splitMarkdownSections(note?.body);
+  const picks=[
+    ['重点结论',/一句话结论/],
+    ['适合人群',/谁更可能|最适合|适用场景|谁更需要/],
+    ['不适合人群',/谁不适合|不优先|不应|谁不应/],
+    ['剂量与复盘',/剂量|周期|如何判断是否有效/],
+    ['证据更可靠',/证据更可靠/],
+    ['风险边界',/风险边界/],
+  ];
+  const used=new Set();
+  const focused=picks.map(([label,pattern])=>{
+    const index=sections.findIndex((section,i)=>!used.has(i)&&pattern.test(section.title));
+    if(index<0)return null;
+    used.add(index);
+    return {label,title:sections[index].title,body:sections[index].body};
+  }).filter(Boolean);
+  sections.forEach((section,index)=>{
+    if(focused.length>=6||used.has(index))return;
+    used.add(index);
+    focused.push({label:'补充要点',title:section.title,body:section.body});
+  });
+  return focused.slice(0,6);
+}
+
+function mechanismSteps(info,supplement){
+  const custom=asList(info.mechanism);
+  if(custom.length)return custom.slice(0,5);
+  return [
+    `${supplement.name} 摄入或补充`,
+    '进入吸收、代谢与组织分布',
+    '影响相关生理通路',
+    '对应到匹配目标',
+    '按观察周期复盘收益与风险',
+  ];
+}
+
 function knowledgeFromNotes(notes){
   const supplements={};
   notes.forEach(note=>{
@@ -337,12 +405,14 @@ function knowledgeFromNotes(notes){
     const current=supplements[supplement]||(supplements[supplement]={});
     if(note.cycle&&!current.cycle)current.cycle=note.cycle;
     if(note.note&&!current.note)current.note=note.note;
+    if(note.mechanism&&!current.mechanism)current.mechanism=asList(note.mechanism);
     current.supportedTargets=[...new Set([...(current.supportedTargets||[]),...asList(note.targets)])];
     current.usagePlans=[...new Set([...(current.usagePlans||[]),...asList(note.usagePlan||note.usage)])];
     current.notes=[...(current.notes||[]),{
       id:note.id||'',
       title:note.title,
       summary:note.summary,
+      mechanism:asList(note.mechanism),
       body:note.body||'',
       path:note.path||'',
     }];
@@ -377,6 +447,7 @@ function mergeKnowledge(base, extra){
       ...info,
       supportedTargets:[...new Set([...(existing.supportedTargets||[]),...(info.supportedTargets||[])])],
       usagePlans:[...new Set([...(existing.usagePlans||[]),...(info.usagePlans||[])])],
+      mechanism:info.mechanism?.length?info.mechanism:existing.mechanism,
       literature:uniqueLiterature([...(info.literature||[]),...(existing.literature||[])]),
       notes:[...(info.notes||[]),...(existing.notes||[])],
       note:[existing.note,info.note].filter(Boolean).join('；'),
@@ -549,6 +620,8 @@ const App = {
     const targets=info.supportedTargets?.length?info.supportedTargets:supplement.targets;
     const usagePlans=info.usagePlans?.length?info.usagePlans:[supplement.desc];
     const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
+    const focusSections=focusSectionsFromNote(note);
+    const mechanism=mechanismSteps(info,supplement);
     $('supplement-detail').innerHTML=`<article class="detail-card card">
       <header class="detail-hero">
         ${supplementIconHtml(supplement,'detail-icon')}
@@ -577,7 +650,26 @@ const App = {
         </section>
       </div>
 
-      ${note?.body?`<section class="detail-note-body">${markdownToHtml(note.body)}</section>`:''}
+      <section class="detail-mechanism">
+        <h2>机理流程</h2>
+        <div class="mechanism-flow">
+          ${mechanism.map((step,index)=>`<div class="mechanism-step">
+            <span>${String(index+1).padStart(2,'0')}</span>
+            <p>${escHtml(step)}</p>
+          </div>`).join('')}
+        </div>
+      </section>
+
+      ${focusSections.length?`<section class="detail-focus">
+        <h2>知识库重点</h2>
+        <div class="focus-grid">
+          ${focusSections.map(section=>`<section class="focus-card">
+            <p class="focus-label">${escHtml(section.label)}</p>
+            <h3>${escHtml(section.title)}</h3>
+            ${previewMarkdown(section.body)}
+          </section>`).join('')}
+        </div>
+      </section>`:''}
 
       <section class="detail-literature">
         <h2>文献依据</h2>
@@ -587,6 +679,11 @@ const App = {
           <p>${escHtml(ref.summary||'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。')}</p>
         </div>`).join('')}
       </section>
+
+      ${note?.body?`<details class="detail-source">
+        <summary>查看完整知识库原文</summary>
+        <div class="detail-note-body">${markdownToHtml(note.body)}</div>
+      </details>`:''}
     </article>`;
   },
 
