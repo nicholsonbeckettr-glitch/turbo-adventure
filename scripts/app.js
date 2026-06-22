@@ -11,12 +11,12 @@ const SITE_CONFIG = {
 const SUPPLEMENTS = [
   {
     id:'omega3',name:'Omega-3 (EPA/DHA)',cat:'脂肪酸',emoji:'🐟',
-    desc:'长链Omega-3脂肪酸，主要来自鱼油和藻油。对心血管、大脑和炎症调节至关重要。',
+    desc:'长链Omega-3脂肪酸，主要来自低汞鱼类、鱼油和藻油。更适合补足EPA/DHA缺口、管理高甘油三酯和特定孕期/心血管场景。',
     evidence:'strong',
-    dosage:'EPA+DHA 1000-3000mg/天',
+    dosage:'EPA+DHA 约250mg/天起；治疗剂量遵医嘱',
     targets:['心血管健康','高甘油三酯','关节炎症','脑雾/认知','情绪低落','皮肤干燥'],
-    warnings:['抗凝血药物使用者需咨询医生','手术前2周停用'],
-    refs:[{t:'Omega-3 fatty acids for the primary and secondary prevention of cardiovascular disease',j:'Cochrane Database Syst Rev',y:2020}]
+    warnings:['抗凝/抗血小板药使用者需咨询医生','围手术期需告知医生评估','房颤史或高剂量使用需谨慎'],
+    refs:[{t:'Omega-3 Fatty Acids - Health Professional Fact Sheet',j:'NIH ODS',y:2026}]
   },
   {
     id:'creatine',name:'肌酸 (Creatine)',cat:'氨基酸衍生物',emoji:'💪',
@@ -38,11 +38,11 @@ const SUPPLEMENTS = [
   },
   {
     id:'theanine',name:'L-茶氨酸 (L-Theanine)',cat:'氨基酸',emoji:'🍵',
-    desc:'绿茶中的天然氨基酸，促进放松而不引起嗜睡。常与咖啡因协同使用。',
+    desc:'茶叶中的非蛋白氨基酸，可能带来轻度放松和平静清醒感。更适合短期评估压力、睡前紧张和咖啡因后不适。',
     evidence:'moderate',
-    dosage:'100-400mg/天',
+    dosage:'100-200mg起，按场景短期评估',
     targets:['压力/焦虑','睡眠质量差','注意力不集中','脑雾/认知'],
-    warnings:['一般安全','孕期/哺乳期建议咨询医生'],
+    warnings:['镇静/安眠/精神科药物使用者需咨询医生','孕期/哺乳期和儿童不建议自行使用','低血压或易头晕者慎用'],
     refs:[{t:'Effects of L-Theanine on Stress-Related Symptoms and Cognitive Functions',j:'Nutrients',y:2019}]
   },
   {

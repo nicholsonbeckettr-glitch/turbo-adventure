@@ -34,10 +34,10 @@ note: 风险边界或重要备注。
 
 | 成分 | 笔记 | 主要目标 | 当前定位 |
 |---|---|---|---|
-| omega3 | `notes/omega3-cardiovascular-Omega3心血管.md` | 心血管健康、高甘油三酯、关节炎症 | 强调 EPA+DHA 含量和抗凝风险 |
+| omega3 | `notes/omega3-cardiovascular-Omega3心血管.md` | 心血管健康、高甘油三酯、关节炎症、孕期DHA、摄入缺口 | 综合饮食优先、EPA/DHA 含量、处方级差异、房颤/出血风险和产品选择 |
 | magnesium | `notes/magnesium-health-maintenance-镁与人体健康维护深度研究.md` | 睡眠、压力、偏头痛、血压、血糖、骨骼 | 综合摄入基线、剂型、人群、慢病、误区和风险边界 |
 | creatine | `notes/creatine-performance-肌酸运动表现.md` | 运动表现、肌肉恢复、认知压力、保肌 | 综合剂量、适用人群、训练收益、安全性、误区和产品选择 |
-| theanine | `notes/theanine-stress-cognition-茶氨酸压力专注.md` | 压力、睡眠、专注 | 短周期评估放松与专注 |
+| theanine | `notes/theanine-stress-cognition-茶氨酸压力专注.md` | 压力、睡眠、专注、咖啡因紧张感 | 综合短期试用、咖啡因搭配、睡眠边界、药物联用和产品选择 |
 | vitamind | `notes/vitamind-bone-immune-维生素D骨骼免疫.md` | 骨骼、免疫、疲劳 | 回到检测复盘，弱化预防感染承诺 |
 
 ## 证据分层
