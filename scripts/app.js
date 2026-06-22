@@ -191,6 +191,84 @@ const SUPPLEMENTS = [
   },
 ];
 
+const DETAIL_FALLBACKS = {
+  citrulline:{
+    cycle:'2-4 周观察训练泵感、疲劳、血压和胃肠耐受；若用于血压相关目标，应同步记录血压并咨询专业人士。',
+    usagePlans:['运动表现目标可在训练前 60-90 分钟使用', '血压偏低、正在用降压药或容易头晕者不应自行尝试', '一次只调整一个补剂变量，避免和硝酸盐、精氨酸等同类方向叠加后难以判断'],
+    mechanism:['口服后在小肠吸收进入门静脉循环', '部分避开肝脏首过代谢并进入肾脏', '在肾脏等组织转化为精氨酸', '精氨酸经一氧化氮合酶生成一氧化氮', '一氧化氮促进血管舒张并影响运动血流与血压反应'],
+  },
+  zinc:{
+    cycle:'4-8 周观察免疫、皮肤或伤口相关目标；长期补充应关注铜摄入和总锌剂量。',
+    usagePlans:['优先确认饮食缺口，不把高剂量锌当作长期免疫增强方案', '空腹恶心时随餐使用', '连续使用超过 8-12 周应复盘是否需要保留'],
+    mechanism:['口服锌在小肠吸收', '与白蛋白等结合进入血液运输', '进入细胞后参与多种酶和转录因子功能', '影响免疫、皮肤修复、味觉和生殖相关过程', '过量时可能竞争性影响铜吸收'],
+  },
+  ashwagandha:{
+    cycle:'4-8 周观察压力、睡眠和疲劳变化；甲状腺疾病、孕哺期或复杂用药者应先咨询医生。',
+    usagePlans:['优先选择标准化提取物并从低剂量开始', '记录睡眠、压力和胃肠反应', '出现嗜睡、胃肠不适或甲状腺相关异常时停止并评估'],
+    mechanism:['口服植物提取物后经胃肠吸收', '活性成分如 withanolides 进入循环', '分布到神经内分泌和免疫相关组织', '可能影响应激轴和炎症/氧化应激相关通路', '经肝脏代谢后排泄'],
+  },
+  coq10:{
+    cycle:'4-12 周观察疲劳、运动耐受或偏头痛频率；心血管用药人群需核对相互作用。',
+    usagePlans:['随含脂肪餐服用通常更利于吸收', '偏头痛或疲劳目标应记录频率和强度', '华法林等抗凝药使用者需先咨询医生'],
+    mechanism:['脂溶性辅酶 Q10 随餐进入肠道', '经胆汁乳化后进入乳糜微粒吸收', '随脂蛋白运输到组织', '进入线粒体膜相关结构', '在线粒体电子传递链中参与能量生成'],
+  },
+  probiotics:{
+    cycle:'2-4 周观察腹胀、排便、胃肠耐受；免疫或皮肤目标通常需要更长周期且应按菌株判断。',
+    usagePlans:['优先选择标注清楚菌株和 CFU 的产品', '消化目标先观察 2-4 周', '免疫力严重低下者不应自行使用'],
+    mechanism:['活菌经口服进入胃肠道', '部分菌株耐受胃酸和胆汁后到达肠道', '短期定植或经过肠道时与原有菌群互动', '影响黏膜屏障、短链脂肪酸和免疫信号', '随肠道环境变化而增减或排出'],
+  },
+  curcumin:{
+    cycle:'4-8 周观察关节、消化或恢复目标；胆囊疾病或抗凝药使用者需先咨询医生。',
+    usagePlans:['选择吸收设计清楚的产品，避免只看姜黄粉总量', '随餐使用并观察胃肠耐受', '不要和抗凝风险场景自行叠加'],
+    mechanism:['姜黄素口服后在肠道吸收率较低', '配方常通过黑胡椒素或脂质载体提高暴露量', '吸收后经肝脏和肠道快速代谢', '代谢物进入循环并分布到组织', '影响炎症和氧化应激相关信号'],
+  },
+  melatonin:{
+    cycle:'3-7 天观察入睡和次日困倦；时差或短期节律调整可短期使用，长期失眠应先评估原因。',
+    usagePlans:['从低剂量开始，睡前 30-60 分钟使用', '记录入睡时间、夜醒和次日困倦', '避免与酒精、镇静药或复杂助眠复方自行叠加'],
+    mechanism:['口服褪黑素经胃肠吸收进入血液', '经肝脏首过代谢后形成短时血药峰值', '与 MT1/MT2 等褪黑素受体结合', '向中枢提供夜间节律信号', '经肝脏代谢后由尿液排出代谢物'],
+  },
+  collagen:{
+    cycle:'8-12 周观察皮肤、关节或训练恢复目标；过敏来源和蛋白总摄入需一起考虑。',
+    usagePlans:['按日补充并配合足量蛋白和维生素 C 摄入', '皮肤和关节目标至少观察 8 周', '鱼源胶原需注意鱼类过敏'],
+    mechanism:['水解胶原蛋白在胃肠道分解为小肽和氨基酸', '小肽和氨基酸经小肠吸收进入血液', '分布到皮肤、关节和结缔组织', '为胶原合成提供原料并可能提供信号刺激', '未利用部分进入普通氨基酸代谢池'],
+  },
+  nac:{
+    cycle:'2-4 周观察呼吸道黏液、疲劳或耐受；长期或高风险场景应咨询医生。',
+    usagePlans:['从低剂量开始观察胃部不适', '呼吸系统目标记录咳痰和不适变化', '哮喘、组胺不耐受或复杂用药者需谨慎'],
+    mechanism:['NAC 口服后经胃肠吸收', '在体内脱乙酰成为半胱氨酸来源', '进入谷胱甘肽合成和氧化还原代谢', '巯基结构可影响黏液二硫键', '经代谢后进入硫氨基酸相关排泄路径'],
+  },
+  berberine:{
+    cycle:'8-12 周观察血糖、血脂和胃肠耐受；正在使用降糖药或孕期禁用场景需先咨询医生。',
+    usagePlans:['通常围绕餐前分次使用，但应先核对药物和禁忌', '血糖血脂目标必须看指标而不是体感', '出现低血糖或明显胃肠不适应停止评估'],
+    mechanism:['小檗碱口服后吸收率较低', '在肠道腔内和肠上皮局部产生作用', '少量吸收后经肝脏代谢', '影响 AMPK、肠道菌群和糖脂代谢相关通路', '经胆汁和尿液等路径排泄代谢物'],
+  },
+  rhodiola:{
+    cycle:'2-4 周观察疲劳、压力和睡眠；双相情感障碍或易激惹人群不应自行使用。',
+    usagePlans:['早些时候使用更利于观察精神状态，避免影响睡眠', '记录疲劳、焦虑和睡眠变化', '出现兴奋、头晕或口干时停止评估'],
+    mechanism:['红景天提取物经胃肠道吸收', 'rosavins 和 salidroside 等成分进入循环', '分布到神经和应激反应相关组织', '可能影响单胺递质和应激反应通路', '经肝肾代谢与排泄'],
+  },
+  bcomplex:{
+    cycle:'4-8 周观察疲劳、口腔/皮肤和神经相关目标；长期高剂量尤其需关注 B6。',
+    usagePlans:['优先用于饮食不足、素食或特定缺乏风险', '不要把高剂量 B 族当作长期提神方案', '复盘尿色变化以外的真实目标改善'],
+    mechanism:['B 族维生素经胃肠吸收进入血液', '在组织内转化为辅酶活性形式', '参与能量代谢、神经递质和红细胞生成', '水溶性成分多余部分主要经尿液排出', '不同 B 族成员在体内周转和储存能力不同'],
+  },
+  lionsmane:{
+    cycle:'8-12 周观察认知、情绪或胃肠耐受；蘑菇过敏者需避免。',
+    usagePlans:['从单一产品开始，避免和多种认知复方叠加', '记录注意力、记忆和情绪变化', '对认知收益保持探索级预期'],
+    mechanism:['猴头菇提取物口服后在胃肠道消化吸收', '多糖和脂溶性小分子成分进入不同代谢路径', '部分成分可能与免疫和神经相关信号互动', '机制研究提示可能影响神经生长因子相关路径', '未吸收成分继续与肠道环境互动或排出'],
+  },
+  glycine:{
+    cycle:'1-2 周观察入睡、夜醒和次日精神；运动恢复目标可观察 2-4 周。',
+    usagePlans:['睡眠目标常在睡前使用', '记录睡眠质量和胃肠反应', '不要和多种助眠复方同时新增'],
+    mechanism:['甘氨酸口服后经小肠吸收进入血液', '进入普通氨基酸代谢池', '参与蛋白质、胶原和谷胱甘肽等合成', '也可作为抑制性神经递质参与中枢信号', '多余部分经代谢后进入能量或排泄路径'],
+  },
+  quercetin:{
+    cycle:'2-4 周观察过敏、鼻眼症状或运动恢复；用药人群需核对代谢相互作用。',
+    usagePlans:['过敏季可按症状短期观察', '记录鼻塞、喷嚏、眼痒和胃肠耐受', '正在使用窄治疗窗药物者需先咨询医生'],
+    mechanism:['槲皮素口服后在肠道吸收', '吸收过程中发生葡萄糖醛酸化、硫酸化等代谢', '代谢物进入循环并分布到组织', '可能影响肥大细胞、组胺释放和炎症信号', '经胆汁和尿液等路径排泄代谢物'],
+  },
+};
+
 // ==================== HEALTH QUESTIONNAIRE ====================
 const QUIZ = [
   {
@@ -385,16 +463,18 @@ function focusSectionsFromNote(note){
   return focused.slice(0,6);
 }
 
+function detailFallback(supplement){
+  return DETAIL_FALLBACKS[supplement.id]||{
+    cycle:'4-8 周观察目标指标、主观体感和胃肠耐受；无明确收益时优先停止，避免长期叠加。',
+    usagePlans:['先确认目标和禁忌，再决定是否试用', '只新增这一个成分，避免同时叠加多个补剂', '记录开始前、使用中和复盘日的目标评分'],
+    mechanism:[`${supplement.name} 经口服进入胃肠道`, '被吸收后进入血液或淋巴运输', '分布到相关组织或细胞内', '参与代谢、结构组成或信号通路', '经储存、转化或排泄维持体内平衡'],
+  };
+}
+
 function mechanismSteps(info,supplement){
   const custom=asList(info.mechanism);
   if(custom.length)return custom.slice(0,5);
-  return [
-    `${supplement.name} 摄入或补充`,
-    '进入吸收、代谢与组织分布',
-    '影响相关生理通路',
-    '对应到匹配目标',
-    '按观察周期复盘收益与风险',
-  ];
+  return detailFallback(supplement).mechanism;
 }
 
 function knowledgeFromNotes(notes){
@@ -618,7 +698,9 @@ const App = {
       title:ref.t,journal:ref.j,year:ref.y,url:'',summary:supplement.desc,
     }));
     const targets=info.supportedTargets?.length?info.supportedTargets:supplement.targets;
-    const usagePlans=info.usagePlans?.length?info.usagePlans:[supplement.desc];
+    const fallback=detailFallback(supplement);
+    const cycle=info.cycle||fallback.cycle;
+    const usagePlans=info.usagePlans?.length?info.usagePlans:fallback.usagePlans;
     const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
     const focusSections=focusSectionsFromNote(note);
     const mechanism=mechanismSteps(info,supplement);
@@ -640,7 +722,7 @@ const App = {
         <section>
           <h2>使用与复盘</h2>
           <p><strong>建议剂量：</strong>${escHtml(supplement.dosage)}</p>
-          <p><strong>观察周期：</strong>${escHtml(info.cycle||'知识库暂未配置，建议先咨询专业人士。')}</p>
+          <p><strong>观察周期：</strong>${escHtml(cycle)}</p>
           <ul>${usagePlans.map(plan=>`<li>${escHtml(plan)}</li>`).join('')}</ul>
         </section>
         <section>
@@ -738,6 +820,7 @@ const App = {
     const generatedAt=new Date().toLocaleString('zh-CN');
     const items=top.slice(0,5).map((s,i)=>{
       const info=kb.supplements?.[s.id]||{};
+      const fallback=detailFallback(s);
       const matched=(info.supportedTargets||s.targets).filter(t=>userTargets.has(t));
       const refs=info.literature?.length?info.literature:s.refs;
       return {
@@ -745,8 +828,8 @@ const App = {
         name:s.name,
         reason:matched.join('、')||'由问卷加权命中',
         dosage:s.dosage,
-        cycle:info.cycle||'未在本地知识库配置，建议咨询专业人士后决定',
-        usagePlans:info.usagePlans||['本地知识库暂未配置'],
+        cycle:info.cycle||fallback.cycle,
+        usagePlans:info.usagePlans?.length?info.usagePlans:fallback.usagePlans,
         warnings:s.warnings,
         evidence:s.evidence,
         literature:refs.map(ref=>({
