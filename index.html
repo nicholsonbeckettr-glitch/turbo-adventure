@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
 <meta name="theme-color" content="#f8fbf9">
-<meta name="description" content="基于个人健康数据的保健成分匹配引擎。Omega-3、肌酸、L-茶氨酸等20种明星成分，科学证据背书。">
-<meta name="keywords" content="保健成分,补充剂,Omega3,肌酸,茶氨酸,健康匹配,循证,营养">
-<meta property="og:title" content="保健成分匹配引擎 · 循证营养推荐">
-<meta property="og:description" content="基于你的身体状况，匹配最适合的保健成分。20种明星成分，均有研究文献支持。">
+<meta name="description" content="紧急维C根据健康目标、饮食、现有补剂和身体情况，筛出少量值得验证的成分，并提示重复、冲突和不适用情况。">
+<meta name="keywords" content="紧急维C,保健成分,补充剂,Omega3,肌酸,茶氨酸,健康目标,补剂冲突,循证营养">
+<meta property="og:title" content="紧急维C · 补剂筛选与冲突提示">
+<meta property="og:description" content="根据健康目标、饮食、现有补剂和身体情况，筛出少量值得验证的成分，并提示重复、冲突和不适用情况。">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23174d32'/%3E%3Cpath d='M32 12c9 8 15 16 15 25 0 8-6 14-15 14S17 45 17 37c0-9 6-17 15-25Z' fill='%23fffdf7'/%3E%3Cpath d='M32 22v20M23 33h18' stroke='%23174d32' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
-<title>保健成分匹配引擎 · 循证营养</title>
+<title>紧急维C · 补剂筛选与冲突提示</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <link rel="stylesheet" href="styles/main.css">
@@ -22,10 +22,10 @@
   <div class="hero">
     <div class="hero-copy">
       <div>
-        <span class="eyebrow">循证营养 · 个人画像 · 少走弯路</span>
-        <h1 class="hero-title">保健成分匹配引擎</h1>
+        <span class="eyebrow">补剂筛选 · 冲突提示 · 小步验证</span>
+        <h1 class="hero-title">紧急维C</h1>
         <p class="hero-lead">
-          用几个关键健康问题，把补剂选择从“盲买试错”收敛成一份可复盘的个性化方案。先匹配需求，再核对禁忌，最后小步验证。
+          根据健康目标、饮食、现有补剂和身体情况，筛出少量值得验证的成分，并提示重复、冲突和不适用情况。
         </p>
         <div class="hero-actions">
           <button class="btn btn-primary btn-lg" data-action="go-quiz">开始健康问卷</button>
@@ -36,22 +36,22 @@
       <div class="hero-proof" aria-label="产品能力">
         <div class="proof-item">
           <span id="supp-count-proof" class="proof-num">20</span>
-          <span class="proof-label">种常见明星成分，按健康目标匹配</span>
+          <span class="proof-label">种常见明星成分，按目标和身体情况筛选</span>
         </div>
         <div class="proof-item">
           <span id="quiz-count-proof" class="proof-num">13</span>
-          <span class="proof-label">道问题生成画像，避免一上来堆补剂</span>
+          <span class="proof-label">道问题覆盖目标、风险与现有身体信号</span>
         </div>
         <div class="proof-item">
           <span class="proof-num">3步</span>
-          <span class="proof-label">匹配、避险、复盘，控制最小试错成本</span>
+          <span class="proof-label">筛选、排冲突、复盘，控制最小试错成本</span>
         </div>
       </div>
     </div>
 
-    <aside class="hero-panel" aria-label="最小试错方案">
+    <aside class="hero-panel" aria-label="补剂筛选路径">
       <div class="panel-title">
-        <h2>定制化方案路径</h2>
+        <h2>补剂筛选路径</h2>
         <span class="panel-kicker">MINIMAL TRIAL</span>
       </div>
       <div class="step-list">
@@ -65,15 +65,15 @@
         <div class="step">
           <span class="step-mark">02</span>
           <div>
-            <h3>再过滤风险信号</h3>
-            <p>提示药物相互作用、用药场景和需要咨询医生的情况。</p>
+            <h3>再排查重复和冲突</h3>
+            <p>结合现有补剂、用药和身体情况，提示不适合自行尝试的场景。</p>
           </div>
         </div>
         <div class="step">
           <span class="step-mark">03</span>
           <div>
-            <h3>只验证高匹配项</h3>
-            <p>优先从匹配度最高的少数成分开始，降低无效购买和叠加。</p>
+            <h3>只验证少量成分</h3>
+            <p>优先从少数值得验证的成分开始，降低无效购买和盲目叠加。</p>
           </div>
         </div>
       </div>
@@ -138,6 +138,7 @@
   <div id="supplement-detail"></div>
 </section>
 
+<script src="scripts/data.js" defer></script>
 <script src="scripts/app.js" defer></script>
 </body>
 </html>
