@@ -269,6 +269,8 @@ const USER_KEY='health-match-user';
 const $=id=>document.getElementById(id);
 const asList=value=>Array.isArray(value)?value.filter(Boolean):(value?[value]:[]);
 const supplementById=id=>SUPPLEMENTS.find(s=>s.id===id);
+const supplementIconHtml=(supplement,className='')=>
+  `<img class="supp-icon ${className}" src="assets/supplement-icons/${supplement.id}.jpg" alt="">`;
 
 function parseFrontMatter(markdown, path=''){
   const match=/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/.exec(markdown);
@@ -443,7 +445,7 @@ const App = {
       const pct=Math.round((s.score/maxScore)*100);
       return `<div class="card anim-fade result-card" style="--delay:${i*.06}s;--match-pct:${pct}%;--match-color:${fillColors[i%fillColors.length]}">
         <div class="result-card-inner">
-          <span class="result-emoji">${s.emoji}</span>
+          ${supplementIconHtml(s,'result-supp-icon')}
           <div class="result-body">
             <div class="result-title-row">
               <h3 class="result-name">${s.name}</h3>
@@ -549,7 +551,7 @@ const App = {
     const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
     $('supplement-detail').innerHTML=`<article class="detail-card card">
       <header class="detail-hero">
-        <span class="detail-emoji">${supplement.emoji}</span>
+        ${supplementIconHtml(supplement,'detail-icon')}
         <div>
           <p class="detail-kicker">${escHtml(supplement.cat)} · ${escHtml(evidenceLabel[supplement.evidence]||supplement.evidence)}</p>
           <h1>${escHtml(supplement.name)}</h1>
@@ -850,7 +852,10 @@ window.App=App;
   $('supp-count-proof').textContent=SUPPLEMENTS.length;
   $('quiz-count-proof').textContent=QUIZ.length;
   $('supp-preview').innerHTML=SUPPLEMENTS.map(s=>
-    `<button class="tag supp-tag" type="button" data-supplement-id="${s.id}">${s.emoji} ${s.name}</button>`
+    `<button class="tag supp-tag" type="button" data-supplement-id="${s.id}">
+      ${supplementIconHtml(s)}
+      <span class="supp-name">${escHtml(s.name)}</span>
+    </button>`
   ).join('');
 
   window.addEventListener('hashchange',()=>{
