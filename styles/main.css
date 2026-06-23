@@ -100,7 +100,11 @@ button.tag:active{transform:scale(.98)}
   padding:7px 12px;border:1px solid rgba(23,77,50,.18);border-radius:999px;
   background:rgba(255,253,247,.72);color:var(--green);font-size:12px;font-weight:700;
 }
-.hero-title{font-size:54px;font-weight:800;letter-spacing:0;margin:18px 0 18px;color:var(--text)}
+.hero-title{margin:18px 0 18px}
+.brand-wordmark-img{
+  display:block;width:min(100%,420px);height:auto;
+  mix-blend-mode:multiply;
+}
 .hero-lead{max-width:520px;color:#42564a;font-size:17px;line-height:1.8}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 .hero-proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:560px}
@@ -225,7 +229,7 @@ button.tag:active{transform:scale(.98)}
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;min-height:auto;padding:24px}
-  .hero-title{font-size:42px}
+  .brand-wordmark-img{width:min(100%,330px)}
   .hero-proof{grid-template-columns:1fr 1fr}
   .detail-grid{grid-template-columns:1fr}
   .focus-grid{grid-template-columns:1fr}
@@ -233,7 +237,7 @@ button.tag:active{transform:scale(.98)}
 @media(max-width:640px){
   .home-shell{padding:16px 14px 34px}
   .hero{padding:18px;border-radius:14px}
-  .hero-title{font-size:32px}
+  .brand-wordmark-img{width:min(100%,190px)}
   .hero-lead{font-size:15px}
   .hero-actions .btn{width:100%}
   .hero-proof{grid-template-columns:1fr}
