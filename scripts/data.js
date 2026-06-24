@@ -65,7 +65,7 @@ const SUPPLEMENTS = [
     refs:[{t:'Zinc in Wound Healing Modulation',j:'Nutrients',y:2018}]
   },
   {
-    id:'ashwagandha',name:'印度人参 (Ashwagandha)',cat:'植物提取物',emoji:'🌿',
+    id:'ashwagandha',name:'南非醉茄 (Ashwagandha)',cat:'植物提取物',emoji:'🌿',
     desc:'阿育吠陀适应原草药，帮助身体应对压力，降低皮质醇水平。',
     evidence:'moderate',
     dosage:'300-600mg/天（标准化提取物）',
