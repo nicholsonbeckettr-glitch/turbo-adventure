@@ -153,6 +153,8 @@ button.tag:active{transform:scale(.98)}
 .result-subtitle{color:var(--dim);font-size:13px}
 .result-warn{margin-bottom:20px}
 .result-card{padding:18px;margin-bottom:12px;animation-delay:var(--delay,0s)}
+.result-card-link{display:block;width:100%;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.result-card-link:focus-visible{outline:3px solid rgba(216,111,88,.35);outline-offset:2px}
 .result-card-inner{display:flex;align-items:flex-start;gap:14px}
 .result-supp-icon{width:46px;height:46px;flex-basis:46px;padding:4px}
 .result-body{flex:1;min-width:0}
@@ -164,6 +166,7 @@ button.tag:active{transform:scale(.98)}
 .result-bar .match-fill{width:var(--match-pct,0%);background:var(--match-color,var(--green))}
 .result-meta{font-size:11px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
 .result-ref{font-size:10px;color:var(--dim);margin-top:4px;font-style:italic}
+.btn-more-results{display:flex;width:100%;justify-content:center;margin-top:16px}
 .empty-result{padding:24px;text-align:center}
 .empty-result p{color:var(--dim);font-size:14px}
 .next-steps{margin-top:20px}

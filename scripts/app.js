@@ -248,22 +248,29 @@ const App = {
     }else{this.renderQ();}
   },
   
-  showResult({updateHash=true,trackResult=true}={}){
+  showResult({updateHash=true,trackResult=true,mode='summary'}={}){
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
     $('sec-result').classList.add('on');
-    if(updateHash&&location.hash!=='#result')location.hash='result';
+    const resultHash=mode==='all'?'result/all':'result';
+    if(updateHash&&location.hash!==`#${resultHash}`)location.hash=resultHash;
     
     this.result=this.scoreResults();
+    this.resultMode=mode;
     const {top,userTargets}=this.result;
+    const visibleResults=mode==='all'?top:this.featuredResults(top);
     const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
     const evidenceClass={strong:'badge-strong',moderate:'badge-moderate',emerging:'badge-emerging'};
     const fillColors=['var(--green)','var(--teal)','var(--gold)','#5a7d6a','#8d6e63'];
     
-    const maxScore=Math.max(...top.map(s=>s.score),1);
+    $('result-subtitle').textContent=mode==='all'
+      ? '完整推荐清单，按匹配度排列'
+      : '先给你 3 个强证据 + 3 个中等/其他证据';
     
-    $('result-list').innerHTML=top.map((s,i)=>{
+    const maxScore=Math.max(...visibleResults.map(s=>s.score),1);
+    
+    $('result-list').innerHTML=visibleResults.map((s,i)=>{
       const pct=Math.round((s.score/maxScore)*100);
-      return `<div class="card anim-fade result-card" style="--delay:${i*.06}s;--match-pct:${pct}%;--match-color:${fillColors[i%fillColors.length]}">
+      return `<button class="card anim-fade result-card result-card-link" type="button" data-supplement-id="${s.id}" style="--delay:${i*.06}s;--match-pct:${pct}%;--match-color:${fillColors[i%fillColors.length]}">
         <div class="result-card-inner">
           ${supplementIconHtml(s,'result-supp-icon')}
           <div class="result-body">
@@ -281,17 +288,20 @@ const App = {
             ${s.refs.length?`<p class="result-ref">📚 ${s.refs[0].t} (${s.refs[0].j}, ${s.refs[0].y})</p>`:''}
           </div>
         </div>
-      </div>`;
+      </button>`;
     }).join('');
     
     if(top.length===0){
       $('result-list').innerHTML='<div class="card empty-result"><p>基于您的回答，暂未发现需要特别关注的健康领域。保持当前生活方式！</p></div>';
+    }else if(mode!=='all'&&top.length>visibleResults.length){
+      $('result-list').insertAdjacentHTML('beforeend', `<a class="btn btn-primary btn-more-results" href="#result/all">更多证据以及参考</a>`);
     }
 
-    this.renderNextSteps(top);
+    this.renderNextSteps(visibleResults);
     if(trackResult){
       this.track('result', {
-        supplements:top.slice(0,5).map(s=>s.id),
+        mode,
+        supplements:visibleResults.slice(0,6).map(s=>s.id),
         targets:[...userTargets],
       });
     }
@@ -323,6 +333,15 @@ const App = {
     }).sort((a,b)=>b.score-a.score);
 
     return {userTargets,riskNotes,top:scored.filter(s=>s.score>0).slice(0,12)};
+  },
+
+  featuredResults(results){
+    const picked=[];
+    const add=item=>{if(item&&!picked.some(s=>s.id===item.id))picked.push(item);};
+    results.filter(s=>s.evidence==='strong').slice(0,3).forEach(add);
+    results.filter(s=>s.evidence!=='strong').slice(0,3).forEach(add);
+    results.forEach(item=>{if(picked.length<6)add(item);});
+    return picked.slice(0,6);
   },
 
   renderNextSteps(top){
@@ -711,9 +730,9 @@ window.App=App;
     const section=location.hash.slice(1);
     if(section.startsWith('supplement/')){
       App.showSupplement(section.slice('supplement/'.length),false);
-    }else if(section==='result'){
+    }else if(section==='result'||section==='result/all'){
       try{App.answers=JSON.parse(localStorage.getItem(ANSWERS_KEY)||'[]');}catch(e){App.answers=[];}
-      App.showResult({updateHash:false,trackResult:false});
+      App.showResult({updateHash:false,trackResult:false,mode:section==='result/all'?'all':'summary'});
     }else{
       App.go(section||'home',false);
     }
