@@ -7,13 +7,15 @@ const SITE_CONFIG = {
   knowledgeManifestUrl:'knowledge/manifest.json',
 };
 
-const { SUPPLEMENTS, DETAIL_FALLBACKS, QUIZ } = window.HealthMatchData;
+const { SUPPLEMENTS, DETAIL_FALLBACKS, QUIZ, QUIZ_SETS } = window.HealthMatchData;
 
 // ==================== APP ENGINE ====================
 const ROUTES={home:'sec-home',quiz:'sec-quiz',result:'sec-result'};
 const ANSWERS_KEY='health-match-answers';
 const USER_KEY='health-match-user';
 const LANG_KEY='health-match-lang';
+const QUIZ_SET_KEY='health-match-quiz-set';
+const DEFAULT_QUIZ_SET_ID='general';
 const LANGS=['zh-CN','zh-TW','en'];
 const I18N={
   'zh-CN':{
@@ -26,7 +28,7 @@ const I18N={
       viewSupplements:'查看收录成分',
       proofLabel:'产品能力',
       suppProof:value=>`种常见明星成分，按目标和身体情况筛选`,
-      quizProof:value=>`道问题覆盖目标、风险与现有身体信号`,
+      quizProof:value=>`份问卷覆盖通用、睡眠压力、女性营养和健身新手`,
       threeStepsNum:'3步',
       threeStepsLabel:'筛选、排冲突、复盘，控制最小试错成本',
       panelAria:'补剂筛选路径',
@@ -53,7 +55,7 @@ const I18N={
       viewSupplements:'查看收錄成分',
       proofLabel:'產品能力',
       suppProof:value=>`種常見明星成分，按目標和身體情況篩選`,
-      quizProof:value=>`道問題覆蓋目標、風險與既有身體訊號`,
+      quizProof:value=>`份問卷覆蓋通用、睡眠壓力、女性營養和健身新手`,
       threeStepsNum:'3步',
       threeStepsLabel:'篩選、排衝突、複盤，控制最小試錯成本',
       panelAria:'補劑篩選路徑',
@@ -80,7 +82,7 @@ const I18N={
       viewSupplements:'View ingredients',
       proofLabel:'Product capabilities',
       suppProof:value=>`common ingredients screened by goals and body signals`,
-      quizProof:value=>`questions covering goals, risks, and current body signals`,
+      quizProof:value=>`quiz paths for general, sleep/stress, women's nutrition, and fitness beginners`,
       threeStepsNum:'3 steps',
       threeStepsLabel:'Screen, check conflicts, review results, and keep trial cost low',
       panelAria:'Supplement screening path',
@@ -540,13 +542,31 @@ function mergeKnowledge(base, extra){
 }
 
 const App = {
-  qIdx:0, answers:[], knowledge:null, result:null, lang:currentLang(),
+  qIdx:0, answers:[], knowledge:null, result:null, lang:currentLang(), quizSetId:DEFAULT_QUIZ_SET_ID,
+  quizSet(id=this.quizSetId){
+    return QUIZ_SETS[id]||QUIZ_SETS[DEFAULT_QUIZ_SET_ID];
+  },
+
+  quizQuestions(){
+    return this.quizSet().questions||QUIZ;
+  },
+
+  quizQuestionCopy(question,index){
+    if(this.quizSetId===DEFAULT_QUIZ_SET_ID){
+      return QUIZ_COPY[this.lang]?.[index]||{q:question.q,opts:question.opts};
+    }
+    return {q:question.q,opts:question.opts};
+  },
+
   setLanguage(lang){
     this.lang=LANGS.includes(lang)?lang:'zh-CN';
     localStorage.setItem(LANG_KEY,this.lang);
     this.applyLanguage();
     this.closeLanguageMenu();
-    if($('sec-quiz').classList.contains('on'))this.renderQ();
+    if($('sec-quiz').classList.contains('on')){
+      if($('quiz-runner').hidden)this.renderQuizPicker();
+      else this.renderQ();
+    }
     if($('sec-result').classList.contains('on'))this.showResult({updateHash:false,trackResult:false,mode:this.resultMode||'summary'});
     if($('sec-supplement').classList.contains('on')){
       const id=location.hash.startsWith('#supplement/')?location.hash.slice('#supplement/'.length):'';
@@ -586,7 +606,7 @@ const App = {
       });
     });
     const suppCount=SUPPLEMENTS.length;
-    const quizCount=QUIZ.length;
+    const quizCount=Object.keys(QUIZ_SETS).length;
     setText('supp-count-proof',suppCount);
     setText('quiz-count-proof',quizCount);
     setText('supp-proof-label',dict.home.suppProof(suppCount));
@@ -619,23 +639,57 @@ const App = {
     $(ROUTES[section]).classList.add('on');
     if(updateHash&&location.hash!==`#${section}`)location.hash=section;
     if(section==='quiz'){
-      this.qIdx=0;this.answers=[];this.result=null;
-      localStorage.removeItem(ANSWERS_KEY);
-      $('result-list').innerHTML='';
-      $('next-steps').innerHTML='';
-      this.renderQ();
-      if(updateHash)this.track('quiz_start');
+      this.renderQuizPicker();
     }
+    window.scrollTo(0,0);
+  },
+
+  renderQuizPicker(){
+    $('quiz-picker').hidden=false;
+    $('quiz-runner').hidden=true;
+    $('quiz-progress').style.width='0%';
+    $('quiz-num').textContent='';
+    $('quiz-q').textContent='';
+    $('quiz-opts').innerHTML='';
+    const sets=[QUIZ_SETS.general,QUIZ_SETS.sleep,QUIZ_SETS.women,QUIZ_SETS.fitness].filter(Boolean);
+    $('quiz-picker').innerHTML=`<div class="quiz-picker-head">
+      <h2>选择你的补剂报告</h2>
+      <p>先选一个场景，再回答对应问卷。专题问卷会优先筛对应人群常见成分，并提示重复、冲突和不适用情况。</p>
+    </div>
+    <div class="quiz-set-grid">
+      ${sets.map((set,index)=>`<button class="quiz-set-card anim-fade" type="button" style="--delay:${index*.05}s" data-quiz-set-id="${escHtml(set.id)}">
+        <span class="quiz-set-kicker">${set.id===DEFAULT_QUIZ_SET_ID?'GENERAL':`SCENE 0${index}`}</span>
+        <span class="quiz-set-title">${escHtml(set.title)}</span>
+        <span class="quiz-set-desc">${escHtml(set.subtitle)}</span>
+      </button>`).join('')}
+    </div>`;
+  },
+
+  startQuizSet(id=DEFAULT_QUIZ_SET_ID, updateHash=true){
+    this.quizSetId=QUIZ_SETS[id]?id:DEFAULT_QUIZ_SET_ID;
+    this.qIdx=0;this.answers=[];this.result=null;
+    localStorage.setItem(QUIZ_SET_KEY,this.quizSetId);
+    localStorage.removeItem(ANSWERS_KEY);
+    $('result-list').innerHTML='';
+    $('next-steps').innerHTML='';
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
+    $('sec-quiz').classList.add('on');
+    $('quiz-picker').hidden=true;
+    $('quiz-runner').hidden=false;
+    if(updateHash&&location.hash!==`#quiz/${this.quizSetId}`)location.hash=`quiz/${this.quizSetId}`;
+    this.renderQ();
+    if(updateHash)this.track('quiz_start',{quizSet:this.quizSetId});
     window.scrollTo(0,0);
   },
   
   renderQ(){
-    if(this.qIdx>=QUIZ.length){this.showResult();return;}
-    const q=QUIZ[this.qIdx];
-    const qCopy=QUIZ_COPY[this.lang]?.[this.qIdx]||{q:q.q,opts:q.opts};
+    const questions=this.quizQuestions();
+    if(this.qIdx>=questions.length){this.showResult();return;}
+    const q=questions[this.qIdx];
+    const qCopy=this.quizQuestionCopy(q,this.qIdx);
     $('quiz-q').textContent=qCopy.q;
-    $('quiz-num').textContent=`${this.qIdx+1}/${QUIZ.length}`;
-    $('quiz-progress').style.width=`${(this.qIdx/QUIZ.length)*100}%`;
+    $('quiz-num').textContent=`${this.qIdx+1}/${questions.length}`;
+    $('quiz-progress').style.width=`${(this.qIdx/questions.length)*100}%`;
     
     const l=['A','B','C','D'];
     $('quiz-opts').innerHTML=qCopy.opts.map((o,i)=>
@@ -646,11 +700,13 @@ const App = {
   },
   
   answer(idx){
+    if(this.qIdx>=this.quizQuestions().length)return;
     this.answers.push(idx);
     localStorage.setItem(ANSWERS_KEY,JSON.stringify(this.answers));
     this.qIdx++;
-    if(this.qIdx>=QUIZ.length){
+    if(this.qIdx>=this.quizQuestions().length){
       $('quiz-progress').style.width='100%';
+      $('quiz-opts').innerHTML='';
       setTimeout(()=>this.showResult(),200);
     }else{this.renderQ();}
   },
@@ -664,15 +720,17 @@ const App = {
     this.result=this.scoreResults();
     this.resultMode=mode;
     const {top,userTargets}=this.result;
+    const set=this.quizSet();
     const visibleResults=mode==='all'?top:this.featuredResults(top);
     const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
     const evidenceLabel=copy.evidence;
     const evidenceClass={strong:'badge-strong',moderate:'badge-moderate',emerging:'badge-emerging'};
     const fillColors=['var(--green)','var(--teal)','var(--gold)','#5a7d6a','#8d6e63'];
     
+    document.querySelector('.result-title').textContent=set.title||copy.resultTitle;
     $('result-subtitle').textContent=mode==='all'
       ? copy.resultAll
-      : copy.resultSummary;
+      : `${set.subtitle||''}${set.subtitle?' · ':''}${copy.resultSummary}`;
     
     const maxScore=Math.max(...visibleResults.map(s=>s.score),1);
     
@@ -686,6 +744,8 @@ const App = {
             <div class="result-title-row">
               <h3 class="result-name">${s.name}</h3>
               <span class="badge ${evidenceClass[s.evidence]}">${evidenceLabel[s.evidence]}</span>
+              ${s.isDuplicate?'<span class="risk-flag">重复核对</span>':''}
+              ${s.isCaution?'<span class="risk-flag">冲突核对</span>':''}
               ${s.hasWarnings?`<span class="risk-flag">${escHtml(copy.riskFlag)}</span>`:''}
             </div>
             <p class="result-desc">${escHtml(s.desc)}</p>
@@ -710,6 +770,7 @@ const App = {
     if(trackResult){
       this.track('result', {
         mode,
+        quizSet:this.quizSetId,
         supplements:visibleResults.slice(0,6).map(s=>s.id),
         targets:[...userTargets],
       });
@@ -719,14 +780,22 @@ const App = {
   },
 
   scoreResults(){
+    const set=this.quizSet();
+    const questions=this.quizQuestions();
+    const candidateSet=set.candidateIds?.length?new Set(set.candidateIds):null;
     const userTargets=new Set();
     const boostedIds=new Set();
+    const duplicateIds=new Set();
+    const cautionIds=new Set();
     const riskNotes=[];
     let onBpMeds=false;
     this.answers.forEach((a,i)=>{
-      const q=QUIZ[i];
+      const q=questions[i];
+      if(!q)return;
       (q.targets?.[a]||[]).forEach(t=>userTargets.add(t));
       (q.boosts?.[a]||[]).forEach(id=>boostedIds.add(id));
+      (q.duplicateIds?.[a]||[]).forEach(id=>duplicateIds.add(id));
+      (q.cautionIds?.[a]||[]).forEach(id=>cautionIds.add(id));
       if(q.risks?.[a])riskNotes.push(q.risks[a]);
       if(q.id==='bp'&&a>=2)onBpMeds=true;
     });
@@ -735,13 +804,17 @@ const App = {
       let score=0;
       s.targets.forEach(t=>{if(userTargets.has(t))score++;});
       if(boostedIds.has(s.id))score++;
+      if(candidateSet?.has(s.id)&&score>0)score+=0.5;
       const riskText=s.warnings.join(' ');
       const hasWarnings=(onBpMeds&&riskText.includes('降压'))||
+        cautionIds.has(s.id)||
+        duplicateIds.has(s.id)||
         (riskNotes.length>0&&/(孕期|哺乳|药物|肾功能|肝|手术|抗凝|降糖|镇静)/.test(riskText));
-      return{...s,score,hasWarnings};
+      return{...s,score,hasWarnings,isDuplicate:duplicateIds.has(s.id),isCaution:cautionIds.has(s.id)};
     }).sort((a,b)=>b.score-a.score);
 
-    return {userTargets,riskNotes,top:scored.filter(s=>s.score>0).slice(0,12)};
+    const filtered=scored.filter(s=>s.score>0&&(!candidateSet||candidateSet.has(s.id)));
+    return {quizSetId:this.quizSetId,userTargets,riskNotes,duplicateIds,cautionIds,top:filtered.slice(0,12)};
   },
 
   featuredResults(results){
@@ -926,6 +999,8 @@ const App = {
 
   buildReport({top,userTargets,riskNotes=[]},kb){
     const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const set=this.quizSet();
+    const reportTypeLabel=this.lang==='en'?'Report type':this.lang==='zh-TW'?'報告類型':'报告类型';
     const locale=this.lang==='en'?'en-US':this.lang;
     const generatedAt=new Date().toLocaleString(locale);
     const items=top.slice(0,5).map((raw,i)=>{
@@ -957,6 +1032,7 @@ const App = {
     });
     const report={
       generatedAt,
+      reportType:set.title||copy.report.title,
       targets:[...userTargets].map(tr),
       riskNotes:riskNotes.map(tr),
       priority:top.slice(0,5).map(s=>localizedSupplement(s).name),
@@ -968,6 +1044,7 @@ const App = {
       `${copy.report.generated}：${report.generatedAt}`,
       '',
       `## ${copy.report.summary}`,
+      `${reportTypeLabel}：${report.reportType}`,
       `${copy.report.targets}：${report.targets.join(this.lang==='en'?', ':'、')||copy.report.noTargets}`,
       `${copy.report.risks}：${report.riskNotes.join(this.lang==='en'?'; ':'；')||copy.report.noRisks}`,
       `${copy.report.priority}：${report.priority.join(this.lang==='en'?', ':'、')||copy.report.none}`,
@@ -1016,6 +1093,7 @@ const App = {
       <p>${esc(copy.report.generated)}：${esc(report.generatedAt)}</p>
       <div class="box">
         <h2>${esc(copy.report.summary)}</h2>
+        <p><strong>${esc(reportTypeLabel)}：</strong>${esc(report.reportType)}</p>
         <p><strong>${esc(copy.report.targets)}：</strong>${esc(report.targets.join(this.lang==='en'?', ':'、')||copy.report.noTargets)}</p>
         <p><strong>${esc(copy.report.risks)}：</strong>${esc(report.riskNotes.join(this.lang==='en'?'; ':'；')||copy.report.noRisks)}</p>
         <p><strong>${esc(copy.report.priority)}：</strong>${esc(report.priority.join(this.lang==='en'?', ':'、')||copy.report.none)}</p>
@@ -1094,6 +1172,12 @@ const App = {
         return;
       }
 
+      const quizSetButton=event.target.closest('[data-quiz-set-id]');
+      if(quizSetButton){
+        this.startQuizSet(quizSetButton.dataset.quizSetId);
+        return;
+      }
+
       const actionButton=event.target.closest('[data-action]');
       const supplementButton=event.target.closest('[data-supplement-id]');
       if(supplementButton){
@@ -1154,7 +1238,10 @@ window.App=App;
     const section=location.hash.slice(1);
     if(section.startsWith('supplement/')){
       App.showSupplement(section.slice('supplement/'.length),false);
+    }else if(section.startsWith('quiz/')){
+      App.startQuizSet(section.slice('quiz/'.length),false);
     }else if(section==='result'||section==='result/all'){
+      App.quizSetId=localStorage.getItem(QUIZ_SET_KEY)||DEFAULT_QUIZ_SET_ID;
       try{App.answers=JSON.parse(localStorage.getItem(ANSWERS_KEY)||'[]');}catch(e){App.answers=[];}
       App.showResult({updateHash:false,trackResult:false,mode:section==='result/all'?'all':'summary'});
     }else{
@@ -1165,5 +1252,5 @@ window.App=App;
   App.track('page_view');
   
   console.log('%c🧬 紧急维C %c已就绪','color:#1a5632;font-size:16px','');
-  console.log(`%c  ${SUPPLEMENTS.length}种成分 · ${QUIZ.length}道问卷题 · 循证推荐`,'color:#5a7d6a');
+  console.log(`%c  ${SUPPLEMENTS.length}种成分 · ${Object.keys(QUIZ_SETS).length}份问卷 · 循证推荐`,'color:#5a7d6a');
 })();

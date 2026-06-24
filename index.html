@@ -50,8 +50,8 @@
           <span id="supp-proof-label" class="proof-label">种常见明星成分，按目标和身体情况筛选</span>
         </div>
         <div class="proof-item">
-          <span id="quiz-count-proof" class="proof-num">13</span>
-          <span id="quiz-proof-label" class="proof-label">道问题覆盖目标、风险与现有身体信号</span>
+          <span id="quiz-count-proof" class="proof-num">4</span>
+          <span id="quiz-proof-label" class="proof-label">份问卷覆盖通用、睡眠压力、女性营养和健身新手</span>
         </div>
         <div class="proof-item">
           <span class="proof-num" data-i18n="home.threeStepsNum">3步</span>
@@ -107,14 +107,17 @@
 
 <!-- ============ QUIZ ============ -->
 <section id="sec-quiz" class="section quiz-shell">
-  <div class="quiz-progress-row">
-    <div class="quiz-progress-track">
-      <div id="quiz-progress" class="quiz-progress-fill"></div>
+  <div id="quiz-picker" class="quiz-picker"></div>
+  <div id="quiz-runner" hidden>
+    <div class="quiz-progress-row">
+      <div class="quiz-progress-track">
+        <div id="quiz-progress" class="quiz-progress-fill"></div>
+      </div>
+      <span id="quiz-num" class="quiz-num"></span>
     </div>
-    <span id="quiz-num" class="quiz-num"></span>
+    <h2 id="quiz-q" class="quiz-question"></h2>
+    <div id="quiz-opts"></div>
   </div>
-  <h2 id="quiz-q" class="quiz-question"></h2>
-  <div id="quiz-opts"></div>
 </section>
 
 <!-- ============ RESULT ============ -->
