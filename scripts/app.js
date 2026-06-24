@@ -13,6 +13,91 @@ const { SUPPLEMENTS, DETAIL_FALLBACKS, QUIZ } = window.HealthMatchData;
 const ROUTES={home:'sec-home',quiz:'sec-quiz',result:'sec-result'};
 const ANSWERS_KEY='health-match-answers';
 const USER_KEY='health-match-user';
+const LANG_KEY='health-match-lang';
+const LANGS=['zh-CN','zh-TW','en'];
+const I18N={
+  'zh-CN':{
+    langLabel:'简体中文',
+    htmlLang:'zh-CN',
+    home:{
+      eyebrow:'补剂筛选 · 冲突提示 · 小步验证',
+      lead:'根据健康目标、饮食、现有补剂和身体情况，筛出少量值得验证的成分，并提示重复、冲突和不适用情况。',
+      startQuiz:'开始健康问卷',
+      viewSupplements:'查看收录成分',
+      proofLabel:'产品能力',
+      suppProof:value=>`种常见明星成分，按目标和身体情况筛选`,
+      quizProof:value=>`道问题覆盖目标、风险与现有身体信号`,
+      threeStepsNum:'3步',
+      threeStepsLabel:'筛选、排冲突、复盘，控制最小试错成本',
+      panelAria:'补剂筛选路径',
+      panelTitle:'补剂筛选路径',
+      step1Title:'先识别真实目标',
+      step1Text:'从睡眠、压力、代谢、运动和免疫等维度定位主要需求。',
+      step2Title:'再排查重复和冲突',
+      step2Text:'结合现有补剂、用药和身体情况，提示不适合自行尝试的场景。',
+      step3Title:'只验证少量成分',
+      step3Text:'优先从少数值得验证的成分开始，降低无效购买和盲目叠加。',
+      suppTitle:'收录的明星成分',
+      suppSubtitle:'涵盖睡眠、压力、运动、代谢、免疫与认知支持',
+      disclaimerTitle:'医学免责声明',
+      disclaimerText:'本网站仅供教育和信息参考，不提供医疗建议。所有推荐的保健成分均不应替代医生的诊断和治疗。在开始服用任何补充剂前，请咨询合格的医疗专业人员。本网站不声称任何补充剂可以诊断、治疗、治愈或预防任何疾病。网站会匿名统计访问、问卷完成和匹配偏好，用于改进内容，不收集姓名、电话或身份证件信息。',
+    },
+  },
+  'zh-TW':{
+    langLabel:'繁體中文',
+    htmlLang:'zh-TW',
+    home:{
+      eyebrow:'補劑篩選 · 衝突提示 · 小步驗證',
+      lead:'根據健康目標、飲食、既有補劑和身體情況，篩出少量值得驗證的成分，並提示重複、衝突和不適用情況。',
+      startQuiz:'開始健康問卷',
+      viewSupplements:'查看收錄成分',
+      proofLabel:'產品能力',
+      suppProof:value=>`種常見明星成分，按目標和身體情況篩選`,
+      quizProof:value=>`道問題覆蓋目標、風險與既有身體訊號`,
+      threeStepsNum:'3步',
+      threeStepsLabel:'篩選、排衝突、複盤，控制最小試錯成本',
+      panelAria:'補劑篩選路徑',
+      panelTitle:'補劑篩選路徑',
+      step1Title:'先識別真實目標',
+      step1Text:'從睡眠、壓力、代謝、運動和免疫等維度定位主要需求。',
+      step2Title:'再排查重複和衝突',
+      step2Text:'結合既有補劑、用藥和身體情況，提示不適合自行嘗試的場景。',
+      step3Title:'只驗證少量成分',
+      step3Text:'優先從少數值得驗證的成分開始，降低無效購買和盲目疊加。',
+      suppTitle:'收錄的明星成分',
+      suppSubtitle:'涵蓋睡眠、壓力、運動、代謝、免疫與認知支持',
+      disclaimerTitle:'醫學免責聲明',
+      disclaimerText:'本網站僅供教育和資訊參考，不提供醫療建議。所有推薦的保健成分均不應替代醫師的診斷和治療。在開始服用任何補充劑前，請諮詢合格的醫療專業人員。本網站不聲稱任何補充劑可以診斷、治療、治癒或預防任何疾病。網站會匿名統計訪問、問卷完成和匹配偏好，用於改進內容，不收集姓名、電話或身分證件資訊。',
+    },
+  },
+  en:{
+    langLabel:'English',
+    htmlLang:'en',
+    home:{
+      eyebrow:'Supplement screening · Conflict checks · Small trials',
+      lead:'Based on your health goals, diet, current supplements, and body signals, this tool narrows the list to a few ingredients worth testing and flags duplication, conflicts, and unsuitable situations.',
+      startQuiz:'Start health quiz',
+      viewSupplements:'View ingredients',
+      proofLabel:'Product capabilities',
+      suppProof:value=>`common ingredients screened by goals and body signals`,
+      quizProof:value=>`questions covering goals, risks, and current body signals`,
+      threeStepsNum:'3 steps',
+      threeStepsLabel:'Screen, check conflicts, review results, and keep trial cost low',
+      panelAria:'Supplement screening path',
+      panelTitle:'Supplement screening path',
+      step1Title:'Identify the real goal',
+      step1Text:'Locate the main need across sleep, stress, metabolism, exercise, immunity, and cognition.',
+      step2Title:'Check duplicates and conflicts',
+      step2Text:'Use current supplements, medication, and body context to flag situations that are not suitable for self-trial.',
+      step3Title:'Test only a few ingredients',
+      step3Text:'Start with a small number of ingredients worth validating to reduce wasted purchases and blind stacking.',
+      suppTitle:'Included ingredients',
+      suppSubtitle:'Covers sleep, stress, exercise, metabolism, immunity, and cognition support',
+      disclaimerTitle:'Medical disclaimer',
+      disclaimerText:'This website is for education and information only and does not provide medical advice. Recommended ingredients are not substitutes for diagnosis or treatment by a clinician. Consult a qualified healthcare professional before starting any supplement. This website does not claim that any supplement can diagnose, treat, cure, or prevent disease. Anonymous visits, quiz completion, and match preferences may be used to improve the product; names, phone numbers, and identity documents are not collected.',
+    },
+  },
+};
 const $=id=>document.getElementById(id);
 const asList=value=>Array.isArray(value)?value.filter(Boolean):(value?[value]:[]);
 const supplementById=id=>SUPPLEMENTS.find(s=>s.id===id);
@@ -47,6 +132,20 @@ function cleanMetaString(value){
 
 function escHtml(value){
   return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function getPathValue(root,path){
+  return path.split('.').reduce((obj,key)=>obj?.[key],root);
+}
+
+function setText(id,value){
+  const node=$(id);
+  if(node)node.textContent=value;
+}
+
+function currentLang(){
+  const saved=localStorage.getItem(LANG_KEY);
+  return LANGS.includes(saved)?saved:'zh-CN';
 }
 
 function markdownToHtml(markdown=''){
@@ -206,7 +305,42 @@ function mergeKnowledge(base, extra){
 }
 
 const App = {
-  qIdx:0, answers:[], knowledge:null, result:null,
+  qIdx:0, answers:[], knowledge:null, result:null, lang:currentLang(),
+  setLanguage(lang){
+    this.lang=LANGS.includes(lang)?lang:'zh-CN';
+    localStorage.setItem(LANG_KEY,this.lang);
+    this.applyLanguage();
+  },
+
+  cycleLanguage(){
+    const next=LANGS[(LANGS.indexOf(this.lang)+1)%LANGS.length];
+    this.setLanguage(next);
+  },
+
+  applyLanguage(){
+    const dict=I18N[this.lang]||I18N['zh-CN'];
+    document.documentElement.lang=dict.htmlLang;
+    document.querySelectorAll('[data-i18n]').forEach(node=>{
+      const value=getPathValue(dict,node.dataset.i18n);
+      if(typeof value==='string')node.textContent=value;
+    });
+    document.querySelectorAll('[data-i18n-attr]').forEach(node=>{
+      node.dataset.i18nAttr.split(';').forEach(pair=>{
+        const [attr,path]=pair.split(':');
+        const value=getPathValue(dict,path);
+        if(attr&&typeof value==='string')node.setAttribute(attr,value);
+      });
+    });
+    const suppCount=SUPPLEMENTS.length;
+    const quizCount=QUIZ.length;
+    setText('supp-count-proof',suppCount);
+    setText('quiz-count-proof',quizCount);
+    setText('supp-proof-label',dict.home.suppProof(suppCount));
+    setText('quiz-proof-label',dict.home.quizProof(quizCount));
+    const langButton=document.querySelector('.lang-switch');
+    if(langButton)langButton.textContent=dict.langLabel;
+  },
+
   go(section, updateHash=true){
     section=ROUTES[section]?section:'home';
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
@@ -684,6 +818,7 @@ const App = {
         'scroll-supplements':()=>$('supp-preview').scrollIntoView({behavior:'smooth',block:'center'}),
         'copy-report':()=>this.copyReport(),
         'download-report':()=>this.downloadReport(),
+        'cycle-language':()=>this.cycleLanguage(),
       };
       actions[actionButton.dataset.action]?.();
     });
@@ -717,14 +852,13 @@ window.App=App;
   App.bindEvents();
 
   // Supplement preview pills
-  $('supp-count-proof').textContent=SUPPLEMENTS.length;
-  $('quiz-count-proof').textContent=QUIZ.length;
   $('supp-preview').innerHTML=SUPPLEMENTS.map(s=>
     `<button class="tag supp-tag" type="button" data-supplement-id="${s.id}">
       ${supplementIconHtml(s)}
       <span class="supp-name">${escHtml(s.name)}</span>
     </button>`
   ).join('');
+  App.applyLanguage();
 
   window.addEventListener('hashchange',()=>{
     const section=location.hash.slice(1);

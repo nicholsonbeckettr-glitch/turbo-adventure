@@ -20,62 +20,63 @@
 <!-- ============ HOME ============ -->
 <section id="sec-home" class="section on home-shell">
   <div class="hero">
+    <button class="lang-switch" type="button" data-action="cycle-language" aria-label="切换语言">简体中文</button>
     <div class="hero-copy">
       <div>
-        <span class="eyebrow">补剂筛选 · 冲突提示 · 小步验证</span>
+        <span class="eyebrow" data-i18n="home.eyebrow">补剂筛选 · 冲突提示 · 小步验证</span>
         <h1 class="hero-title">
           <img class="brand-wordmark-img" src="assets/urgent-vitaminc-wordmark.png" alt="紧急维C">
         </h1>
-        <p class="hero-lead">
+        <p class="hero-lead" data-i18n="home.lead">
           根据健康目标、饮食、现有补剂和身体情况，筛出少量值得验证的成分，并提示重复、冲突和不适用情况。
         </p>
         <div class="hero-actions">
-          <button class="btn btn-primary btn-lg" data-action="go-quiz">开始健康问卷</button>
-          <button class="btn btn-outline btn-lg" data-action="scroll-supplements">查看收录成分</button>
+          <button class="btn btn-primary btn-lg" data-action="go-quiz" data-i18n="home.startQuiz">开始健康问卷</button>
+          <button class="btn btn-outline btn-lg" data-action="scroll-supplements" data-i18n="home.viewSupplements">查看收录成分</button>
         </div>
       </div>
 
-      <div class="hero-proof" aria-label="产品能力">
+      <div class="hero-proof" aria-label="产品能力" data-i18n-attr="aria-label:home.proofLabel">
         <div class="proof-item">
           <span id="supp-count-proof" class="proof-num">20</span>
-          <span class="proof-label">种常见明星成分，按目标和身体情况筛选</span>
+          <span id="supp-proof-label" class="proof-label">种常见明星成分，按目标和身体情况筛选</span>
         </div>
         <div class="proof-item">
           <span id="quiz-count-proof" class="proof-num">13</span>
-          <span class="proof-label">道问题覆盖目标、风险与现有身体信号</span>
+          <span id="quiz-proof-label" class="proof-label">道问题覆盖目标、风险与现有身体信号</span>
         </div>
         <div class="proof-item">
-          <span class="proof-num">3步</span>
-          <span class="proof-label">筛选、排冲突、复盘，控制最小试错成本</span>
+          <span class="proof-num" data-i18n="home.threeStepsNum">3步</span>
+          <span class="proof-label" data-i18n="home.threeStepsLabel">筛选、排冲突、复盘，控制最小试错成本</span>
         </div>
       </div>
     </div>
 
-    <aside class="hero-panel" aria-label="补剂筛选路径">
+    <aside class="hero-panel" aria-label="补剂筛选路径" data-i18n-attr="aria-label:home.panelAria">
       <div class="panel-title">
-        <h2>补剂筛选路径</h2>
+        <h2 data-i18n="home.panelTitle">补剂筛选路径</h2>
         <span class="panel-kicker">MINIMAL TRIAL</span>
       </div>
       <div class="step-list">
         <div class="step">
           <span class="step-mark">01</span>
           <div>
-            <h3>先识别真实目标</h3>
-            <p>从睡眠、压力、代谢、运动和免疫等维度定位主要需求。</p>
+            <h3 data-i18n="home.step1Title">先识别真实目标</h3>
+            <p data-i18n="home.step1Text">从睡眠、压力、代谢、运动和免疫等维度定位主要需求。</p>
           </div>
         </div>
         <div class="step">
           <span class="step-mark">02</span>
           <div>
-            <h3>再排查重复和冲突</h3>
-            <p>结合现有补剂、用药和身体情况，提示不适合自行尝试的场景。</p>
+            <h3 data-i18n="home.step2Title">再排查重复和冲突</h3>
+            <p data-i18n="home.step2Text">结合现有补剂、用药和身体情况，提示不适合自行尝试的场景。</p>
           </div>
         </div>
         <div class="step">
           <span class="step-mark">03</span>
           <div>
-            <h3>只验证少量成分</h3>
-            <p>优先从少数值得验证的成分开始，降低无效购买和盲目叠加。</p>
+            <h3 data-i18n="home.step3Title">只验证少量成分</h3>
+            <p data-i18n="home.step3Text">优先从少数值得验证的成分开始，降低无效购买和盲目叠加。</p>
           </div>
         </div>
       </div>
@@ -84,18 +85,15 @@
 
   <div class="supp-section">
     <div class="supp-head">
-      <h3>收录的明星成分</h3>
-      <span>涵盖睡眠、压力、运动、代谢、免疫与认知支持</span>
+      <h3 data-i18n="home.suppTitle">收录的明星成分</h3>
+      <span data-i18n="home.suppSubtitle">涵盖睡眠、压力、运动、代谢、免疫与认知支持</span>
     </div>
     <div id="supp-preview" class="supp-preview"></div>
   </div>
 
   <div class="disclaimer fineprint">
-    <strong>医学免责声明</strong><br>
-    本网站仅供教育和信息参考，不提供医疗建议。所有推荐的保健成分均不应替代医生的诊断和治疗。
-    在开始服用任何补充剂前，请咨询合格的医疗专业人员。
-    本网站不声称任何补充剂可以诊断、治疗、治愈或预防任何疾病。
-    网站会匿名统计访问、问卷完成和匹配偏好，用于改进内容，不收集姓名、电话或身份证件信息。
+    <strong data-i18n="home.disclaimerTitle">医学免责声明</strong><br>
+    <span data-i18n="home.disclaimerText">本网站仅供教育和信息参考，不提供医疗建议。所有推荐的保健成分均不应替代医生的诊断和治疗。在开始服用任何补充剂前，请咨询合格的医疗专业人员。本网站不声称任何补充剂可以诊断、治疗、治愈或预防任何疾病。网站会匿名统计访问、问卷完成和匹配偏好，用于改进内容，不收集姓名、电话或身份证件信息。</span>
   </div>
 </section>
 
