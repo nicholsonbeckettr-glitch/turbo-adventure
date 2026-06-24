@@ -17,10 +17,18 @@
 </head>
 <body>
 
+<div class="lang-menu">
+  <button class="lang-switch" type="button" data-action="toggle-language-menu" aria-haspopup="listbox" aria-expanded="false" aria-label="切换语言">简体中文</button>
+  <div class="lang-options" role="listbox" hidden>
+    <button type="button" role="option" data-lang-option="zh-CN">简体中文</button>
+    <button type="button" role="option" data-lang-option="zh-TW">繁體中文</button>
+    <button type="button" role="option" data-lang-option="en">English</button>
+  </div>
+</div>
+
 <!-- ============ HOME ============ -->
 <section id="sec-home" class="section on home-shell">
   <div class="hero">
-    <button class="lang-switch" type="button" data-action="cycle-language" aria-label="切换语言">简体中文</button>
     <div class="hero-copy">
       <div>
         <span class="eyebrow" data-i18n="home.eyebrow">补剂筛选 · 冲突提示 · 小步验证</span>

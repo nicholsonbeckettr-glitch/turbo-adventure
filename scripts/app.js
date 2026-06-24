@@ -98,6 +98,125 @@ const I18N={
     },
   },
 };
+const UI_COPY={
+  'zh-CN':{
+    langAria:'切换语言', loadingKnowledge:'正在读取知识库...', resultTitle:'你的保健成分匹配报告',
+    resultSummary:'先给你 3 个强证据 + 3 个中等/其他证据', resultAll:'完整推荐清单，按匹配度排列',
+    warningStrong:'请在使用前咨询医生。', warningText:'以下推荐基于研究文献，不构成医疗建议。',
+    recheck:'重新评估', backHome:'返回首页', moreResults:'更多证据以及参考', match:'匹配度',
+    evidence:{strong:'强证据',moderate:'中等证据',emerging:'新兴研究'},
+    riskFlag:'⚠ 需要评估', empty:'基于您的回答，暂未发现需要特别关注的健康领域。保持当前生活方式！',
+    nextTitle:'下一步建议', nextBody:names=>`优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。`,
+    currentLifestyle:'当前生活方式', copyReport:'复制报告', downloadReport:'下载 PDF 报告', buyList:'查看筛选清单', brandCoop:'品牌合作',
+    detail:{targets:'匹配目标', use:'使用与复盘', dose:'建议剂量：', cycle:'观察周期：', risk:'风险边界', mechanism:'机理流程', focus:'知识库重点', literature:'文献依据', source:'查看完整知识库原文', noSummary:'知识库暂未配置该部分摘要。', defaultRef:'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。'},
+    focus:{key:'重点结论', fit:'适合人群', notFit:'不适合人群', dose:'剂量与复盘', evidence:'证据更可靠', risk:'风险边界', extra:'补充要点'},
+    report:{title:'保健成分综合报告', generated:'生成时间', summary:'匹配摘要', targets:'你的主要健康目标', risks:'风险筛查', priority:'推荐优先级', cross:'交叉验证', reason:'匹配原因', dose:'建议剂量', cycle:'建议周期', usage:'其他人使用方案', warning:'风险提示', evidence:'证据等级', literature:'文献', oneLine:'一句话总结', note:'知识库备注', checklist:'使用前检查清单', review:'7 天复盘表', noTargets:'未识别到明显目标', noRisks:'未识别到特殊高风险项', none:'暂无', weighted:'由问卷加权命中', disclaimer:'免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。', pdfLoading:'PDF 组件暂未加载完成，请刷新页面后重试。',
+      checks:['是否正在使用处方药，尤其是抗凝、降压、降糖、镇静类药物？','是否怀孕、哺乳、准备手术，或存在肝肾疾病？','产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？','是否设置了复盘周期，避免长期无目的叠加补剂？'],
+      reviewRows:['第 0 天：记录目标评分、已用药物、已吃补剂和准备尝试的 1-2 个成分。','第 3 天：记录不良反应、睡眠/精力/压力/训练表现变化。','第 7 天：比较评分变化，决定继续观察、降低剂量、停止或咨询医生。','第 14 天：如仍无明确收益，优先停止无效项，避免长期叠加。']},
+    consoleReady:'已就绪', consoleStats:(s,q)=>`${s}种成分 · ${q}道问卷题 · 循证推荐`,
+  },
+  'zh-TW':{
+    langAria:'切換語言', loadingKnowledge:'正在讀取知識庫...', resultTitle:'你的保健成分匹配報告',
+    resultSummary:'先給你 3 個強證據 + 3 個中等/其他證據', resultAll:'完整推薦清單，按匹配度排列',
+    warningStrong:'請在使用前諮詢醫師。', warningText:'以下推薦基於研究文獻，不構成醫療建議。',
+    recheck:'重新評估', backHome:'返回首頁', moreResults:'更多證據以及參考', match:'匹配度',
+    evidence:{strong:'強證據',moderate:'中等證據',emerging:'新興研究'},
+    riskFlag:'⚠ 需要評估', empty:'基於您的回答，暫未發現需要特別關注的健康領域。保持目前生活方式！',
+    nextTitle:'下一步建議', nextBody:names=>`優先核對 ${names} 的禁忌、藥物交互作用、第三方檢測和實際劑量。建議只選擇 1-2 個高匹配項做 7 天試用，並記錄睡眠、精力、壓力或訓練表現評分。本站未來可能透過廣告、贊助或聯盟連結獲得收入；商業合作不影響匹配排序。`,
+    currentLifestyle:'目前生活方式', copyReport:'複製報告', downloadReport:'下載 PDF 報告', buyList:'查看篩選清單', brandCoop:'品牌合作',
+    detail:{targets:'匹配目標', use:'使用與複盤', dose:'建議劑量：', cycle:'觀察週期：', risk:'風險邊界', mechanism:'機理流程', focus:'知識庫重點', literature:'文獻依據', source:'查看完整知識庫原文', noSummary:'知識庫暫未配置該部分摘要。', defaultRef:'該文獻作為目前成分建議的基礎參考，具體適用性仍需結合個人情況判斷。'},
+    focus:{key:'重點結論', fit:'適合人群', notFit:'不適合人群', dose:'劑量與複盤', evidence:'證據更可靠', risk:'風險邊界', extra:'補充要點'},
+    report:{title:'保健成分綜合報告', generated:'生成時間', summary:'匹配摘要', targets:'你的主要健康目標', risks:'風險篩查', priority:'推薦優先級', cross:'交叉驗證', reason:'匹配原因', dose:'建議劑量', cycle:'建議週期', usage:'其他人使用方案', warning:'風險提示', evidence:'證據等級', literature:'文獻', oneLine:'一句話總結', note:'知識庫備註', checklist:'使用前檢查清單', review:'7 天複盤表', noTargets:'未識別到明顯目標', noRisks:'未識別到特殊高風險項', none:'暫無', weighted:'由問卷加權命中', disclaimer:'免責聲明：本報告僅供教育參考，不構成醫療建議，不能替代醫師診斷、治療或用藥建議。', pdfLoading:'PDF 元件暫未載入完成，請刷新頁面後重試。',
+      checks:['是否正在使用處方藥，尤其是抗凝、降壓、降糖、鎮靜類藥物？','是否懷孕、哺乳、準備手術，或存在肝腎疾病？','產品是否有第三方檢測、清晰劑量、有效成分含量和批次資訊？','是否設定了複盤週期，避免長期無目的疊加補劑？'],
+      reviewRows:['第 0 天：記錄目標評分、已用藥物、已吃補劑和準備嘗試的 1-2 個成分。','第 3 天：記錄不良反應、睡眠/精力/壓力/訓練表現變化。','第 7 天：比較評分變化，決定繼續觀察、降低劑量、停止或諮詢醫師。','第 14 天：如仍無明確收益，優先停止無效項，避免長期疊加。']},
+    consoleReady:'已就緒', consoleStats:(s,q)=>`${s}種成分 · ${q}道問卷題 · 循證推薦`,
+  },
+  en:{
+    langAria:'Change language', loadingKnowledge:'Loading knowledge base...', resultTitle:'Your ingredient match report',
+    resultSummary:'First: 3 strong-evidence picks + 3 moderate or emerging picks', resultAll:'Full recommendation list, sorted by match',
+    warningStrong:'Consult a clinician before use.', warningText:'These suggestions are based on research literature and are not medical advice.',
+    recheck:'Retake quiz', backHome:'Back home', moreResults:'More evidence and references', match:'Match',
+    evidence:{strong:'Strong evidence',moderate:'Moderate evidence',emerging:'Emerging research'},
+    riskFlag:'⚠ Review needed', empty:'Based on your answers, no specific priority area stands out. Keep your current routine.',
+    nextTitle:'Next step', nextBody:names=>`First check contraindications, medication interactions, third-party testing, and actual dose for ${names}. Pick only 1-2 high-match items for a 7-day trial and record sleep, energy, stress, or training scores. This site may later earn revenue through ads, sponsorships, or affiliate links; commercial relationships do not affect match ranking.`,
+    currentLifestyle:'current lifestyle', copyReport:'Copy report', downloadReport:'Download PDF report', buyList:'View shortlist', brandCoop:'Partnerships',
+    detail:{targets:'Matched goals', use:'Use and review', dose:'Suggested dose: ', cycle:'Review window: ', risk:'Risk boundaries', mechanism:'Absorption and use pathway', focus:'Knowledge highlights', literature:'Evidence', source:'View original Chinese source note', noSummary:'No summary has been configured for this section.', defaultRef:'This source is a base reference for the current ingredient suggestion; personal fit still depends on your context.'},
+    focus:{key:'Key takeaway', fit:'Who may fit', notFit:'Who should avoid', dose:'Dose and review', evidence:'Stronger evidence', risk:'Risk boundary', extra:'More notes'},
+    report:{title:'Ingredient match report', generated:'Generated at', summary:'Match summary', targets:'Main health goals', risks:'Risk screen', priority:'Priority list', cross:'Cross-check', reason:'Match reason', dose:'Suggested dose', cycle:'Suggested review window', usage:'How others use it', warning:'Risk notes', evidence:'Evidence level', literature:'Reference', oneLine:'One-line summary', note:'Knowledge note', checklist:'Pre-use checklist', review:'7-day review table', noTargets:'No clear goal identified', noRisks:'No special high-risk item identified', none:'None', weighted:'Matched by quiz weighting', disclaimer:'Disclaimer: this report is for education only and is not medical advice. It cannot replace diagnosis, treatment, or medication guidance from a clinician.', pdfLoading:'The PDF component is still loading. Please refresh and try again.',
+      checks:['Are you taking prescription medication, especially anticoagulants, blood-pressure, glucose-lowering, or sedative drugs?','Are you pregnant, breastfeeding, preparing for surgery, or dealing with liver or kidney disease?','Does the product provide third-party testing, clear dosage, active ingredient content, and batch information?','Have you set a review window so supplements do not stack up without a purpose?'],
+      reviewRows:['Day 0: record target scores, medications, current supplements, and the 1-2 ingredients you plan to test.','Day 3: record adverse reactions and changes in sleep, energy, stress, or training performance.','Day 7: compare score changes and decide whether to continue, adjust dose, stop, or consult a clinician.','Day 14: if there is still no clear benefit, stop ineffective items first and avoid long-term stacking.']},
+    consoleReady:'ready', consoleStats:(s,q)=>`${s} ingredients · ${q} quiz questions · evidence-informed matching`,
+  },
+};
+
+const QUIZ_COPY={
+  'zh-CN':QUIZ.map(q=>({q:q.q,opts:q.opts})),
+  'zh-TW':[
+    ['您的運動頻率？',['幾乎不動','每週1-2次','每週3-5次','幾乎每天運動']],
+    ['您的睡眠品質？',['很好，一覺到天亮','一般，偶爾失眠','差，經常入睡困難','很差，依賴藥物']],
+    ['您近期的壓力水平？',['輕鬆自在','輕度壓力','中度壓力','高壓，身心俱疲']],
+    ['您最關心的健康領域？（選最重要的）',['大腦/認知/情緒','運動/體能/恢復','心臟/代謝/體重','免疫/抗炎/抗老']],
+    ['您是否有血壓偏高的困擾？',['沒有，血壓正常','偏高，在監測中','確診高血壓，在用藥']],
+    ['以下哪種情況最符合您？',['均不符合','正在使用處方藥','備孕/懷孕/哺乳','肝腎疾病或近期手術']],
+    ['您的消化系統狀況？',['很好，沒有不適','偶爾腹脹/消化不良','經常便秘或腹瀉','確診IBS/IBD等消化疾病']],
+    ['您的關節/骨骼狀況？',['很好，沒有不適','偶爾痠痛','經常關節不適','確診關節炎/骨質疏鬆等']],
+    ['您的皮膚狀況？',['很好','偏乾燥','有痤瘡/痘痘困擾','有明顯的皮膚老化/炎症']],
+    ['您的注意力/記憶力？',['很好，思路清晰','偶爾腦霧/走神','經常注意力不集中','明顯下降，影響工作']],
+    ['您是否經常感到疲勞？',['精力充沛','偶爾疲勞','經常疲勞','嚴重影響生活']],
+    ['您是否容易生病/感染？',['很少生病','一年1-2次感冒','一年3次以上','免疫力明顯偏低']],
+    ['您是否有過敏問題？',['沒有','季節性過敏（花粉/塵蟎）','食物過敏','藥物或接觸性過敏']],
+  ].map(([q,opts])=>({q,opts})),
+  en:[
+    ['How often do you exercise?',['Almost never','1-2 times per week','3-5 times per week','Almost every day']],
+    ['How is your sleep quality?',['Great, I sleep through the night','Average, occasional insomnia','Poor, often hard to fall asleep','Very poor, I rely on medication']],
+    ['How stressed have you felt lately?',['Relaxed','Mild stress','Moderate stress','High pressure and exhausted']],
+    ['Which health area matters most right now?',['Brain, cognition, mood','Exercise, fitness, recovery','Heart, metabolism, weight','Immunity, inflammation, healthy aging']],
+    ['Do you deal with elevated blood pressure?',['No, normal blood pressure','Somewhat high, monitoring it','Diagnosed hypertension, on medication']],
+    ['Which situation best describes you?',['None of these','Taking prescription medication','Trying to conceive, pregnant, or breastfeeding','Liver/kidney disease or recent surgery']],
+    ['How is your digestive system?',['Good, no discomfort','Occasional bloating or indigestion','Frequent constipation or diarrhea','Diagnosed IBS/IBD or other digestive disease']],
+    ['How are your joints and bones?',['Good, no discomfort','Occasional soreness','Frequent joint discomfort','Diagnosed arthritis, osteoporosis, etc.']],
+    ['How is your skin?',['Good','Dry','Acne or breakouts','Visible skin aging or inflammation']],
+    ['How are your focus and memory?',['Good and clear','Occasional brain fog or distraction','Often hard to focus','Clearly worse and affecting work']],
+    ['Do you often feel tired?',['Energetic','Occasionally tired','Often tired','Severely affects daily life']],
+    ['Do you get sick or infected easily?',['Rarely sick','1-2 colds per year','More than 3 times per year','Clearly low immunity']],
+    ['Do you have allergy issues?',['No','Seasonal allergy, such as pollen or dust mites','Food allergy','Drug or contact allergy']],
+  ].map(([q,opts])=>({q,opts})),
+};
+
+const SUPPLEMENT_EN={
+  omega3:{cat:'Fatty acid',desc:'Long-chain omega-3 fatty acids mainly from low-mercury fish, fish oil, and algal oil. Most useful for filling EPA/DHA gaps, managing high triglycerides, and specific pregnancy or cardiovascular contexts.',dosage:'EPA+DHA about 250 mg/day to start; therapeutic doses require clinician guidance'},
+  creatine:{name:'Creatine',cat:'Amino-acid derivative',desc:'One of the best-studied performance supplements. Recent research also discusses potential cognitive benefits.',dosage:'3-5 g/day for maintenance'},
+  citrulline:{name:'L-Citrulline',cat:'Amino acid',desc:'A non-essential amino acid that can convert to arginine, support nitric oxide production, and improve blood flow.',dosage:'3-6 g/day, 60-90 minutes before training'},
+  theanine:{name:'L-Theanine',cat:'Amino acid',desc:'A non-protein amino acid from tea that may support mild relaxation and calm alertness. Better suited to short-term checks for stress, bedtime tension, or caffeine-related discomfort.',dosage:'Start with 100-200 mg, assessed by use case'},
+  magnesium:{name:'Magnesium',cat:'Mineral',desc:'An essential mineral involved in 300+ enzyme reactions. Magnesium glycinate and citrate are commonly discussed forms with better tolerance for many people.',dosage:'200-400 mg/day'},
+  vitamind:{name:'Vitamin D3',cat:'Vitamin',desc:'A fat-soluble, hormone-like nutrient central to calcium/phosphorus metabolism, bone health, and correction of deficiency. Best used with risk assessment, testing, and follow-up.',dosage:'Start around 600-800 IU/day, review with testing'},
+  zinc:{name:'Zinc',cat:'Mineral',desc:'An essential trace mineral important for immunity, wound healing, taste, and male reproductive health.',dosage:'15-30 mg/day'},
+  ashwagandha:{name:'Ashwagandha',cat:'Botanical extract',desc:'An Ayurvedic adaptogenic herb used to help the body respond to stress and lower cortisol-related stress signals.',dosage:'300-600 mg/day standardized extract'},
+  coq10:{name:'CoQ10',cat:'Coenzyme',desc:'A key coenzyme in the mitochondrial electron transport chain; endogenous synthesis tends to decline with age.',dosage:'100-300 mg/day'},
+  probiotics:{name:'Probiotics',cat:'Microorganism',desc:'Live microbial supplements that may support digestion and immunity by interacting with the gut microbiome.',dosage:'1-10 billion CFU/day'},
+  curcumin:{name:'Curcumin',cat:'Botanical extract',desc:'The active component in turmeric, known for anti-inflammatory and antioxidant activity. Absorption design matters.',dosage:'500-1500 mg/day, often with an absorption enhancer'},
+  melatonin:{name:'Melatonin',cat:'Hormone',desc:'A sleep-timing hormone secreted by the pineal gland. Best suited to short-term circadian rhythm adjustment.',dosage:'0.5-5 mg, 30-60 minutes before bed'},
+  collagen:{name:'Collagen Peptides',cat:'Protein',desc:'Hydrolyzed collagen providing peptide and amino-acid building blocks for skin, joints, and connective tissue.',dosage:'5-10 g/day'},
+  nac:{name:'NAC',cat:'Amino-acid derivative',desc:'A glutathione precursor and antioxidant that supports redox balance and respiratory mucus handling.',dosage:'600-1200 mg/day'},
+  berberine:{name:'Berberine',cat:'Botanical extract',desc:'A plant alkaloid discussed for glucose and lipid regulation, with medication-interaction concerns.',dosage:'500 mg, 2-3 times/day before meals'},
+  rhodiola:{name:'Rhodiola Rosea',cat:'Botanical extract',desc:'A traditional adaptogenic herb from cold regions, used for fatigue, stress resilience, and endurance.',dosage:'200-600 mg/day standardized extract'},
+  bcomplex:{name:'B-Complex',cat:'Vitamin',desc:'A combination of eight B vitamins important for energy metabolism, nervous system function, and red blood cell production.',dosage:'Depends on product, commonly 1 capsule/day'},
+  lionsmane:{name:"Lion's Mane",cat:'Mushroom extract',desc:'A medicinal mushroom traditionally used for cognition and nerve support; mechanisms may involve nerve growth factor pathways.',dosage:'500-3000 mg/day'},
+  glycine:{name:'Glycine',cat:'Amino acid',desc:'A conditionally essential amino acid and inhibitory neurotransmitter that may support sleep quality and thermoregulation.',dosage:'3 g before bed'},
+  quercetin:{name:'Quercetin',cat:'Flavonoid',desc:'A flavonoid abundant in onions and apples, discussed for antihistamine-like and anti-inflammatory actions.',dosage:'500-1000 mg/day'},
+};
+
+const TERM_EN={
+  '心血管健康':'cardiovascular health','高甘油三酯':'high triglycerides','关节炎症':'joint inflammation','脑雾/认知':'brain fog/cognition','情绪低落':'low mood','皮肤干燥':'dry skin',
+  '运动表现提升':'exercise performance','肌肉恢复':'muscle recovery','疲劳感':'fatigue','血压偏高':'elevated blood pressure','血液循环差':'poor circulation','压力/焦虑':'stress/anxiety','睡眠质量差':'poor sleep quality','注意力不集中':'poor focus','肌肉痉挛/紧张':'muscle cramps/tension','偏头痛':'migraine','免疫力低下':'low immunity','骨质疏松风险':'osteoporosis risk','皮肤问题/痤疮':'skin issues/acne','伤口愈合慢':'slow wound healing','脱发':'hair loss','消化问题':'digestive issues','运动恢复':'exercise recovery','呼吸系统':'respiratory support','血糖控制':'glucose control','记忆下降':'memory decline','神经恢复':'nerve recovery','时差/轮班':'jet lag/shift work','过敏/季节性不适':'allergy/seasonal discomfort',
+  '抗凝/抗血小板药使用者需咨询医生':'Consult a clinician if using anticoagulant or antiplatelet medication','围手术期需告知医生评估':'Tell your clinician around surgery','房颤史或高剂量使用需谨慎':'Use caution with atrial fibrillation history or high-dose use','肾功能不全者需咨询医生':'Consult a clinician with kidney impairment','初期可能有轻微水潴留':'Mild water retention may occur at first','低血压患者慎用':'Use caution with low blood pressure','可能与降压药相互作用':'May interact with blood-pressure medication','镇静/安眠/精神科药物使用者需咨询医生':'Consult a clinician if using sedatives, sleep aids, or psychiatric medication','孕期/哺乳期和儿童不建议自行使用':'Pregnancy, breastfeeding, and children should not self-use','低血压或易头晕者慎用':'Use caution with low blood pressure or dizziness','过量可能导致腹泻':'Excess intake may cause diarrhea','长期高剂量可能导致高钙血症':'Long-term high dose may cause hypercalcemia','肾病/结石史需咨询医生':'Kidney disease or stone history requires clinician input','合并补钙或相关药物需监测':'Monitor if combined with calcium or related medication','长期高剂量可能抑制铜吸收':'Long-term high dose may reduce copper absorption','空腹可能引起恶心':'May cause nausea on an empty stomach','孕期/哺乳期避免':'Avoid during pregnancy or breastfeeding','甲状腺疾病患者需咨询医生':'Consult a clinician with thyroid disease','可能与华法林相互作用':'May interact with warfarin','一般安全':'Generally safe','免疫力严重低下者慎用':'Use caution with severe immunosuppression','不同菌株效果差异大':'Effects vary by strain','胆结石患者慎用':'Use caution with gallstones','可能与抗凝血药物相互作用':'May interact with anticoagulants','长期高剂量安全性数据有限':'Long-term high-dose safety data are limited','可能引起次日嗜睡':'May cause next-day sleepiness','鱼胶原对鱼类过敏者慎用':'Fish collagen requires caution with fish allergy','可能引起胃部不适':'May cause stomach discomfort','对组胺不耐受者慎用':'Use caution with histamine intolerance','可能引起胃肠道不适':'May cause gastrointestinal discomfort','孕妇禁用':'Contraindicated in pregnancy','糖尿病药物使用者需监测血糖':'Monitor glucose if using diabetes medication','可能引起口干或头晕':'May cause dry mouth or dizziness','双相情感障碍患者避免使用':'Avoid with bipolar disorder','高剂量B6长期使用可能引起神经损伤':'Long-term high-dose B6 may cause nerve damage','一般安全范围广泛':'Generally has a wide safety margin','蘑菇过敏者慎用':'Use caution with mushroom allergy','长期安全数据有限':'Long-term safety data are limited','极高剂量可能引起胃肠不适':'Very high doses may cause gastrointestinal discomfort','可能影响某些药物的肝代谢':'May affect liver metabolism of some medications',
+  '正在使用处方药，需要重点核对药物相互作用':'Taking prescription medication; interactions need careful review','备孕/怀孕/哺乳期不建议自行补充，需先咨询医生':'Trying to conceive, pregnancy, or breastfeeding: do not self-supplement without clinician input','肝肾疾病或近期手术属于高风险场景，需先咨询医生':'Liver/kidney disease or recent surgery is a high-risk context; consult a clinician first',
+  '用户上传调研报告':'User-uploaded research note',
+};
+
+const TERM_TW={
+  '强证据':'強證據','中等证据':'中等證據','新兴研究':'新興研究','当前生活方式':'目前生活方式',
+};
 const $=id=>document.getElementById(id);
 const asList=value=>Array.isArray(value)?value.filter(Boolean):(value?[value]:[]);
 const supplementById=id=>SUPPLEMENTS.find(s=>s.id===id);
@@ -132,6 +251,92 @@ function cleanMetaString(value){
 
 function escHtml(value){
   return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function ui(path){
+  return getPathValue(UI_COPY[App?.lang||currentLang()]||UI_COPY['zh-CN'],path);
+}
+
+function toTraditional(value){
+  const phrases=[
+    ['质量','品質'],['睡眠','睡眠'],['压力','壓力'],['焦虑','焦慮'],['关节','關節'],['骨质疏松','骨質疏鬆'],
+    ['证据','證據'],['新兴','新興'],['医学','醫學'],['医生','醫師'],['咨询','諮詢'],['建议','建議'],
+    ['补剂','補劑'],['补充','補充'],['筛选','篩選'],['冲突','衝突'],['复盘','複盤'],['风险','風險'],
+    ['知识库','知識庫'],['调研','調研'],['报告','報告'],['文献','文獻'],['摘要','摘要'],
+    ['当前','目前'],['信息','資訊'],['药物','藥物'],['处方药','處方藥'],['降压','降壓'],['降糖','降糖'],
+    ['镇静','鎮靜'],['手术','手術'],['怀孕','懷孕'],['准备','準備'],['肝肾','肝腎'],['肾','腎'],
+    ['长期','長期'],['剂量','劑量'],['机理','機理'],['流程','流程'],['目标','目標'],['优先','優先'],
+    ['实际','實際'],['检测','檢測'],['营养','營養'],['健康','健康'],['运动','運動'],['恢复','恢復'],
+    ['认知','認知'],['脑雾','腦霧'],['情绪','情緒'],['低落','低落'],['皮肤','皮膚'],['干燥','乾燥'],
+    ['血压','血壓'],['血糖','血糖'],['血液','血液'],['循环','循環'],['炎症','炎症'],['免疫','免疫'],
+    ['消化','消化'],['过敏','過敏'],['季节性','季節性'],['习惯','習慣'],['选择','選擇'],['记录','記錄'],
+    ['变量','變數'],['评估','評估'],['监测','監測'],['复查','複查'],['围手术期','圍手術期'],
+    ['鱼油','魚油'],['鱼类','魚類'],['低汞','低汞'],['甘油三酯','甘油三酯'],['维生素','維生素'],
+    ['镁','鎂'],['锌','鋅'],['辅酶','輔酶'],['胶原蛋白','膠原蛋白'],['小檗碱','小檗鹼'],
+    ['红景天','紅景天'],['复合','複合'],['猴头菇','猴頭菇'],['甘氨酸','甘胺酸'],['槲皮素','槲皮素'],
+    ['视情况','視情況'],['适合','適合'],['不适合','不適合'],['明确','明確'],['默认','預設'],
+  ];
+  return phrases.reduce((text,[from,to])=>text.replaceAll(from,to),String(value??''));
+}
+
+function tr(value){
+  if(value==null)return '';
+  const text=String(value);
+  if(App.lang==='en')return TERM_EN[text]||text;
+  if(App.lang==='zh-TW')return TERM_TW[text]||toTraditional(text);
+  return text;
+}
+
+function hasCjk(value){
+  return /[\u3400-\u9fff]/.test(String(value??''));
+}
+
+function enSafe(value,fallback=''){
+  return App.lang==='en'&&hasCjk(value)?fallback:String(value??'');
+}
+
+function joinLocalized(items, fallback=''){
+  const list=asList(items).map(tr);
+  return list.length?list.join(App.lang==='en'?', ':'、'):(fallback?tr(fallback):'');
+}
+
+function localizedSupplement(supplement){
+  const en=App.lang==='en'?(SUPPLEMENT_EN[supplement.id]||{}):{};
+  return {
+    ...supplement,
+    name:App.lang==='en'?(en.name||supplement.name):tr(supplement.name),
+    cat:App.lang==='en'?(en.cat||tr(supplement.cat)):tr(supplement.cat),
+    desc:App.lang==='en'?(en.desc||tr(supplement.desc)):tr(supplement.desc),
+    dosage:App.lang==='en'?(en.dosage||tr(supplement.dosage)):tr(supplement.dosage),
+    targets:supplement.targets.map(tr),
+    warnings:supplement.warnings.map(tr),
+    refs:supplement.refs.map(ref=>({
+      ...ref,
+      summary:tr(ref.summary||supplement.desc),
+    })),
+  };
+}
+
+function localizedInfo(info={}){
+  return {
+    ...info,
+    supportedTargets:asList(info.supportedTargets).map(tr),
+    cycle:tr(info.cycle),
+    usagePlans:asList(info.usagePlans).map(tr),
+    note:tr(info.note),
+    mechanism:asList(info.mechanism).map(tr),
+    literature:asList(info.literature).map(ref=>({
+      ...ref,
+      journal:tr(ref.journal),
+      summary:tr(ref.summary),
+    })),
+    notes:asList(info.notes).map(note=>({
+      ...note,
+      title:tr(note.title),
+      summary:tr(note.summary),
+      mechanism:asList(note.mechanism).map(tr),
+    })),
+  };
 }
 
 function getPathValue(root,path){
@@ -203,10 +408,11 @@ function previewMarkdown(markdown='',limit=4){
   });
   return items.length
     ? `<ul>${items.map(item=>`<li>${escHtml(item)}</li>`).join('')}</ul>`
-    : '<p class="detail-muted">知识库暂未配置该部分摘要。</p>';
+    : `<p class="detail-muted">${escHtml(ui('detail.noSummary'))}</p>`;
 }
 
 function focusSectionsFromNote(note){
+  if(App.lang==='en')return [];
   const sections=splitMarkdownSections(note?.body);
   const picks=[
     ['重点结论',/一句话结论/],
@@ -221,12 +427,13 @@ function focusSectionsFromNote(note){
     const index=sections.findIndex((section,i)=>!used.has(i)&&pattern.test(section.title));
     if(index<0)return null;
     used.add(index);
-    return {label,title:sections[index].title,body:sections[index].body};
+    const labelMap={'重点结论':'key','适合人群':'fit','不适合人群':'notFit','剂量与复盘':'dose','证据更可靠':'evidence','风险边界':'risk'};
+    return {label:ui(`focus.${labelMap[label]}`)||tr(label),title:tr(sections[index].title),body:sections[index].body};
   }).filter(Boolean);
   sections.forEach((section,index)=>{
     if(focused.length>=6||used.has(index))return;
     used.add(index);
-    focused.push({label:'补充要点',title:section.title,body:section.body});
+    focused.push({label:ui('focus.extra'),title:tr(section.title),body:section.body});
   });
   return focused.slice(0,6);
 }
@@ -237,6 +444,34 @@ function detailFallback(supplement){
     usagePlans:['先确认目标和禁忌，再决定是否试用', '只新增这一个成分，避免同时叠加多个补剂', '记录开始前、使用中和复盘日的目标评分'],
     mechanism:[`${supplement.name} 经口服进入胃肠道`, '被吸收后进入血液或淋巴运输', '分布到相关组织或细胞内', '参与代谢、结构组成或信号通路', '经储存、转化或排泄维持体内平衡'],
   };
+}
+
+function defaultEnglishCycle(supplement){
+  const name=SUPPLEMENT_EN[supplement.id]?.name||supplement.name;
+  if(App.lang!=='en')return tr(detailFallback(supplement).cycle);
+  return `Review ${name} for 4-8 weeks against the target symptom, tolerance, and any objective marker. Stop first if there is no clear benefit or if adverse effects appear.`;
+}
+
+function defaultEnglishUsage(supplement){
+  const name=SUPPLEMENT_EN[supplement.id]?.name||supplement.name;
+  if(App.lang!=='en')return detailFallback(supplement).usagePlans.map(tr);
+  return [
+    `Confirm the goal and contraindications before trying ${name}.`,
+    'Add only one new ingredient at a time so the effect is easier to judge.',
+    'Record baseline, mid-point, and review-day scores for the target outcome.',
+  ];
+}
+
+function defaultEnglishMechanism(supplement){
+  const name=SUPPLEMENT_EN[supplement.id]?.name||supplement.name;
+  if(App.lang!=='en')return detailFallback(supplement).mechanism.map(tr);
+  return [
+    `${name} is taken orally through food or a supplement.`,
+    'It enters digestion, absorption, metabolism, and tissue distribution pathways.',
+    'It interacts with relevant enzymes, membranes, microbiome, or signaling systems depending on the ingredient.',
+    'Those pathways connect to the matched goal, such as sleep, training, metabolism, immunity, or cognition.',
+    'The body then stores, converts, uses, or clears the remaining compounds.',
+  ];
 }
 
 function mechanismSteps(info,supplement){
@@ -310,15 +545,34 @@ const App = {
     this.lang=LANGS.includes(lang)?lang:'zh-CN';
     localStorage.setItem(LANG_KEY,this.lang);
     this.applyLanguage();
+    this.closeLanguageMenu();
+    if($('sec-quiz').classList.contains('on'))this.renderQ();
+    if($('sec-result').classList.contains('on'))this.showResult({updateHash:false,trackResult:false,mode:this.resultMode||'summary'});
+    if($('sec-supplement').classList.contains('on')){
+      const id=location.hash.startsWith('#supplement/')?location.hash.slice('#supplement/'.length):'';
+      if(id)this.showSupplement(id,false);
+    }
   },
 
-  cycleLanguage(){
-    const next=LANGS[(LANGS.indexOf(this.lang)+1)%LANGS.length];
-    this.setLanguage(next);
+  toggleLanguageMenu(){
+    const menu=document.querySelector('.lang-options');
+    const button=document.querySelector('.lang-switch');
+    if(!menu||!button)return;
+    const willOpen=menu.hidden;
+    menu.hidden=!willOpen;
+    button.setAttribute('aria-expanded',String(willOpen));
+  },
+
+  closeLanguageMenu(){
+    const menu=document.querySelector('.lang-options');
+    const button=document.querySelector('.lang-switch');
+    if(menu)menu.hidden=true;
+    if(button)button.setAttribute('aria-expanded','false');
   },
 
   applyLanguage(){
     const dict=I18N[this.lang]||I18N['zh-CN'];
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
     document.documentElement.lang=dict.htmlLang;
     document.querySelectorAll('[data-i18n]').forEach(node=>{
       const value=getPathValue(dict,node.dataset.i18n);
@@ -338,7 +592,25 @@ const App = {
     setText('supp-proof-label',dict.home.suppProof(suppCount));
     setText('quiz-proof-label',dict.home.quizProof(quizCount));
     const langButton=document.querySelector('.lang-switch');
-    if(langButton)langButton.textContent=dict.langLabel;
+    if(langButton){
+      langButton.textContent=dict.langLabel;
+      langButton.setAttribute('aria-label',copy.langAria);
+    }
+    document.querySelectorAll('[data-lang-option]').forEach(option=>{
+      const selected=option.dataset.langOption===this.lang;
+      option.setAttribute('aria-selected',String(selected));
+    });
+    const title=document.querySelector('.result-title');
+    if(title)title.textContent=copy.resultTitle;
+    const warn=$('sec-result')?.querySelector('.result-warn');
+    if(warn)warn.innerHTML=`<strong>⚕️ ${escHtml(copy.warningStrong)}</strong> ${escHtml(copy.warningText)}`;
+    document.querySelector('[data-action="go-quiz"].btn-sm')?.replaceChildren(document.createTextNode(copy.recheck));
+    document.querySelectorAll('[data-action="go-home"]').forEach(button=>button.textContent=copy.backHome);
+    document.querySelectorAll('.supp-tag').forEach(button=>{
+      const supplement=supplementById(button.dataset.supplementId);
+      const label=button.querySelector('.supp-name');
+      if(supplement&&label)label.textContent=localizedSupplement(supplement).name;
+    });
   },
 
   go(section, updateHash=true){
@@ -360,14 +632,15 @@ const App = {
   renderQ(){
     if(this.qIdx>=QUIZ.length){this.showResult();return;}
     const q=QUIZ[this.qIdx];
-    $('quiz-q').textContent=q.q;
+    const qCopy=QUIZ_COPY[this.lang]?.[this.qIdx]||{q:q.q,opts:q.opts};
+    $('quiz-q').textContent=qCopy.q;
     $('quiz-num').textContent=`${this.qIdx+1}/${QUIZ.length}`;
     $('quiz-progress').style.width=`${(this.qIdx/QUIZ.length)*100}%`;
     
     const l=['A','B','C','D'];
-    $('quiz-opts').innerHTML=q.opts.map((o,i)=>
+    $('quiz-opts').innerHTML=qCopy.opts.map((o,i)=>
       `<button class="btn btn-outline anim-fade quiz-option" style="--delay:${i*.06}s" data-answer="${i}">
-        <span class="quiz-option-letter">${l[i]}</span>${o}
+        <span class="quiz-option-letter">${l[i]}</span>${escHtml(o)}
       </button>`
     ).join('');
   },
@@ -392,17 +665,19 @@ const App = {
     this.resultMode=mode;
     const {top,userTargets}=this.result;
     const visibleResults=mode==='all'?top:this.featuredResults(top);
-    const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const evidenceLabel=copy.evidence;
     const evidenceClass={strong:'badge-strong',moderate:'badge-moderate',emerging:'badge-emerging'};
     const fillColors=['var(--green)','var(--teal)','var(--gold)','#5a7d6a','#8d6e63'];
     
     $('result-subtitle').textContent=mode==='all'
-      ? '完整推荐清单，按匹配度排列'
-      : '先给你 3 个强证据 + 3 个中等/其他证据';
+      ? copy.resultAll
+      : copy.resultSummary;
     
     const maxScore=Math.max(...visibleResults.map(s=>s.score),1);
     
-    $('result-list').innerHTML=visibleResults.map((s,i)=>{
+    $('result-list').innerHTML=visibleResults.map((raw,i)=>{
+      const s=localizedSupplement(raw);
       const pct=Math.round((s.score/maxScore)*100);
       return `<button class="card anim-fade result-card result-card-link" type="button" data-supplement-id="${s.id}" style="--delay:${i*.06}s;--match-pct:${pct}%;--match-color:${fillColors[i%fillColors.length]}">
         <div class="result-card-inner">
@@ -411,13 +686,13 @@ const App = {
             <div class="result-title-row">
               <h3 class="result-name">${s.name}</h3>
               <span class="badge ${evidenceClass[s.evidence]}">${evidenceLabel[s.evidence]}</span>
-              ${s.hasWarnings?'<span class="risk-flag">⚠ 需要评估</span>':''}
+              ${s.hasWarnings?`<span class="risk-flag">${escHtml(copy.riskFlag)}</span>`:''}
             </div>
-            <p class="result-desc">${s.desc}</p>
+            <p class="result-desc">${escHtml(s.desc)}</p>
             <div class="match-bar result-bar"><div class="match-fill"></div></div>
             <div class="result-meta">
-              <span>匹配度: ${pct}%</span>
-              <span>💊 ${s.dosage}</span>
+              <span>${escHtml(copy.match)}: ${pct}%</span>
+              <span>💊 ${escHtml(s.dosage)}</span>
             </div>
             ${s.refs.length?`<p class="result-ref">📚 ${s.refs[0].t} (${s.refs[0].j}, ${s.refs[0].y})</p>`:''}
           </div>
@@ -426,9 +701,9 @@ const App = {
     }).join('');
     
     if(top.length===0){
-      $('result-list').innerHTML='<div class="card empty-result"><p>基于您的回答，暂未发现需要特别关注的健康领域。保持当前生活方式！</p></div>';
+      $('result-list').innerHTML=`<div class="card empty-result"><p>${escHtml(copy.empty)}</p></div>`;
     }else if(mode!=='all'&&top.length>visibleResults.length){
-      $('result-list').insertAdjacentHTML('beforeend', `<a class="btn btn-primary btn-more-results" href="#result/all">更多证据以及参考</a>`);
+      $('result-list').insertAdjacentHTML('beforeend', `<a class="btn btn-primary btn-more-results" href="#result/all">${escHtml(copy.moreResults)}</a>`);
     }
 
     this.renderNextSteps(visibleResults);
@@ -479,19 +754,20 @@ const App = {
   },
 
   renderNextSteps(top){
-    const names=top.slice(0,3).map(s=>s.name).join('、')||'当前生活方式';
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const names=top.slice(0,3).map(s=>localizedSupplement(s).name).join(this.lang==='en'?', ':'、')||copy.currentLifestyle;
     const buyButton=SITE_CONFIG.affiliateUrl
-      ? `<a class="btn btn-primary btn-sm" href="${SITE_CONFIG.affiliateUrl}" target="_blank" rel="sponsored noopener">查看筛选清单</a>`
+      ? `<a class="btn btn-primary btn-sm" href="${SITE_CONFIG.affiliateUrl}" target="_blank" rel="sponsored noopener">${escHtml(copy.buyList)}</a>`
       : '';
     const contactButton=SITE_CONFIG.contactUrl
-      ? `<a class="btn btn-outline btn-sm" href="${SITE_CONFIG.contactUrl}" target="_blank" rel="noopener">品牌合作</a>`
+      ? `<a class="btn btn-outline btn-sm" href="${SITE_CONFIG.contactUrl}" target="_blank" rel="noopener">${escHtml(copy.brandCoop)}</a>`
       : '';
     $('next-steps').innerHTML=`<div class="sponsor">
-      <strong>下一步建议</strong><br>
-      优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。
+      <strong>${escHtml(copy.nextTitle)}</strong><br>
+      ${escHtml(copy.nextBody(names))}
       <div class="next-step-actions">
-        <button class="btn btn-outline btn-sm" data-action="copy-report">复制报告</button>
-        <button class="btn btn-primary btn-sm" data-action="download-report">下载 PDF 报告</button>
+        <button class="btn btn-outline btn-sm" data-action="copy-report">${escHtml(copy.copyReport)}</button>
+        <button class="btn btn-primary btn-sm" data-action="download-report">${escHtml(copy.downloadReport)}</button>
         ${buyButton}${contactButton}
       </div>
     </div>`;
@@ -506,7 +782,7 @@ const App = {
     }
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
     $('sec-supplement').classList.add('on');
-    $('supplement-detail').innerHTML='<div class="card detail-card"><p class="detail-muted">正在读取知识库...</p></div>';
+    $('supplement-detail').innerHTML=`<div class="card detail-card"><p class="detail-muted">${escHtml(ui('loadingKnowledge'))}</p></div>`;
     const kb=await this.loadKnowledge();
     const info=kb.supplements?.[id]||{};
     this.renderSupplementDetail(supplement,info);
@@ -515,49 +791,59 @@ const App = {
   },
 
   renderSupplementDetail(supplement,info){
+    const rawSupplement=supplement;
+    supplement=localizedSupplement(supplement);
+    info=localizedInfo(info);
     const note=info.notes?.[0];
-    const refs=info.literature?.length?info.literature:supplement.refs.map(ref=>({
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const refs=info.literature?.length?info.literature:rawSupplement.refs.map(ref=>({
       title:ref.t,journal:ref.j,year:ref.y,url:'',summary:supplement.desc,
     }));
     const targets=info.supportedTargets?.length?info.supportedTargets:supplement.targets;
-    const fallback=detailFallback(supplement);
-    const cycle=info.cycle||fallback.cycle;
-    const usagePlans=info.usagePlans?.length?info.usagePlans:fallback.usagePlans;
-    const evidenceLabel={strong:'强证据',moderate:'中等证据',emerging:'新兴研究'};
+    const fallback=localizedInfo(detailFallback(rawSupplement));
+    const cycle=enSafe(info.cycle)||enSafe(fallback.cycle)||defaultEnglishCycle(rawSupplement);
+    const usagePlans=(info.usagePlans?.length?info.usagePlans:fallback.usagePlans)
+      .map(plan=>enSafe(plan))
+      .filter(Boolean);
+    const visibleUsagePlans=usagePlans.length?usagePlans:defaultEnglishUsage(rawSupplement);
+    const visibleNote=enSafe(info.note);
+    const evidenceLabel=copy.evidence;
     const focusSections=focusSectionsFromNote(note);
-    const mechanism=mechanismSteps(info,supplement);
+    const mechanism=mechanismSteps(info,rawSupplement).map(step=>enSafe(tr(step))).filter(Boolean);
+    const visibleMechanism=mechanism.length?mechanism:defaultEnglishMechanism(rawSupplement);
+    const summary=enSafe(note?.summary)||enSafe(refs[0]?.summary)||supplement.desc;
     $('supplement-detail').innerHTML=`<article class="detail-card card">
       <header class="detail-hero">
         ${supplementIconHtml(supplement,'detail-icon')}
         <div>
           <p class="detail-kicker">${escHtml(supplement.cat)} · ${escHtml(evidenceLabel[supplement.evidence]||supplement.evidence)}</p>
           <h1>${escHtml(supplement.name)}</h1>
-          <p>${escHtml(note?.summary||refs[0]?.summary||supplement.desc)}</p>
+          <p>${escHtml(summary)}</p>
         </div>
       </header>
 
       <div class="detail-grid">
         <section>
-          <h2>匹配目标</h2>
+          <h2>${escHtml(copy.detail.targets)}</h2>
           <div class="detail-tags">${targets.map(t=>`<span class="tag">${escHtml(t)}</span>`).join('')}</div>
         </section>
         <section>
-          <h2>使用与复盘</h2>
-          <p><strong>建议剂量：</strong>${escHtml(supplement.dosage)}</p>
-          <p><strong>观察周期：</strong>${escHtml(cycle)}</p>
-          <ul>${usagePlans.map(plan=>`<li>${escHtml(plan)}</li>`).join('')}</ul>
+          <h2>${escHtml(copy.detail.use)}</h2>
+          <p><strong>${escHtml(copy.detail.dose)}</strong>${escHtml(supplement.dosage)}</p>
+          <p><strong>${escHtml(copy.detail.cycle)}</strong>${escHtml(cycle)}</p>
+          <ul>${visibleUsagePlans.map(plan=>`<li>${escHtml(plan)}</li>`).join('')}</ul>
         </section>
         <section>
-          <h2>风险边界</h2>
+          <h2>${escHtml(copy.detail.risk)}</h2>
           <ul>${supplement.warnings.map(warning=>`<li>${escHtml(warning)}</li>`).join('')}</ul>
-          ${info.note?`<p class="detail-note">${escHtml(info.note)}</p>`:''}
+          ${visibleNote?`<p class="detail-note">${escHtml(visibleNote)}</p>`:''}
         </section>
       </div>
 
       <section class="detail-mechanism">
-        <h2>机理流程</h2>
+        <h2>${escHtml(copy.detail.mechanism)}</h2>
         <div class="mechanism-flow">
-          ${mechanism.map((step,index)=>`<div class="mechanism-step">
+          ${visibleMechanism.map((step,index)=>`<div class="mechanism-step">
             <span>${String(index+1).padStart(2,'0')}</span>
             <p>${escHtml(step)}</p>
           </div>`).join('')}
@@ -565,7 +851,7 @@ const App = {
       </section>
 
       ${focusSections.length?`<section class="detail-focus">
-        <h2>知识库重点</h2>
+        <h2>${escHtml(copy.detail.focus)}</h2>
         <div class="focus-grid">
           ${focusSections.map(section=>`<section class="focus-card">
             <p class="focus-label">${escHtml(section.label)}</p>
@@ -576,16 +862,16 @@ const App = {
       </section>`:''}
 
       <section class="detail-literature">
-        <h2>文献依据</h2>
+        <h2>${escHtml(copy.detail.literature)}</h2>
         ${refs.map(ref=>`<div class="detail-ref">
           <h3>${ref.url?`<a href="${escHtml(ref.url)}" target="_blank" rel="noopener">${escHtml(ref.title)}</a>`:escHtml(ref.title)}</h3>
           <p>${escHtml([ref.journal,ref.year].filter(Boolean).join(' · '))}</p>
-          <p>${escHtml(ref.summary||'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。')}</p>
+          <p>${escHtml(enSafe(ref.summary)||copy.detail.defaultRef)}</p>
         </div>`).join('')}
       </section>
 
       ${note?.body?`<details class="detail-source">
-        <summary>查看完整知识库原文</summary>
+        <summary>${escHtml(copy.detail.source)}</summary>
         <div class="detail-note-body">${markdownToHtml(note.body)}</div>
       </details>`:''}
     </article>`;
@@ -639,19 +925,24 @@ const App = {
   },
 
   buildReport({top,userTargets,riskNotes=[]},kb){
-    const generatedAt=new Date().toLocaleString('zh-CN');
-    const items=top.slice(0,5).map((s,i)=>{
-      const info=kb.supplements?.[s.id]||{};
-      const fallback=detailFallback(s);
-      const matched=(info.supportedTargets||s.targets).filter(t=>userTargets.has(t));
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const locale=this.lang==='en'?'en-US':this.lang;
+    const generatedAt=new Date().toLocaleString(locale);
+    const items=top.slice(0,5).map((raw,i)=>{
+      const s=localizedSupplement(raw);
+      const rawInfo=kb.supplements?.[raw.id]||{};
+      const info=localizedInfo(rawInfo);
+      const fallback=localizedInfo(detailFallback(raw));
+      const matched=(rawInfo.supportedTargets?.length?rawInfo.supportedTargets:raw.targets).filter(t=>userTargets.has(t)).map(tr);
       const refs=info.literature?.length?info.literature:s.refs;
+      const usagePlans=(info.usagePlans?.length?info.usagePlans:fallback.usagePlans).map(plan=>enSafe(plan)).filter(Boolean);
       return {
         rank:i+1,
         name:s.name,
-        reason:matched.join('、')||'由问卷加权命中',
+        reason:matched.join(this.lang==='en'?', ':'、')||copy.report.weighted,
         dosage:s.dosage,
-        cycle:info.cycle||fallback.cycle,
-        usagePlans:info.usagePlans?.length?info.usagePlans:fallback.usagePlans,
+        cycle:enSafe(info.cycle)||enSafe(fallback.cycle)||defaultEnglishCycle(raw),
+        usagePlans:usagePlans.length?usagePlans:defaultEnglishUsage(raw),
         warnings:s.warnings,
         evidence:s.evidence,
         literature:refs.map(ref=>({
@@ -659,115 +950,106 @@ const App = {
           journal:ref.journal||ref.j,
           year:ref.year||ref.y,
           url:ref.url||'',
-          summary:ref.summary||'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。',
+          summary:enSafe(ref.summary)||copy.detail.defaultRef,
         })),
-        note:info.note||'',
+        note:enSafe(info.note),
       };
     });
-    const report={generatedAt,targets:[...userTargets],riskNotes,priority:top.slice(0,5).map(s=>s.name),items};
+    const report={
+      generatedAt,
+      targets:[...userTargets].map(tr),
+      riskNotes:riskNotes.map(tr),
+      priority:top.slice(0,5).map(s=>localizedSupplement(s).name),
+      items,
+    };
     const lines=[
-      '# 保健成分综合报告',
+      `# ${copy.report.title}`,
       '',
-      `生成时间：${report.generatedAt}`,
+      `${copy.report.generated}：${report.generatedAt}`,
       '',
-      '## 匹配摘要',
-      `你的主要健康目标：${report.targets.join('、')||'未识别到明显目标'}`,
-      `风险筛查：${report.riskNotes.join('；')||'未识别到特殊高风险项'}`,
-      `推荐优先级：${report.priority.join('、')||'暂无'}`,
+      `## ${copy.report.summary}`,
+      `${copy.report.targets}：${report.targets.join(this.lang==='en'?', ':'、')||copy.report.noTargets}`,
+      `${copy.report.risks}：${report.riskNotes.join(this.lang==='en'?'; ':'；')||copy.report.noRisks}`,
+      `${copy.report.priority}：${report.priority.join(this.lang==='en'?', ':'、')||copy.report.none}`,
       '',
-      '## 交叉验证',
+      `## ${copy.report.cross}`,
     ];
 
     report.items.forEach(item=>{
       lines.push(
         '',
         `### ${item.rank}. ${item.name}`,
-        `- 匹配原因：${item.reason}`,
-        `- 建议剂量：${item.dosage}`,
-        `- 建议周期：${item.cycle}`,
-        `- 其他人使用方案：${item.usagePlans.join('；')}`,
-        `- 风险提示：${item.warnings.join('；')}`,
-        `- 证据等级：${item.evidence}`,
+        `- ${copy.report.reason}：${item.reason}`,
+        `- ${copy.report.dose}：${item.dosage}`,
+        `- ${copy.report.cycle}：${item.cycle}`,
+        `- ${copy.report.usage}：${item.usagePlans.join(this.lang==='en'?'; ':'；')}`,
+        `- ${copy.report.warning}：${item.warnings.join(this.lang==='en'?'; ':'；')}`,
+        `- ${copy.report.evidence}：${copy.evidence[item.evidence]||item.evidence}`,
       );
       item.literature.forEach(ref=>{
-        const source=[ref.journal,ref.year].filter(Boolean).join('，');
-        lines.push(`- 文献：${ref.title}${source?`（${source}）`:''}`);
-        lines.push(`  - 一句话总结：${ref.summary}`);
+        const source=[ref.journal,ref.year].filter(Boolean).join(this.lang==='en'?', ':'，');
+        lines.push(`- ${copy.report.literature}：${ref.title}${source?`（${source}）`:''}`);
+        lines.push(`  - ${copy.report.oneLine}：${ref.summary}`);
       });
-      if(item.note)lines.push(`- 知识库备注：${item.note}`);
+      if(item.note)lines.push(`- ${copy.report.note}：${item.note}`);
     });
 
     lines.push(
       '',
-      '## 使用前检查清单',
-      '- 是否正在使用处方药，尤其是抗凝、降压、降糖、镇静类药物？',
-      '- 是否怀孕、哺乳、准备手术，或存在肝肾疾病？',
-      '- 产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？',
-      '- 是否设置了复盘周期，避免长期无目的叠加补剂？',
+      `## ${copy.report.checklist}`,
+      ...copy.report.checks.map(item=>`- ${item}`),
       '',
-      '## 7 天复盘表',
-      '- 第 0 天：记录目标评分、已用药物、已吃补剂和准备尝试的 1-2 个成分。',
-      '- 第 3 天：记录不良反应、睡眠/精力/压力/训练表现变化。',
-      '- 第 7 天：比较评分变化，决定继续观察、降低剂量、停止或咨询医生。',
-      '- 第 14 天：如仍无明确收益，优先停止无效项，避免长期叠加。',
+      `## ${copy.report.review}`,
+      ...copy.report.reviewRows.map(item=>`- ${item}`),
       '',
-      '免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。'
+      copy.report.disclaimer
     );
     report.markdown=lines.join('\n');
     return report;
   },
 
   reportHtml(report){
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
     const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     return `<div class="pdf-report">
-      <h1>保健成分综合报告</h1>
-      <p>生成时间：${esc(report.generatedAt)}</p>
+      <h1>${esc(copy.report.title)}</h1>
+      <p>${esc(copy.report.generated)}：${esc(report.generatedAt)}</p>
       <div class="box">
-        <h2>匹配摘要</h2>
-        <p><strong>主要健康目标：</strong>${esc(report.targets.join('、')||'未识别到明显目标')}</p>
-        <p><strong>风险筛查：</strong>${esc(report.riskNotes.join('；')||'未识别到特殊高风险项')}</p>
-        <p><strong>推荐优先级：</strong>${esc(report.priority.join('、')||'暂无')}</p>
+        <h2>${esc(copy.report.summary)}</h2>
+        <p><strong>${esc(copy.report.targets)}：</strong>${esc(report.targets.join(this.lang==='en'?', ':'、')||copy.report.noTargets)}</p>
+        <p><strong>${esc(copy.report.risks)}：</strong>${esc(report.riskNotes.join(this.lang==='en'?'; ':'；')||copy.report.noRisks)}</p>
+        <p><strong>${esc(copy.report.priority)}：</strong>${esc(report.priority.join(this.lang==='en'?', ':'、')||copy.report.none)}</p>
       </div>
-      <h2>交叉验证</h2>
+      <h2>${esc(copy.report.cross)}</h2>
       ${report.items.map(item=>`
         <div class="box">
           <h3>${item.rank}. ${esc(item.name)}</h3>
           <ul>
-            <li><strong>匹配原因：</strong>${esc(item.reason)}</li>
-            <li><strong>建议剂量：</strong>${esc(item.dosage)}</li>
-            <li><strong>建议周期：</strong>${esc(item.cycle)}</li>
-            <li><strong>其他人使用方案：</strong>${esc(item.usagePlans.join('；'))}</li>
-            <li><strong>风险提示：</strong>${esc(item.warnings.join('；'))}</li>
-            <li><strong>证据等级：</strong>${esc(item.evidence)}</li>
+            <li><strong>${esc(copy.report.reason)}：</strong>${esc(item.reason)}</li>
+            <li><strong>${esc(copy.report.dose)}：</strong>${esc(item.dosage)}</li>
+            <li><strong>${esc(copy.report.cycle)}：</strong>${esc(item.cycle)}</li>
+            <li><strong>${esc(copy.report.usage)}：</strong>${esc(item.usagePlans.join(this.lang==='en'?'; ':'；'))}</li>
+            <li><strong>${esc(copy.report.warning)}：</strong>${esc(item.warnings.join(this.lang==='en'?'; ':'；'))}</li>
+            <li><strong>${esc(copy.report.evidence)}：</strong>${esc(copy.evidence[item.evidence]||item.evidence)}</li>
           </ul>
-          <p><strong>文献：</strong></p>
-          <ul>${item.literature.map(ref=>`<li>${esc(ref.title)}${ref.journal||ref.year?`（${esc([ref.journal,ref.year].filter(Boolean).join('，'))}）`:''}<br>一句话总结：${esc(ref.summary)}</li>`).join('')}</ul>
-          ${item.note?`<p><strong>知识库备注：</strong>${esc(item.note)}</p>`:''}
+          <p><strong>${esc(copy.report.literature)}：</strong></p>
+          <ul>${item.literature.map(ref=>`<li>${esc(ref.title)}${ref.journal||ref.year?`（${esc([ref.journal,ref.year].filter(Boolean).join(this.lang==='en'?', ':'，'))}）`:''}<br>${esc(copy.report.oneLine)}：${esc(ref.summary)}</li>`).join('')}</ul>
+          ${item.note?`<p><strong>${esc(copy.report.note)}：</strong>${esc(item.note)}</p>`:''}
         </div>
       `).join('')}
-      <h2>使用前检查清单</h2>
-      <ul>
-        <li>是否正在使用处方药，尤其是抗凝、降压、降糖、镇静类药物？</li>
-        <li>是否怀孕、哺乳、准备手术，或存在肝肾疾病？</li>
-        <li>产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？</li>
-        <li>是否设置了复盘周期，避免长期无目的叠加补剂？</li>
-      </ul>
-      <h2>7 天复盘表</h2>
-      <ul>
-        <li>第 0 天：记录目标评分、已用药物、已吃补剂和准备尝试的 1-2 个成分。</li>
-        <li>第 3 天：记录不良反应、睡眠/精力/压力/训练表现变化。</li>
-        <li>第 7 天：比较评分变化，决定继续观察、降低剂量、停止或咨询医生。</li>
-        <li>第 14 天：如仍无明确收益，优先停止无效项，避免长期叠加。</li>
-      </ul>
-      <p>免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。</p>
+      <h2>${esc(copy.report.checklist)}</h2>
+      <ul>${copy.report.checks.map(item=>`<li>${esc(item)}</li>`).join('')}</ul>
+      <h2>${esc(copy.report.review)}</h2>
+      <ul>${copy.report.reviewRows.map(item=>`<li>${esc(item)}</li>`).join('')}</ul>
+      <p>${esc(copy.report.disclaimer)}</p>
     </div>`;
   },
 
   async savePdf(report){
     if(!window.html2canvas||!window.jspdf?.jsPDF){
       const win=window.open('', '_blank');
-      if(!win){alert('PDF 组件暂未加载完成，请刷新页面后重试。');return;}
-      win.document.write(`<!doctype html><html><head><title>保健成分综合报告</title><style>body{font-family:sans-serif;padding:24px;line-height:1.7}</style></head><body><pre style="white-space:pre-wrap">${report.markdown.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</pre></body></html>`);
+      if(!win){alert((UI_COPY[this.lang]||UI_COPY['zh-CN']).report.pdfLoading);return;}
+      win.document.write(`<!doctype html><html><head><title>${escHtml((UI_COPY[this.lang]||UI_COPY['zh-CN']).report.title)}</title><style>body{font-family:sans-serif;padding:24px;line-height:1.7}</style></head><body><pre style="white-space:pre-wrap">${report.markdown.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</pre></body></html>`);
       win.document.close();
       win.print();
       return;
@@ -790,7 +1072,8 @@ const App = {
         pdf.addPage();
         pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,y,imgW,imgH);
       }
-      pdf.save(`保健成分综合报告-${new Date().toISOString().slice(0,10)}.pdf`);
+      const prefix=this.lang==='en'?'ingredient-match-report':this.lang==='zh-TW'?'保健成分綜合報告':'保健成分综合报告';
+      pdf.save(`${prefix}-${new Date().toISOString().slice(0,10)}.pdf`);
     }finally{
       wrap.remove();
     }
@@ -798,6 +1081,13 @@ const App = {
 
   bindEvents(){
     document.addEventListener('click',event=>{
+      const langOption=event.target.closest('[data-lang-option]');
+      if(langOption){
+        this.setLanguage(langOption.dataset.langOption);
+        return;
+      }
+      if(!event.target.closest('.lang-menu'))this.closeLanguageMenu();
+
       const answerButton=event.target.closest('[data-answer]');
       if(answerButton){
         this.answer(Number(answerButton.dataset.answer));
@@ -818,7 +1108,7 @@ const App = {
         'scroll-supplements':()=>$('supp-preview').scrollIntoView({behavior:'smooth',block:'center'}),
         'copy-report':()=>this.copyReport(),
         'download-report':()=>this.downloadReport(),
-        'cycle-language':()=>this.cycleLanguage(),
+        'toggle-language-menu':()=>this.toggleLanguageMenu(),
       };
       actions[actionButton.dataset.action]?.();
     });
