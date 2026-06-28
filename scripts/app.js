@@ -7,7 +7,7 @@ const SITE_CONFIG = {
   knowledgeManifestUrl:'knowledge/manifest.json',
 };
 
-const { SUPPLEMENTS, DETAIL_FALLBACKS, QUIZ, QUIZ_SETS } = window.HealthMatchData;
+const { SUPPLEMENTS, DETAIL_FALLBACKS, QUIZ, QUIZ_SETS, PROFILE_QUESTIONS } = window.HealthMatchData;
 
 // ==================== APP ENGINE ====================
 const ROUTES={home:'sec-home',quiz:'sec-quiz',result:'sec-result'};
@@ -108,11 +108,16 @@ const UI_COPY={
     recheck:'重新评估', backHome:'返回首页', moreResults:'更多证据以及参考', match:'匹配度',
     evidence:{strong:'强证据',moderate:'中等证据',emerging:'新兴研究'},
     riskFlag:'⚠ 需要评估', empty:'基于您的回答，暂未发现需要特别关注的健康领域。保持当前生活方式！',
+    safetyTitle:'暂不建议自行补充', safetyBody:'已移除相关高风险成分，避免展示剂量和文献造成误用。请先咨询医生或营养师。',
+    safetyEmpty:'基于你的基础画像，暂不建议自行补充。请先咨询医生或营养师，再决定是否需要补剂。',
+    trialTitle:'试用建议', trialMetrics:{general:'目标评分、睡眠、精力和不适症状',sleep:'入睡时间、夜醒次数、次日疲劳和压力评分',women:'疲劳评分、经期不适、皮肤/头发和肠胃变化',fitness:'训练表现、肌肉酸痛、睡眠和胃肠耐受'},
+    trialBody:(first,second,metrics)=>`先只试用 ${first} 1-2 周，记录${metrics}；如无改善或出现不适，停止并复评，再考虑 ${second}。不要同时新增多个补剂。`,
+    trialHold:'当前不建议自行试用补剂；先咨询医生或营养师，并在获得明确建议后再复评。',
     nextTitle:'下一步建议', nextBody:names=>`优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。`,
     currentLifestyle:'当前生活方式', copyReport:'复制报告', downloadReport:'下载 PDF 报告', buyList:'查看筛选清单', brandCoop:'品牌合作',
     detail:{targets:'匹配目标', use:'使用与复盘', dose:'建议剂量：', cycle:'观察周期：', risk:'风险边界', mechanism:'机理流程', focus:'知识库重点', literature:'文献依据', source:'查看完整知识库原文', noSummary:'知识库暂未配置该部分摘要。', defaultRef:'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。'},
     focus:{key:'重点结论', fit:'适合人群', notFit:'不适合人群', dose:'剂量与复盘', evidence:'证据更可靠', risk:'风险边界', extra:'补充要点'},
-    report:{title:'保健成分综合报告', generated:'生成时间', summary:'匹配摘要', targets:'你的主要健康目标', risks:'风险筛查', priority:'推荐优先级', cross:'交叉验证', reason:'匹配原因', dose:'建议剂量', cycle:'建议周期', usage:'其他人使用方案', warning:'风险提示', evidence:'证据等级', literature:'文献', oneLine:'一句话总结', note:'知识库备注', checklist:'使用前检查清单', review:'7 天复盘表', noTargets:'未识别到明显目标', noRisks:'未识别到特殊高风险项', none:'暂无', weighted:'由问卷加权命中', disclaimer:'免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。', pdfLoading:'PDF 组件暂未加载完成，请刷新页面后重试。',
+    report:{title:'保健成分综合报告', generated:'生成时间', summary:'匹配摘要', targets:'你的主要健康目标', risks:'风险筛查', safety:'安全阻断', priority:'推荐优先级', cross:'交叉验证', reason:'匹配原因', dose:'建议剂量', cycle:'建议周期', usage:'其他人使用方案', warning:'风险提示', evidence:'证据等级', literature:'文献', oneLine:'一句话总结', note:'知识库备注', checklist:'使用前检查清单', trial:'试用建议', review:'7 天复盘表', noTargets:'未识别到明显目标', noRisks:'未识别到特殊高风险项', none:'暂无', weighted:'由问卷加权命中', disclaimer:'免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。', pdfLoading:'PDF 组件暂未加载完成，请刷新页面后重试。',
       checks:['是否正在使用处方药，尤其是抗凝、降压、降糖、镇静类药物？','是否怀孕、哺乳、准备手术，或存在肝肾疾病？','产品是否有第三方检测、清晰剂量、有效成分含量和批次信息？','是否设置了复盘周期，避免长期无目的叠加补剂？'],
       reviewRows:['第 0 天：记录目标评分、已用药物、已吃补剂和准备尝试的 1-2 个成分。','第 3 天：记录不良反应、睡眠/精力/压力/训练表现变化。','第 7 天：比较评分变化，决定继续观察、降低剂量、停止或咨询医生。','第 14 天：如仍无明确收益，优先停止无效项，避免长期叠加。']},
     consoleReady:'已就绪', consoleStats:(s,q)=>`${s}种成分 · ${q}道问卷题 · 循证推荐`,
@@ -124,11 +129,16 @@ const UI_COPY={
     recheck:'重新評估', backHome:'返回首頁', moreResults:'更多證據以及參考', match:'匹配度',
     evidence:{strong:'強證據',moderate:'中等證據',emerging:'新興研究'},
     riskFlag:'⚠ 需要評估', empty:'基於您的回答，暫未發現需要特別關注的健康領域。保持目前生活方式！',
+    safetyTitle:'暫不建議自行補充', safetyBody:'已移除相關高風險成分，避免展示劑量和文獻造成誤用。請先諮詢醫師或營養師。',
+    safetyEmpty:'基於你的基礎畫像，暫不建議自行補充。請先諮詢醫師或營養師，再決定是否需要補劑。',
+    trialTitle:'試用建議', trialMetrics:{general:'目標評分、睡眠、精力和不適症狀',sleep:'入睡時間、夜醒次數、次日疲勞和壓力評分',women:'疲勞評分、經期不適、皮膚/頭髮和腸胃變化',fitness:'訓練表現、肌肉痠痛、睡眠和腸胃耐受'},
+    trialBody:(first,second,metrics)=>`先只試用 ${first} 1-2 週，記錄${metrics}；如無改善或出現不適，停止並複評，再考慮 ${second}。不要同時新增多個補劑。`,
+    trialHold:'目前不建議自行試用補劑；先諮詢醫師或營養師，並在獲得明確建議後再複評。',
     nextTitle:'下一步建議', nextBody:names=>`優先核對 ${names} 的禁忌、藥物交互作用、第三方檢測和實際劑量。建議只選擇 1-2 個高匹配項做 7 天試用，並記錄睡眠、精力、壓力或訓練表現評分。本站未來可能透過廣告、贊助或聯盟連結獲得收入；商業合作不影響匹配排序。`,
     currentLifestyle:'目前生活方式', copyReport:'複製報告', downloadReport:'下載 PDF 報告', buyList:'查看篩選清單', brandCoop:'品牌合作',
     detail:{targets:'匹配目標', use:'使用與複盤', dose:'建議劑量：', cycle:'觀察週期：', risk:'風險邊界', mechanism:'機理流程', focus:'知識庫重點', literature:'文獻依據', source:'查看完整知識庫原文', noSummary:'知識庫暫未配置該部分摘要。', defaultRef:'該文獻作為目前成分建議的基礎參考，具體適用性仍需結合個人情況判斷。'},
     focus:{key:'重點結論', fit:'適合人群', notFit:'不適合人群', dose:'劑量與複盤', evidence:'證據更可靠', risk:'風險邊界', extra:'補充要點'},
-    report:{title:'保健成分綜合報告', generated:'生成時間', summary:'匹配摘要', targets:'你的主要健康目標', risks:'風險篩查', priority:'推薦優先級', cross:'交叉驗證', reason:'匹配原因', dose:'建議劑量', cycle:'建議週期', usage:'其他人使用方案', warning:'風險提示', evidence:'證據等級', literature:'文獻', oneLine:'一句話總結', note:'知識庫備註', checklist:'使用前檢查清單', review:'7 天複盤表', noTargets:'未識別到明顯目標', noRisks:'未識別到特殊高風險項', none:'暫無', weighted:'由問卷加權命中', disclaimer:'免責聲明：本報告僅供教育參考，不構成醫療建議，不能替代醫師診斷、治療或用藥建議。', pdfLoading:'PDF 元件暫未載入完成，請刷新頁面後重試。',
+    report:{title:'保健成分綜合報告', generated:'生成時間', summary:'匹配摘要', targets:'你的主要健康目標', risks:'風險篩查', safety:'安全阻斷', priority:'推薦優先級', cross:'交叉驗證', reason:'匹配原因', dose:'建議劑量', cycle:'建議週期', usage:'其他人使用方案', warning:'風險提示', evidence:'證據等級', literature:'文獻', oneLine:'一句話總結', note:'知識庫備註', checklist:'使用前檢查清單', trial:'試用建議', review:'7 天複盤表', noTargets:'未識別到明顯目標', noRisks:'未識別到特殊高風險項', none:'暫無', weighted:'由問卷加權命中', disclaimer:'免責聲明：本報告僅供教育參考，不構成醫療建議，不能替代醫師診斷、治療或用藥建議。', pdfLoading:'PDF 元件暫未載入完成，請刷新頁面後重試。',
       checks:['是否正在使用處方藥，尤其是抗凝、降壓、降糖、鎮靜類藥物？','是否懷孕、哺乳、準備手術，或存在肝腎疾病？','產品是否有第三方檢測、清晰劑量、有效成分含量和批次資訊？','是否設定了複盤週期，避免長期無目的疊加補劑？'],
       reviewRows:['第 0 天：記錄目標評分、已用藥物、已吃補劑和準備嘗試的 1-2 個成分。','第 3 天：記錄不良反應、睡眠/精力/壓力/訓練表現變化。','第 7 天：比較評分變化，決定繼續觀察、降低劑量、停止或諮詢醫師。','第 14 天：如仍無明確收益，優先停止無效項，避免長期疊加。']},
     consoleReady:'已就緒', consoleStats:(s,q)=>`${s}種成分 · ${q}道問卷題 · 循證推薦`,
@@ -140,11 +150,16 @@ const UI_COPY={
     recheck:'Retake quiz', backHome:'Back home', moreResults:'More evidence and references', match:'Match',
     evidence:{strong:'Strong evidence',moderate:'Moderate evidence',emerging:'Emerging research'},
     riskFlag:'⚠ Review needed', empty:'Based on your answers, no specific priority area stands out. Keep your current routine.',
+    safetyTitle:'Self-supplementation is not recommended', safetyBody:'Higher-risk ingredients have been removed so dose and reference details are not shown. Consult a clinician or dietitian first.',
+    safetyEmpty:'Based on your profile, self-supplementation is not recommended. Consult a clinician or dietitian before deciding whether supplements are appropriate.',
+    trialTitle:'Trial suggestion', trialMetrics:{general:'target scores, sleep, energy, and adverse symptoms',sleep:'sleep latency, night waking, next-day fatigue, and stress score',women:'fatigue score, cycle discomfort, skin/hair changes, and digestion',fitness:'training performance, soreness, sleep, and GI tolerance'},
+    trialBody:(first,second,metrics)=>`Try only ${first} for 1-2 weeks and record ${metrics}. If there is no improvement or discomfort appears, stop and reassess before considering ${second}. Do not add multiple supplements at once.`,
+    trialHold:'Self-trial is not recommended right now. Consult a clinician or dietitian first, then reassess after clear guidance.',
     nextTitle:'Next step', nextBody:names=>`First check contraindications, medication interactions, third-party testing, and actual dose for ${names}. Pick only 1-2 high-match items for a 7-day trial and record sleep, energy, stress, or training scores. This site may later earn revenue through ads, sponsorships, or affiliate links; commercial relationships do not affect match ranking.`,
     currentLifestyle:'current lifestyle', copyReport:'Copy report', downloadReport:'Download PDF report', buyList:'View shortlist', brandCoop:'Partnerships',
     detail:{targets:'Matched goals', use:'Use and review', dose:'Suggested dose: ', cycle:'Review window: ', risk:'Risk boundaries', mechanism:'Absorption and use pathway', focus:'Knowledge highlights', literature:'Evidence', source:'View original Chinese source note', noSummary:'No summary has been configured for this section.', defaultRef:'This source is a base reference for the current ingredient suggestion; personal fit still depends on your context.'},
     focus:{key:'Key takeaway', fit:'Who may fit', notFit:'Who should avoid', dose:'Dose and review', evidence:'Stronger evidence', risk:'Risk boundary', extra:'More notes'},
-    report:{title:'Ingredient match report', generated:'Generated at', summary:'Match summary', targets:'Main health goals', risks:'Risk screen', priority:'Priority list', cross:'Cross-check', reason:'Match reason', dose:'Suggested dose', cycle:'Suggested review window', usage:'How others use it', warning:'Risk notes', evidence:'Evidence level', literature:'Reference', oneLine:'One-line summary', note:'Knowledge note', checklist:'Pre-use checklist', review:'7-day review table', noTargets:'No clear goal identified', noRisks:'No special high-risk item identified', none:'None', weighted:'Matched by quiz weighting', disclaimer:'Disclaimer: this report is for education only and is not medical advice. It cannot replace diagnosis, treatment, or medication guidance from a clinician.', pdfLoading:'The PDF component is still loading. Please refresh and try again.',
+    report:{title:'Ingredient match report', generated:'Generated at', summary:'Match summary', targets:'Main health goals', risks:'Risk screen', safety:'Safety stop', priority:'Priority list', cross:'Cross-check', reason:'Match reason', dose:'Suggested dose', cycle:'Suggested review window', usage:'How others use it', warning:'Risk notes', evidence:'Evidence level', literature:'Reference', oneLine:'One-line summary', note:'Knowledge note', checklist:'Pre-use checklist', trial:'Trial suggestion', review:'7-day review table', noTargets:'No clear goal identified', noRisks:'No special high-risk item identified', none:'None', weighted:'Matched by quiz weighting', disclaimer:'Disclaimer: this report is for education only and is not medical advice. It cannot replace diagnosis, treatment, or medication guidance from a clinician.', pdfLoading:'The PDF component is still loading. Please refresh and try again.',
       checks:['Are you taking prescription medication, especially anticoagulants, blood-pressure, glucose-lowering, or sedative drugs?','Are you pregnant, breastfeeding, preparing for surgery, or dealing with liver or kidney disease?','Does the product provide third-party testing, clear dosage, active ingredient content, and batch information?','Have you set a review window so supplements do not stack up without a purpose?'],
       reviewRows:['Day 0: record target scores, medications, current supplements, and the 1-2 ingredients you plan to test.','Day 3: record adverse reactions and changes in sleep, energy, stress, or training performance.','Day 7: compare score changes and decide whether to continue, adjust dose, stop, or consult a clinician.','Day 14: if there is still no clear benefit, stop ineffective items first and avoid long-term stacking.']},
     consoleReady:'ready', consoleStats:(s,q)=>`${s} ingredients · ${q} quiz questions · evidence-informed matching`,
@@ -548,12 +563,13 @@ const App = {
   },
 
   quizQuestions(){
-    return this.quizSet().questions||QUIZ;
+    return [...PROFILE_QUESTIONS,...(this.quizSet().questions||QUIZ)];
   },
 
   quizQuestionCopy(question,index){
-    if(this.quizSetId===DEFAULT_QUIZ_SET_ID){
-      return QUIZ_COPY[this.lang]?.[index]||{q:question.q,opts:question.opts};
+    const profileCount=PROFILE_QUESTIONS.length;
+    if(this.quizSetId===DEFAULT_QUIZ_SET_ID&&index>=profileCount){
+      return QUIZ_COPY[this.lang]?.[index-profileCount]||{q:question.q,opts:question.opts};
     }
     return {q:question.q,opts:question.opts};
   },
@@ -691,7 +707,7 @@ const App = {
     $('quiz-num').textContent=`${this.qIdx+1}/${questions.length}`;
     $('quiz-progress').style.width=`${(this.qIdx/questions.length)*100}%`;
     
-    const l=['A','B','C','D'];
+    const l=['A','B','C','D','E','F','G','H'];
     $('quiz-opts').innerHTML=qCopy.opts.map((o,i)=>
       `<button class="btn btn-outline anim-fade quiz-option" style="--delay:${i*.06}s" data-answer="${i}">
         <span class="quiz-option-letter">${l[i]}</span>${escHtml(o)}
@@ -719,7 +735,7 @@ const App = {
     
     this.result=this.scoreResults();
     this.resultMode=mode;
-    const {top,userTargets}=this.result;
+    const {top,userTargets,safetyNotes=[]}=this.result;
     const set=this.quizSet();
     const visibleResults=mode==='all'?top:this.featuredResults(top);
     const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
@@ -731,6 +747,8 @@ const App = {
     $('result-subtitle').textContent=mode==='all'
       ? copy.resultAll
       : `${set.subtitle||''}${set.subtitle?' · ':''}${copy.resultSummary}`;
+
+    $('safety-notice').innerHTML=this.safetyNoticeHtml(safetyNotes);
     
     const maxScore=Math.max(...visibleResults.map(s=>s.score),1);
     
@@ -761,7 +779,8 @@ const App = {
     }).join('');
     
     if(top.length===0){
-      $('result-list').innerHTML=`<div class="card empty-result"><p>${escHtml(copy.empty)}</p></div>`;
+      const emptyText=safetyNotes.length?copy.safetyEmpty:copy.empty;
+      $('result-list').innerHTML=`<div class="card empty-result"><p>${escHtml(emptyText)}</p></div>`;
     }else if(mode!=='all'&&top.length>visibleResults.length){
       $('result-list').insertAdjacentHTML('beforeend', `<a class="btn btn-primary btn-more-results" href="#result/all">${escHtml(copy.moreResults)}</a>`);
     }
@@ -787,7 +806,9 @@ const App = {
     const boostedIds=new Set();
     const duplicateIds=new Set();
     const cautionIds=new Set();
+    const blockedIds=new Set();
     const riskNotes=[];
+    const safetyNotes=[];
     let onBpMeds=false;
     this.answers.forEach((a,i)=>{
       const q=questions[i];
@@ -796,7 +817,9 @@ const App = {
       (q.boosts?.[a]||[]).forEach(id=>boostedIds.add(id));
       (q.duplicateIds?.[a]||[]).forEach(id=>duplicateIds.add(id));
       (q.cautionIds?.[a]||[]).forEach(id=>cautionIds.add(id));
+      (q.blockedIds?.[a]||[]).forEach(id=>blockedIds.add(id));
       if(q.risks?.[a])riskNotes.push(q.risks[a]);
+      if(q.safetyStops?.[a])safetyNotes.push(q.safetyStops[a]);
       if(q.id==='bp'&&a>=2)onBpMeds=true;
     });
 
@@ -810,11 +833,11 @@ const App = {
         cautionIds.has(s.id)||
         duplicateIds.has(s.id)||
         (riskNotes.length>0&&/(孕期|哺乳|药物|肾功能|肝|手术|抗凝|降糖|镇静)/.test(riskText));
-      return{...s,score,hasWarnings,isDuplicate:duplicateIds.has(s.id),isCaution:cautionIds.has(s.id)};
+      return{...s,score,hasWarnings,isDuplicate:duplicateIds.has(s.id),isCaution:cautionIds.has(s.id),isBlocked:blockedIds.has(s.id)};
     }).sort((a,b)=>b.score-a.score);
 
-    const filtered=scored.filter(s=>s.score>0&&(!candidateSet||candidateSet.has(s.id)));
-    return {quizSetId:this.quizSetId,userTargets,riskNotes,duplicateIds,cautionIds,top:filtered.slice(0,12)};
+    const filtered=scored.filter(s=>s.score>0&&!s.isBlocked&&(!candidateSet||candidateSet.has(s.id)));
+    return {quizSetId:this.quizSetId,userTargets,riskNotes,safetyNotes,duplicateIds,cautionIds,blockedIds,top:filtered.slice(0,12)};
   },
 
   featuredResults(results){
@@ -826,9 +849,31 @@ const App = {
     return picked.slice(0,6);
   },
 
+  safetyNoticeHtml(notes=[]){
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const unique=[...new Set(notes.filter(Boolean).map(tr))];
+    if(!unique.length)return '';
+    return `<div class="safety-notice">
+      <strong>${escHtml(copy.safetyTitle)}</strong><br>
+      ${unique.map(escHtml).join(this.lang==='en'?'; ':'；')}。${escHtml(copy.safetyBody)}
+    </div>`;
+  },
+
+  trialPlan(top){
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    if(!top.length)return copy.trialHold;
+    const preferred=top.filter(s=>!s.isDuplicate&&!s.isCaution&&!s.hasWarnings);
+    const first=localizedSupplement(preferred[0]||top[0]).name;
+    const secondRaw=preferred[1]||top[1]||preferred[0]||top[0];
+    const second=localizedSupplement(secondRaw).name;
+    const metrics=copy.trialMetrics[this.quizSetId]||copy.trialMetrics.general;
+    return copy.trialBody(first,second,metrics);
+  },
+
   renderNextSteps(top){
     const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
     const names=top.slice(0,3).map(s=>localizedSupplement(s).name).join(this.lang==='en'?', ':'、')||copy.currentLifestyle;
+    const trialPlan=this.trialPlan(top);
     const buyButton=SITE_CONFIG.affiliateUrl
       ? `<a class="btn btn-primary btn-sm" href="${SITE_CONFIG.affiliateUrl}" target="_blank" rel="sponsored noopener">${escHtml(copy.buyList)}</a>`
       : '';
@@ -838,6 +883,8 @@ const App = {
     $('next-steps').innerHTML=`<div class="sponsor">
       <strong>${escHtml(copy.nextTitle)}</strong><br>
       ${escHtml(copy.nextBody(names))}
+      <br><br><strong>${escHtml(copy.trialTitle)}</strong><br>
+      ${escHtml(trialPlan)}
       <div class="next-step-actions">
         <button class="btn btn-outline btn-sm" data-action="copy-report">${escHtml(copy.copyReport)}</button>
         <button class="btn btn-primary btn-sm" data-action="download-report">${escHtml(copy.downloadReport)}</button>
@@ -951,7 +998,9 @@ const App = {
   },
 
   copyReport(){
-    const text=$('result-list').innerText+'\\n\\n'+SITE_CONFIG.publicUrl+'#result';
+    const text=[$('safety-notice').innerText,$('result-list').innerText,$('next-steps').innerText,SITE_CONFIG.publicUrl+'#result']
+      .filter(Boolean)
+      .join('\n\n');
     navigator.clipboard?.writeText(text);
     this.track('copy_report');
   },
@@ -997,7 +1046,7 @@ const App = {
     this.track('download_report',{supplements:result.top.slice(0,5).map(s=>s.id)});
   },
 
-  buildReport({top,userTargets,riskNotes=[]},kb){
+  buildReport({top,userTargets,riskNotes=[],safetyNotes=[]},kb){
     const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
     const set=this.quizSet();
     const reportTypeLabel=this.lang==='en'?'Report type':this.lang==='zh-TW'?'報告類型':'报告类型';
@@ -1035,7 +1084,9 @@ const App = {
       reportType:set.title||copy.report.title,
       targets:[...userTargets].map(tr),
       riskNotes:riskNotes.map(tr),
+      safetyNotes:[...new Set(safetyNotes.filter(Boolean).map(tr))],
       priority:top.slice(0,5).map(s=>localizedSupplement(s).name),
+      trialPlan:this.trialPlan(top),
       items,
     };
     const lines=[
@@ -1047,6 +1098,7 @@ const App = {
       `${reportTypeLabel}：${report.reportType}`,
       `${copy.report.targets}：${report.targets.join(this.lang==='en'?', ':'、')||copy.report.noTargets}`,
       `${copy.report.risks}：${report.riskNotes.join(this.lang==='en'?'; ':'；')||copy.report.noRisks}`,
+      `${copy.report.safety}：${report.safetyNotes.join(this.lang==='en'?'; ':'；')||copy.report.none}`,
       `${copy.report.priority}：${report.priority.join(this.lang==='en'?', ':'、')||copy.report.none}`,
       '',
       `## ${copy.report.cross}`,
@@ -1076,6 +1128,9 @@ const App = {
       `## ${copy.report.checklist}`,
       ...copy.report.checks.map(item=>`- ${item}`),
       '',
+      `## ${copy.report.trial}`,
+      `- ${report.trialPlan}`,
+      '',
       `## ${copy.report.review}`,
       ...copy.report.reviewRows.map(item=>`- ${item}`),
       '',
@@ -1087,6 +1142,7 @@ const App = {
 
   reportHtml(report){
     const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const reportTypeLabel=this.lang==='en'?'Report type':this.lang==='zh-TW'?'報告類型':'报告类型';
     const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     return `<div class="pdf-report">
       <h1>${esc(copy.report.title)}</h1>
@@ -1096,6 +1152,7 @@ const App = {
         <p><strong>${esc(reportTypeLabel)}：</strong>${esc(report.reportType)}</p>
         <p><strong>${esc(copy.report.targets)}：</strong>${esc(report.targets.join(this.lang==='en'?', ':'、')||copy.report.noTargets)}</p>
         <p><strong>${esc(copy.report.risks)}：</strong>${esc(report.riskNotes.join(this.lang==='en'?'; ':'；')||copy.report.noRisks)}</p>
+        <p><strong>${esc(copy.report.safety)}：</strong>${esc(report.safetyNotes.join(this.lang==='en'?'; ':'；')||copy.report.none)}</p>
         <p><strong>${esc(copy.report.priority)}：</strong>${esc(report.priority.join(this.lang==='en'?', ':'、')||copy.report.none)}</p>
       </div>
       <h2>${esc(copy.report.cross)}</h2>
@@ -1117,6 +1174,8 @@ const App = {
       `).join('')}
       <h2>${esc(copy.report.checklist)}</h2>
       <ul>${copy.report.checks.map(item=>`<li>${esc(item)}</li>`).join('')}</ul>
+      <h2>${esc(copy.report.trial)}</h2>
+      <ul><li>${esc(report.trialPlan)}</li></ul>
       <h2>${esc(copy.report.review)}</h2>
       <ul>${copy.report.reviewRows.map(item=>`<li>${esc(item)}</li>`).join('')}</ul>
       <p>${esc(copy.report.disclaimer)}</p>

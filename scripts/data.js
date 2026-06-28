@@ -332,6 +332,45 @@ const QUIZ = [
   },
 ];
 
+const ALL_SUPPLEMENT_IDS = SUPPLEMENTS.map(s=>s.id);
+const PREGNANCY_BLOCK_IDS = ['theanine','melatonin','ashwagandha','rhodiola','berberine'];
+const MEDICATION_BLOCK_IDS = ['omega3','citrulline','theanine','melatonin','ashwagandha','coq10','curcumin','berberine','rhodiola','quercetin'];
+const KIDNEY_LIVER_BLOCK_IDS = ['creatine','magnesium','vitamind','zinc','melatonin','ashwagandha','rhodiola','berberine','nac'];
+
+const PROFILE_QUESTIONS = [
+  {
+    profile:true,
+    q:'先确认基础画像：你的年龄段？',
+    opts:['未满18岁','18-39岁','40-59岁','60岁以上'],
+    blockedIds:[ALL_SUPPLEMENT_IDS,[],[],['melatonin','ashwagandha','rhodiola','berberine','citrulline','coq10','curcumin','quercetin']],
+    cautionIds:[[],[],[],ALL_SUPPLEMENT_IDS],
+    safetyStops:['未成年人不建议自行使用补剂推荐报告，请由监护人陪同咨询医生或营养师','','','60岁以上人群更容易存在用药、慢病和肝肾功能差异，建议先咨询医生再补充']
+  },
+  {
+    profile:true,
+    q:'你的生理性别或当前状态？',
+    opts:['男性','女性，非备孕/孕哺','备孕/怀孕/哺乳','不便透露'],
+    blockedIds:[[],[],PREGNANCY_BLOCK_IDS,[]],
+    cautionIds:[[],[],['omega3','vitamind','magnesium','zinc','probiotics','collagen'],[]],
+    safetyStops:['','','备孕/怀孕/哺乳期不建议自行新增补剂，应先咨询医生或营养师','']
+  },
+  {
+    profile:true,
+    q:'你现在是否正在使用处方药或固定补剂？',
+    opts:['都没有','正在使用处方药','正在吃补剂','处方药和补剂都有'],
+    blockedIds:[[],MEDICATION_BLOCK_IDS,[],MEDICATION_BLOCK_IDS],
+    cautionIds:[[],ALL_SUPPLEMENT_IDS,[],ALL_SUPPLEMENT_IDS],
+    safetyStops:['','正在使用处方药时，补剂可能存在相互作用，不建议自行新增','已有补剂时需先核对重复和剂量，避免继续叠加','处方药和补剂同时使用时，建议先由医生或药师核对相互作用']
+  },
+  {
+    profile:true,
+    q:'如果你正在吃补剂，最主要是哪一类？',
+    opts:['没有或不确定','复合维生素/B族','维D/钙/镁','鱼油','肌酸/运动补剂','助眠放松类','美容/益生菌复方'],
+    duplicateIds:[[],['bcomplex'],['vitamind','magnesium'],['omega3'],['creatine','citrulline','bcomplex'],['magnesium','theanine','melatonin','glycine','ashwagandha'],['collagen','probiotics','zinc']],
+    risks:['','已使用复合维生素或B族时，需要核对B6等剂量，避免长期高剂量重复','已使用维D/钙/镁时，需要核对剂量和肾结石/肾功能风险','已使用鱼油时，需要核对EPA+DHA实际含量和抗凝风险','运动补剂常见肌酸、瓜氨酸、咖啡因和B族重复，建议先拆配方','助眠放松类补剂不建议叠加新增，应先确认已有成分','美容或益生菌复方常有锌、胶原、益生菌重复，建议先核对配方表']
+  },
+];
+
 const QUIZ_SETS = {
   general:{
     id:'general',
@@ -392,7 +431,8 @@ const QUIZ_SETS = {
       {
         q:'以下哪种情况最符合你？',
         opts:['均不符合','备孕/怀孕/哺乳','肝肾疾病或近期手术','低血压或容易头晕'],
-        cautionIds:[[],['theanine','melatonin','ashwagandha','rhodiola'],['magnesium','melatonin','ashwagandha','rhodiola'],['theanine','magnesium','citrulline']],
+        blockedIds:[[],PREGNANCY_BLOCK_IDS,KIDNEY_LIVER_BLOCK_IDS,[]],
+        cautionIds:[[],['omega3','vitamind','magnesium'],KIDNEY_LIVER_BLOCK_IDS,['theanine','magnesium','citrulline']],
         risks:['','备孕/怀孕/哺乳期不建议自行补充助眠或适应原类成分','肝肾疾病或近期手术属于高风险场景，需先咨询医生','低血压或容易头晕时，放松类和血流相关成分需谨慎']
       },
       {
@@ -443,7 +483,8 @@ const QUIZ_SETS = {
       {
         q:'备孕、怀孕或哺乳情况？',
         opts:['均不符合','备孕中','怀孕中','哺乳中'],
-        cautionIds:[[],['ashwagandha','rhodiola','melatonin','berberine'],['ashwagandha','rhodiola','melatonin','berberine'],['ashwagandha','rhodiola','melatonin','berberine']],
+        blockedIds:[[],PREGNANCY_BLOCK_IDS,PREGNANCY_BLOCK_IDS,PREGNANCY_BLOCK_IDS],
+        cautionIds:[[],['omega3','vitamind','magnesium'],['omega3','vitamind','magnesium'],['omega3','vitamind','magnesium']],
         risks:['','备孕期叶酸/铁/碘等需按指南或医生建议，不建议用普通补剂报告替代','怀孕期不建议自行新增草本、褪黑素或降糖类补剂','哺乳期新增补剂需先咨询医生或营养师']
       },
       {
@@ -455,7 +496,8 @@ const QUIZ_SETS = {
       {
         q:'是否有长期用药、肝肾疾病或近期手术？',
         opts:['没有','正在长期用药','肝肾疾病','近期手术或准备手术'],
-        cautionIds:[[],['omega3','curcumin','quercetin','coq10'],['magnesium','vitamind','zinc'],['omega3','curcumin']],
+        blockedIds:[[],MEDICATION_BLOCK_IDS,KIDNEY_LIVER_BLOCK_IDS,['omega3','curcumin','quercetin']],
+        cautionIds:[[],ALL_SUPPLEMENT_IDS,KIDNEY_LIVER_BLOCK_IDS,['omega3','curcumin']],
         risks:['','长期用药时需要核对补剂相互作用','肝肾疾病属于高风险场景，矿物质和脂溶性维生素需谨慎','围手术期应告知医生所有补剂，尤其抗凝风险方向']
       },
       {
@@ -515,6 +557,7 @@ const QUIZ_SETS = {
       {
         q:'你的肾功能、结石或胃肠耐受情况？',
         opts:['没有相关问题','肠胃容易不适','肾功能异常或不确定','有肾结石史'],
+        blockedIds:[[],[],['creatine','magnesium','vitamind'],['vitamind','magnesium']],
         cautionIds:[[],['creatine','magnesium','curcumin'],['creatine','magnesium','vitamind'],['vitamind','magnesium']],
         risks:['','肠胃敏感时应避免一次新增多种粉剂或高剂量矿物质','肾功能异常或不确定时，肌酸和矿物质需先咨询医生','肾结石史时，维D/钙镁相关组合需结合检测评估']
       },
@@ -534,5 +577,5 @@ const QUIZ_SETS = {
   },
 };
 
-window.HealthMatchData = { SUPPLEMENTS, DETAIL_FALLBACKS, QUIZ, QUIZ_SETS };
+window.HealthMatchData = { SUPPLEMENTS, DETAIL_FALLBACKS, QUIZ, QUIZ_SETS, PROFILE_QUESTIONS };
 })();
