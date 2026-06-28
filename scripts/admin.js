@@ -2,16 +2,42 @@ const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const Admin={
+  headers(){
+    return {
+      authorization:`Bearer ${$('token').value}`,
+      'content-type':'application/json',
+    };
+  },
+
   async load(){
     $('msg').textContent='读取中...';
     sessionStorage.setItem('admin-token',$('token').value);
     try{
-      const res=await fetch('/api/admin',{headers:{authorization:`Bearer ${$('token').value}`}});
+      const res=await fetch('/api/admin',{headers:this.headers()});
       if(!res.ok){$('msg').textContent='验证失败或后台未配置完成';return;}
       const data=await res.json();
       this.render(data);
     }catch(e){
       $('msg').textContent='网络错误，稍后重试';
+    }
+  },
+
+  async markPaid(){
+    const reportId=$('report-id').value.trim();
+    if(!reportId){$('pay-msg').textContent='请先输入 reportId';return;}
+    $('pay-msg').textContent='标记中...';
+    sessionStorage.setItem('admin-token',$('token').value);
+    try{
+      const res=await fetch('/api/admin',{
+        method:'POST',
+        headers:this.headers(),
+        body:JSON.stringify({reportId}),
+      });
+      if(!res.ok){$('pay-msg').textContent='标记失败，请检查 token 或 reportId';return;}
+      $('pay-msg').textContent=`已标记 ${reportId} 为已支付，用户刷新结果页后会解锁。`;
+      await this.load();
+    }catch(e){
+      $('pay-msg').textContent='网络错误，稍后重试';
     }
   },
 
@@ -51,4 +77,5 @@ const Admin={
 
 $('token').value=sessionStorage.getItem('admin-token')||'';
 $('load-stats').addEventListener('click',()=>Admin.load());
+$('mark-paid').addEventListener('click',()=>Admin.markPaid());
 window.Admin=Admin;

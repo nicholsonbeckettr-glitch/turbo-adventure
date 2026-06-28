@@ -19,6 +19,16 @@
     <p id="msg" class="muted"></p>
   </section>
 
+  <section class="card">
+    <h2>手动解锁报告</h2>
+    <p class="muted">用户完成支付宝/微信付款后，把付款备注或截图里的 reportId 填到这里。</p>
+    <div class="inline-form">
+      <input id="report-id" type="text" placeholder="输入 reportId">
+      <button id="mark-paid">标记已支付</button>
+    </div>
+    <p id="pay-msg" class="muted"></p>
+  </section>
+
   <section id="dashboard" class="is-hidden">
     <div class="grid">
       <div class="card"><div class="muted">匿名用户</div><div id="users" class="metric">0</div></div>

@@ -109,6 +109,10 @@ const UI_COPY={
     warningStrong:'请在使用前咨询医生。', warningText:'以下推荐基于研究文献，不构成医疗建议。',
     recheck:'重新评估', backHome:'返回首页', moreResults:'更多证据以及参考', match:'匹配度',
     evidence:{strong:'强证据',moderate:'中等证据',emerging:'新兴研究'},
+    audit:{title:'决策依据', prior:'先验', support:'支持证据', discount:'折扣', action:'行动建议',
+      noSupport:'由问卷加权命中', highPrior:'强证据成分，作为较高先验', midPrior:'中等证据成分，作为中等先验', lowPrior:'新兴研究，先验较弱',
+      boosted:'问卷场景额外支持', duplicate:'已用或重复方向，先核对是否叠加', caution:'存在冲突或特殊情况，先做风险评估', warning:'存在用药/孕哺/肝肾/手术等风险提示',
+      dependent:'部分回答可能来自同一问题链，避免重复加分过度解读', test:'可作为优先小步试用', review:'先核对风险后再考虑', reserve:'仅作为备选观察'},
     riskFlag:'⚠ 需要评估', empty:'基于您的回答，暂未发现需要特别关注的健康领域。保持当前生活方式！',
     safetyTitle:'暂不建议自行补充', safetyBody:'已移除相关高风险成分，避免展示剂量和文献造成误用。请先咨询医生或营养师。',
     safetyEmpty:'基于你的基础画像，暂不建议自行补充。请先咨询医生或营养师，再决定是否需要补剂。',
@@ -130,6 +134,10 @@ const UI_COPY={
     warningStrong:'請在使用前諮詢醫師。', warningText:'以下推薦基於研究文獻，不構成醫療建議。',
     recheck:'重新評估', backHome:'返回首頁', moreResults:'更多證據以及參考', match:'匹配度',
     evidence:{strong:'強證據',moderate:'中等證據',emerging:'新興研究'},
+    audit:{title:'決策依據', prior:'先驗', support:'支持證據', discount:'折扣', action:'行動建議',
+      noSupport:'由問卷加權命中', highPrior:'強證據成分，作為較高先驗', midPrior:'中等證據成分，作為中等先驗', lowPrior:'新興研究，先驗較弱',
+      boosted:'問卷場景額外支持', duplicate:'已用或重複方向，先核對是否疊加', caution:'存在衝突或特殊情況，先做風險評估', warning:'存在用藥/孕哺/肝腎/手術等風險提示',
+      dependent:'部分回答可能來自同一問題鏈，避免重複加分過度解讀', test:'可作為優先小步試用', review:'先核對風險後再考慮', reserve:'僅作為備選觀察'},
     riskFlag:'⚠ 需要評估', empty:'基於您的回答，暫未發現需要特別關注的健康領域。保持目前生活方式！',
     safetyTitle:'暫不建議自行補充', safetyBody:'已移除相關高風險成分，避免展示劑量和文獻造成誤用。請先諮詢醫師或營養師。',
     safetyEmpty:'基於你的基礎畫像，暫不建議自行補充。請先諮詢醫師或營養師，再決定是否需要補劑。',
@@ -151,6 +159,10 @@ const UI_COPY={
     warningStrong:'Consult a clinician before use.', warningText:'These suggestions are based on research literature and are not medical advice.',
     recheck:'Retake quiz', backHome:'Back home', moreResults:'More evidence and references', match:'Match',
     evidence:{strong:'Strong evidence',moderate:'Moderate evidence',emerging:'Emerging research'},
+    audit:{title:'Decision basis', prior:'Prior', support:'Support', discount:'Discount', action:'Action',
+      noSupport:'Matched by quiz weighting', highPrior:'Strong-evidence ingredient, higher prior', midPrior:'Moderate-evidence ingredient, medium prior', lowPrior:'Emerging research, weaker prior',
+      boosted:'Extra support from this quiz context', duplicate:'Possible duplicate direction; check stacking first', caution:'Conflict or special context; review risk first', warning:'Medication, pregnancy, liver/kidney, surgery, or similar risk flag',
+      dependent:'Some answers may share the same underlying problem chain; avoid over-counting', test:'Good candidate for a small staged trial', review:'Review risk before considering', reserve:'Keep as a backup option'},
     riskFlag:'⚠ Review needed', empty:'Based on your answers, no specific priority area stands out. Keep your current routine.',
     safetyTitle:'Self-supplementation is not recommended', safetyBody:'Higher-risk ingredients have been removed so dose and reference details are not shown. Consult a clinician or dietitian first.',
     safetyEmpty:'Based on your profile, self-supplementation is not recommended. Consult a clinician or dietitian before deciding whether supplements are appropriate.',
@@ -778,6 +790,7 @@ const App = {
               <span>${escHtml(copy.match)}: ${pct}%</span>
               <span>💊 ${escHtml(s.dosage)}</span>
             </div>
+            ${this.decisionAuditHtml(raw)}
             ${s.refs.length?`<p class="result-ref">📚 ${s.refs[0].t} (${s.refs[0].j}, ${s.refs[0].y})</p>`:''}
           </div>
         </div>
@@ -831,15 +844,23 @@ const App = {
 
     const scored=SUPPLEMENTS.map(s=>{
       let score=0;
-      s.targets.forEach(t=>{if(userTargets.has(t))score++;});
-      if(boostedIds.has(s.id))score++;
+      const matchedTargets=s.targets.filter(t=>userTargets.has(t));
+      matchedTargets.forEach(()=>{score++;});
+      const isBoosted=boostedIds.has(s.id);
+      if(isBoosted)score++;
       if(candidateSet?.has(s.id)&&score>0)score+=0.5;
       const riskText=s.warnings.join(' ');
       const hasWarnings=(onBpMeds&&riskText.includes('降压'))||
         cautionIds.has(s.id)||
         duplicateIds.has(s.id)||
         (riskNotes.length>0&&/(孕期|哺乳|药物|肾功能|肝|手术|抗凝|降糖|镇静)/.test(riskText));
-      return{...s,score,hasWarnings,isDuplicate:duplicateIds.has(s.id),isCaution:cautionIds.has(s.id),isBlocked:blockedIds.has(s.id)};
+      const result={
+        ...s,score,matchedTargets,isBoosted,hasWarnings,
+        isDuplicate:duplicateIds.has(s.id),
+        isCaution:cautionIds.has(s.id),
+        isBlocked:blockedIds.has(s.id),
+      };
+      return {...result,decisionAudit:this.decisionAudit(result)};
     }).sort((a,b)=>b.score-a.score);
 
     const filtered=scored.filter(s=>s.score>0&&!s.isBlocked&&(!candidateSet||candidateSet.has(s.id)));
@@ -853,6 +874,57 @@ const App = {
     results.filter(s=>s.evidence!=='strong').slice(0,3).forEach(add);
     results.forEach(item=>{if(picked.length<6)add(item);});
     return picked.slice(0,6);
+  },
+
+  decisionAudit(s){
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const audit=copy.audit;
+    const prior=s.evidence==='strong'?audit.highPrior:s.evidence==='moderate'?audit.midPrior:audit.lowPrior;
+    const support=[...s.matchedTargets];
+    if(s.isBoosted)support.push(audit.boosted);
+    const discounts=[];
+    if(this.hasDependentSignals(s.matchedTargets))discounts.push(audit.dependent);
+    if(s.isDuplicate)discounts.push(audit.duplicate);
+    if(s.isCaution)discounts.push(audit.caution);
+    if(s.hasWarnings)discounts.push(audit.warning);
+    const action=s.hasWarnings||s.isCaution||s.isDuplicate
+      ? audit.review
+      : (s.evidence==='emerging'||s.score<2?audit.reserve:audit.test);
+    return {
+      prior,
+      support:support.length?support:[audit.noSupport],
+      discounts:discounts.length?discounts:[this.lang==='en'?'None':'暂无'],
+      action,
+    };
+  },
+
+  hasDependentSignals(targets=[]){
+    const clusterMap={
+      '睡眠质量差':'sleep_stress','压力/焦虑':'sleep_stress','疲劳感':'sleep_stress',
+      '脑雾/认知':'cognition_mood','注意力不集中':'cognition_mood','情绪低落':'cognition_mood','记忆下降':'cognition_mood',
+      '运动表现提升':'training','肌肉恢复':'training','运动恢复':'training',
+      '心血管健康':'metabolic','高甘油三酯':'metabolic','血压偏高':'metabolic','血糖控制':'metabolic',
+      '免疫力低下':'immune_skin','皮肤问题/痤疮':'immune_skin','皮肤干燥':'immune_skin','过敏/季节性不适':'immune_skin',
+      '关节炎症':'joint_bone','骨质疏松风险':'joint_bone',
+    };
+    const clusters=targets.map(t=>clusterMap[t]).filter(Boolean);
+    return clusters.length>=2&&new Set(clusters).size<clusters.length;
+  },
+
+  decisionAuditHtml(s){
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const audit=s.decisionAudit||this.decisionAudit(s);
+    const line=(label,value)=>`<li><strong>${escHtml(label)}：</strong>${escHtml(value)}</li>`;
+    const joiner=this.lang==='en'?', ':'、';
+    return `<div class="decision-audit">
+      <p>${escHtml(copy.audit.title)}</p>
+      <ul>
+        ${line(copy.audit.prior,audit.prior)}
+        ${line(copy.audit.support,audit.support.map(tr).join(joiner))}
+        ${line(copy.audit.discount,audit.discounts.map(tr).join(joiner))}
+        ${line(copy.audit.action,audit.action)}
+      </ul>
+    </div>`;
   },
 
   safetyNoticeHtml(notes=[]){
@@ -1155,6 +1227,7 @@ const App = {
         rank:i+1,
         name:s.name,
         reason:matched.join(this.lang==='en'?', ':'、')||copy.report.weighted,
+        audit:raw.decisionAudit||this.decisionAudit(raw),
         dosage:s.dosage,
         cycle:enSafe(info.cycle)||enSafe(fallback.cycle)||defaultEnglishCycle(raw),
         usagePlans:usagePlans.length?usagePlans:defaultEnglishUsage(raw),
@@ -1200,6 +1273,7 @@ const App = {
         '',
         `### ${item.rank}. ${item.name}`,
         `- ${copy.report.reason}：${item.reason}`,
+        `- ${copy.audit.title}：${copy.audit.prior} ${item.audit.prior}；${copy.audit.support} ${item.audit.support.map(tr).join(this.lang==='en'?', ':'、')}；${copy.audit.discount} ${item.audit.discounts.map(tr).join(this.lang==='en'?', ':'、')}；${copy.audit.action} ${item.audit.action}`,
         `- ${copy.report.dose}：${item.dosage}`,
         `- ${copy.report.cycle}：${item.cycle}`,
         `- ${copy.report.usage}：${item.usagePlans.join(this.lang==='en'?'; ':'；')}`,
@@ -1252,6 +1326,7 @@ const App = {
           <h3>${item.rank}. ${esc(item.name)}</h3>
           <ul>
             <li><strong>${esc(copy.report.reason)}：</strong>${esc(item.reason)}</li>
+            <li><strong>${esc(copy.audit.title)}：</strong>${esc(copy.audit.prior)} ${esc(item.audit.prior)}；${esc(copy.audit.support)} ${esc(item.audit.support.map(tr).join(this.lang==='en'?', ':'、'))}；${esc(copy.audit.discount)} ${esc(item.audit.discounts.map(tr).join(this.lang==='en'?', ':'、'))}；${esc(copy.audit.action)} ${esc(item.audit.action)}</li>
             <li><strong>${esc(copy.report.dose)}：</strong>${esc(item.dosage)}</li>
             <li><strong>${esc(copy.report.cycle)}：</strong>${esc(item.cycle)}</li>
             <li><strong>${esc(copy.report.usage)}：</strong>${esc(item.usagePlans.join(this.lang==='en'?'; ':'；'))}</li>

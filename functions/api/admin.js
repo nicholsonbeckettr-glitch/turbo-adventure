@@ -19,12 +19,33 @@ const bump = (obj, key) => {
   if (key) obj[key] = (obj[key] || 0) + 1;
 };
 
+function authorized(request, env) {
+  const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
+  return Boolean(env.ADMIN_TOKEN && token === env.ADMIN_TOKEN);
+}
+
+async function markPaid(env, reportId) {
+  const now = new Date().toISOString();
+  const checkout = await env.ANALYTICS.get(`checkout:${reportId}`, 'json');
+  await env.ANALYTICS.put(`paid:${reportId}`, JSON.stringify({ reportId, provider: 'manual', paidAt: now }));
+  if (checkout) {
+    await env.ANALYTICS.put(`checkout:${reportId}`, JSON.stringify({ ...checkout, paid: true, paidAt: now }));
+  }
+  await env.ANALYTICS.put(`event:${Date.now()}:${crypto.randomUUID()}`, JSON.stringify({
+    ts: now,
+    event: 'payment_success',
+    userId: checkout?.userId || 'manual',
+    path: '',
+    supplements: checkout?.supplements || [],
+    targets: checkout?.targets || [],
+  }));
+}
+
 export async function onRequestGet({ request, env }) {
   if (!env.ANALYTICS) return json({ error: 'ANALYTICS KV binding missing' }, 500);
   if (!env.ADMIN_TOKEN) return json({ error: 'ADMIN_TOKEN missing' }, 500);
 
-  const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
-  if (token !== env.ADMIN_TOKEN) return json({ error: 'unauthorized' }, 401);
+  if (!authorized(request, env)) return json({ error: 'unauthorized' }, 401);
 
   const [eventKeys, userKeys] = await Promise.all([
     listKeys(env.ANALYTICS, 'event:'),
@@ -56,4 +77,23 @@ export async function onRequestGet({ request, env }) {
     .map(({ ts, event, path, supplements, targets }) => ({ ts, event, path, supplements, targets }));
 
   return json(stats);
+}
+
+export async function onRequestPost({ request, env }) {
+  if (!env.ANALYTICS) return json({ error: 'ANALYTICS KV binding missing' }, 500);
+  if (!env.ADMIN_TOKEN) return json({ error: 'ADMIN_TOKEN missing' }, 500);
+  if (!authorized(request, env)) return json({ error: 'unauthorized' }, 401);
+
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: 'invalid json' }, 400);
+  }
+
+  const reportId = typeof body.reportId === 'string' ? body.reportId.trim().slice(0, 80) : '';
+  if (!reportId) return json({ error: 'missing reportId' }, 400);
+
+  await markPaid(env, reportId);
+  return json({ ok: true, reportId });
 }

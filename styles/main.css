@@ -206,6 +206,14 @@ button.tag:active{transform:scale(.98)}
 .result-bar{margin-bottom:6px}
 .result-bar .match-fill{width:var(--match-pct,0%);background:var(--match-color,var(--green))}
 .result-meta{font-size:11px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.decision-audit{
+  margin-top:10px;padding:10px;border-radius:8px;
+  background:rgba(232,242,231,.58);border:1px solid rgba(23,77,50,.12);
+}
+.decision-audit p{font-size:11px;font-weight:800;color:var(--green);margin-bottom:4px}
+.decision-audit ul{list-style:none;display:grid;gap:2px}
+.decision-audit li{font-size:11px;color:var(--dim);line-height:1.5}
+.decision-audit strong{color:var(--text);font-weight:700}
 .result-ref{font-size:10px;color:var(--dim);margin-top:4px;font-style:italic}
 .btn-more-results{display:flex;width:100%;justify-content:center;margin-top:16px}
 .empty-result{padding:24px;text-align:center}
