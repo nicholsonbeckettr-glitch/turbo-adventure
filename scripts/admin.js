@@ -22,7 +22,9 @@ const Admin={
     $('events').textContent=data.events||0;
     $('results').textContent=data.byEvent?.result||0;
     $('copies').textContent=data.byEvent?.copy_report||0;
-    $('downloads').textContent=data.byEvent?.download_report||0;
+    $('checkouts').textContent=data.byEvent?.checkout_start||0;
+    $('payments').textContent=data.byEvent?.payment_success||0;
+    $('downloads').textContent=data.byEvent?.paid_download||data.byEvent?.download_report||0;
     $('supplements').innerHTML=this.rank(data.supplements);
     $('targets').innerHTML=this.rank(data.targets);
     $('recent').innerHTML=(data.recent||[]).map(item=>`

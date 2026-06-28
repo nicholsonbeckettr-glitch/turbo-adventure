@@ -212,6 +212,7 @@ button.tag:active{transform:scale(.98)}
 .empty-result p{color:var(--dim);font-size:14px}
 .next-steps{margin-top:20px}
 .next-step-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.payment-hint{margin-top:8px;font-size:11px;color:#806000}
 .result-actions{text-align:center;margin-top:32px}
 .result-divider{margin:0 12px;color:#ccc}
 .detail-shell{max-width:880px;margin:0 auto;padding:34px 20px 48px}
