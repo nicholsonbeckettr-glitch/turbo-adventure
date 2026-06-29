@@ -41,6 +41,7 @@
         <div class="hero-actions">
           <button class="btn btn-primary btn-lg" data-action="go-quiz" data-i18n="home.startQuiz">开始健康问卷</button>
           <button class="btn btn-outline btn-lg" data-action="scroll-supplements" data-i18n="home.viewSupplements">查看收录成分</button>
+          <button class="btn btn-outline btn-lg" data-action="go-reports" data-i18n="home.myReports">我的报告</button>
         </div>
       </div>
 
@@ -143,6 +144,16 @@
     <span class="result-divider">·</span>
     <button class="btn btn-outline btn-sm" data-action="go-home">返回首页</button>
   </div>
+</section>
+
+<!-- ============ MY REPORTS ============ -->
+<section id="sec-reports" class="section reports-shell">
+  <button class="btn btn-outline btn-sm detail-back" data-action="go-home">返回首页</button>
+  <div class="reports-head">
+    <h2>我的报告</h2>
+    <p>这里保存当前浏览器生成过的报告，可继续支付、下载 PDF 或复制报告码。</p>
+  </div>
+  <div id="reports-list"></div>
 </section>
 
 <!-- ============ SUPPLEMENT KNOWLEDGE ============ -->

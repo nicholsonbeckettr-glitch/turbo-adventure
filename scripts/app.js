@@ -10,13 +10,14 @@ const SITE_CONFIG = {
 const { SUPPLEMENTS, DETAIL_FALLBACKS, QUIZ, QUIZ_SETS, PROFILE_QUESTIONS } = window.HealthMatchData;
 
 // ==================== APP ENGINE ====================
-const ROUTES={home:'sec-home',quiz:'sec-quiz',result:'sec-result'};
+const ROUTES={home:'sec-home',quiz:'sec-quiz',result:'sec-result',reports:'sec-reports'};
 const ANSWERS_KEY='health-match-answers';
 const USER_KEY='health-match-user';
 const LANG_KEY='health-match-lang';
 const QUIZ_SET_KEY='health-match-quiz-set';
 const REPORT_ID_KEY='health-match-report-id';
 const PAID_REPORTS_KEY='health-match-paid-reports';
+const REPORTS_KEY='health-match-reports';
 const DEFAULT_QUIZ_SET_ID='general';
 const LANGS=['zh-CN','zh-TW','en'];
 const I18N={
@@ -28,6 +29,7 @@ const I18N={
       lead:'根据健康目标、饮食、现有补剂和身体情况，筛出少量值得验证的成分，并提示重复、冲突和不适用情况。',
       startQuiz:'开始健康问卷',
       viewSupplements:'查看收录成分',
+      myReports:'我的报告',
       proofLabel:'产品能力',
       suppProof:value=>`种常见明星成分，按目标和身体情况筛选`,
       quizProof:value=>`份问卷覆盖通用、睡眠压力、女性营养和健身新手`,
@@ -55,6 +57,7 @@ const I18N={
       lead:'根據健康目標、飲食、既有補劑和身體情況，篩出少量值得驗證的成分，並提示重複、衝突和不適用情況。',
       startQuiz:'開始健康問卷',
       viewSupplements:'查看收錄成分',
+      myReports:'我的報告',
       proofLabel:'產品能力',
       suppProof:value=>`種常見明星成分，按目標和身體情況篩選`,
       quizProof:value=>`份問卷覆蓋通用、睡眠壓力、女性營養和健身新手`,
@@ -82,6 +85,7 @@ const I18N={
       lead:'Based on your health goals, diet, current supplements, and body signals, this tool narrows the list to a few ingredients worth testing and flags duplication, conflicts, and unsuitable situations.',
       startQuiz:'Start health quiz',
       viewSupplements:'View ingredients',
+      myReports:'My reports',
       proofLabel:'Product capabilities',
       suppProof:value=>`common ingredients screened by goals and body signals`,
       quizProof:value=>`quiz paths for general, sleep/stress, women's nutrition, and fitness beginners`,
@@ -121,6 +125,7 @@ const UI_COPY={
     trialHold:'当前不建议自行试用补剂；先咨询医生或营养师，并在获得明确建议后再复评。',
     nextTitle:'下一步建议', nextBody:names=>`优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。`,
     currentLifestyle:'当前生活方式', copyReport:'复制报告', downloadReport:'下载 PDF 报告', unlockReport:'解锁完整 PDF 报告', unlocking:'正在打开收银台...', paymentError:'暂时无法打开收银台，请稍后重试。', paymentPending:'支付完成后回到本页，会自动解锁完整报告。', buyList:'查看筛选清单', brandCoop:'品牌合作',
+    reports:{title:'我的报告', intro:'这里保存当前浏览器生成过的报告，可继续支付、下载 PDF 或复制报告码。', empty:'当前浏览器还没有保存报告。', unlocked:'已解锁', locked:'未解锁', view:'查看报告', continuePay:'继续支付', download:'下载 PDF', copyCode:'复制报告码', codeCopied:'报告码已复制', code:'报告码', top:'推荐优先级', localOnly:'解锁状态以当前浏览器记录为准。'},
     manualPay:{title:'支付宝扫码支付', amount:'支付金额', order:'订单号', intro:'请使用支付宝扫码支付，支付完成后点击下方按钮提交确认。', done:'我已完成支付', refresh:'付款后刷新', close:'稍后支付', pending:'稍等确认订单中，确认完成后将自动解锁完整报告。', notifyError:'暂时无法提交确认，请稍后重试。'},
     detail:{targets:'匹配目标', use:'使用与复盘', dose:'建议剂量：', cycle:'观察周期：', risk:'风险边界', mechanism:'机理流程', focus:'知识库重点', literature:'文献依据', source:'查看完整知识库原文', noSummary:'知识库暂未配置该部分摘要。', defaultRef:'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。'},
     focus:{key:'重点结论', fit:'适合人群', notFit:'不适合人群', dose:'剂量与复盘', evidence:'证据更可靠', risk:'风险边界', extra:'补充要点'},
@@ -147,6 +152,7 @@ const UI_COPY={
     trialHold:'目前不建議自行試用補劑；先諮詢醫師或營養師，並在獲得明確建議後再複評。',
     nextTitle:'下一步建議', nextBody:names=>`優先核對 ${names} 的禁忌、藥物交互作用、第三方檢測和實際劑量。建議只選擇 1-2 個高匹配項做 7 天試用，並記錄睡眠、精力、壓力或訓練表現評分。本站未來可能透過廣告、贊助或聯盟連結獲得收入；商業合作不影響匹配排序。`,
     currentLifestyle:'目前生活方式', copyReport:'複製報告', downloadReport:'下載 PDF 報告', unlockReport:'解鎖完整 PDF 報告', unlocking:'正在打開收銀台...', paymentError:'暫時無法打開收銀台，請稍後重試。', paymentPending:'支付完成後回到本頁，會自動解鎖完整報告。', buyList:'查看篩選清單', brandCoop:'品牌合作',
+    reports:{title:'我的報告', intro:'這裡保存目前瀏覽器生成過的報告，可繼續支付、下載 PDF 或複製報告碼。', empty:'目前瀏覽器還沒有保存報告。', unlocked:'已解鎖', locked:'未解鎖', view:'查看報告', continuePay:'繼續支付', download:'下載 PDF', copyCode:'複製報告碼', codeCopied:'報告碼已複製', code:'報告碼', top:'推薦優先級', localOnly:'解鎖狀態以目前瀏覽器記錄為準。'},
     manualPay:{title:'支付寶掃碼支付', amount:'支付金額', order:'訂單號', intro:'請使用支付寶掃碼支付，支付完成後點擊下方按鈕提交確認。', done:'我已完成支付', refresh:'付款後刷新', close:'稍後支付', pending:'稍等確認訂單中，確認完成後將自動解鎖完整報告。', notifyError:'暫時無法提交確認，請稍後重試。'},
     detail:{targets:'匹配目標', use:'使用與複盤', dose:'建議劑量：', cycle:'觀察週期：', risk:'風險邊界', mechanism:'機理流程', focus:'知識庫重點', literature:'文獻依據', source:'查看完整知識庫原文', noSummary:'知識庫暫未配置該部分摘要。', defaultRef:'該文獻作為目前成分建議的基礎參考，具體適用性仍需結合個人情況判斷。'},
     focus:{key:'重點結論', fit:'適合人群', notFit:'不適合人群', dose:'劑量與複盤', evidence:'證據更可靠', risk:'風險邊界', extra:'補充要點'},
@@ -173,6 +179,7 @@ const UI_COPY={
     trialHold:'Self-trial is not recommended right now. Consult a clinician or dietitian first, then reassess after clear guidance.',
     nextTitle:'Next step', nextBody:names=>`First check contraindications, medication interactions, third-party testing, and actual dose for ${names}. Pick only 1-2 high-match items for a 7-day trial and record sleep, energy, stress, or training scores. This site may later earn revenue through ads, sponsorships, or affiliate links; commercial relationships do not affect match ranking.`,
     currentLifestyle:'current lifestyle', copyReport:'Copy report', downloadReport:'Download PDF report', unlockReport:'Unlock full PDF report', unlocking:'Opening checkout...', paymentError:'Checkout is temporarily unavailable. Please try again later.', paymentPending:'After payment, return to this page and the full report will unlock automatically.', buyList:'View shortlist', brandCoop:'Partnerships',
+    reports:{title:'My reports', intro:'Reports generated in this browser are saved here. You can continue payment, download the PDF, or copy the report code.', empty:'No reports are saved in this browser yet.', unlocked:'Unlocked', locked:'Locked', view:'View report', continuePay:'Continue payment', download:'Download PDF', copyCode:'Copy code', codeCopied:'Report code copied', code:'Report code', top:'Priority picks', localOnly:'Unlock status is based on this browser record.'},
     manualPay:{title:'Pay with Alipay', amount:'Amount', order:'Order ID', intro:'Scan with Alipay. After paying, tap the button below to request confirmation.', done:'I have paid', refresh:'Refresh after payment', close:'Pay later', pending:'Confirming your order. The full report will unlock automatically after confirmation.', notifyError:'Could not submit confirmation. Please try again later.'},
     detail:{targets:'Matched goals', use:'Use and review', dose:'Suggested dose: ', cycle:'Review window: ', risk:'Risk boundaries', mechanism:'Absorption and use pathway', focus:'Knowledge highlights', literature:'Evidence', source:'View original Chinese source note', noSummary:'No summary has been configured for this section.', defaultRef:'This source is a base reference for the current ingredient suggestion; personal fit still depends on your context.'},
     focus:{key:'Key takeaway', fit:'Who may fit', notFit:'Who should avoid', dose:'Dose and review', evidence:'Stronger evidence', risk:'Risk boundary', extra:'More notes'},
@@ -605,6 +612,7 @@ const App = {
       const id=location.hash.startsWith('#supplement/')?location.hash.slice('#supplement/'.length):'';
       if(id)this.showSupplement(id,false);
     }
+    if($('sec-reports').classList.contains('on'))this.renderReports();
   },
 
   toggleLanguageMenu(){
@@ -673,6 +681,8 @@ const App = {
     if(updateHash&&location.hash!==`#${section}`)location.hash=section;
     if(section==='quiz'){
       this.renderQuizPicker();
+    }else if(section==='reports'){
+      this.renderReports();
     }
     window.scrollTo(0,0);
   },
@@ -753,6 +763,7 @@ const App = {
     
     this.result=this.scoreResults();
     this.resultMode=mode;
+    this.saveCurrentReport(this.result);
     const {top,userTargets,safetyNotes=[]}=this.result;
     const set=this.quizSet();
     const unlocked=this.hasPaidAccess();
@@ -1122,6 +1133,151 @@ const App = {
     }
   },
 
+  savedReports(){
+    try{
+      const reports=JSON.parse(localStorage.getItem(REPORTS_KEY)||'[]');
+      return Array.isArray(reports)?reports:[];
+    }catch(e){
+      return [];
+    }
+  },
+
+  saveReports(reports){
+    const unique=[];
+    reports.forEach(report=>{
+      if(report?.id&&!unique.some(item=>item.id===report.id))unique.push(report);
+    });
+    localStorage.setItem(REPORTS_KEY,JSON.stringify(unique.slice(0,30)));
+  },
+
+  currentReportSnapshot(result){
+    return {
+      top:result.top.slice(0,6).map(item=>({
+        id:item.id,
+        name:item.name,
+        evidence:item.evidence,
+        score:item.score,
+      })),
+      userTargets:[...result.userTargets],
+      riskNotes:result.riskNotes||[],
+      safetyNotes:result.safetyNotes||[],
+    };
+  },
+
+  saveCurrentReport(result=this.result){
+    if(!result||!this.answers.length)return;
+    const reportId=this.currentReportId();
+    const saved=this.savedReports();
+    const reports=saved.filter(report=>report.id!==reportId);
+    const existing=saved.find(report=>report.id===reportId);
+    const now=new Date().toISOString();
+    const record={
+      id:reportId,
+      userId:this.getUserId(),
+      quizSetId:this.quizSetId,
+      title:this.quizSet().title,
+      lang:this.lang,
+      answers:this.answers.slice(),
+      result:this.currentReportSnapshot(result),
+      paid:this.paidReportIds().includes(reportId)||Boolean(existing?.paid),
+      createdAt:existing?.createdAt||now,
+      updatedAt:now,
+    };
+    this.saveReports([record,...reports]);
+  },
+
+  updateSavedReport(reportId, patch){
+    const reports=this.savedReports();
+    const index=reports.findIndex(report=>report.id===reportId);
+    if(index<0)return;
+    reports[index]={...reports[index],...patch,updatedAt:new Date().toISOString()};
+    this.saveReports(reports);
+  },
+
+  openSavedReport(reportId, show=true){
+    const report=this.savedReports().find(item=>item.id===reportId);
+    if(!report)return false;
+    this.quizSetId=report.quizSetId||DEFAULT_QUIZ_SET_ID;
+    this.answers=Array.isArray(report.answers)?report.answers.slice():[];
+    this.result=null;
+    localStorage.setItem(REPORT_ID_KEY,report.id);
+    localStorage.setItem(QUIZ_SET_KEY,this.quizSetId);
+    localStorage.setItem(ANSWERS_KEY,JSON.stringify(this.answers));
+    if(show)this.showResult({mode:'summary'});
+    return true;
+  },
+
+  async paySavedReport(reportId){
+    if(!this.openSavedReport(reportId,false))return;
+    await this.startCheckout();
+  },
+
+  async downloadSavedReport(reportId){
+    if(!this.openSavedReport(reportId,false))return;
+    await this.downloadReport();
+  },
+
+  async copyReportCode(reportId=this.currentReportId()){
+    const copy=(UI_COPY[this.lang]||UI_COPY['zh-CN']).reports;
+    try{
+      await navigator.clipboard?.writeText(reportId);
+      this.flashReportMessage(copy.codeCopied);
+    }catch(e){
+      window.prompt(copy.code,reportId);
+    }
+  },
+
+  flashReportMessage(message){
+    const node=$('reports-list')?.querySelector('.reports-message');
+    if(!node)return;
+    node.textContent=message;
+    setTimeout(()=>{node.textContent='';},1800);
+  },
+
+  renderReports(){
+    const copy=(UI_COPY[this.lang]||UI_COPY['zh-CN']).reports;
+    const head=document.querySelector('.reports-head');
+    if(head){
+      head.querySelector('h2').textContent=copy.title;
+      head.querySelector('p').textContent=copy.intro;
+    }
+    const paidIds=this.paidReportIds();
+    const reports=this.savedReports()
+      .map(report=>({...report,paid:Boolean(report.paid||paidIds.includes(report.id))}))
+      .sort((a,b)=>String(b.updatedAt||b.createdAt).localeCompare(String(a.updatedAt||a.createdAt)));
+    if(!reports.length){
+      $('reports-list').innerHTML=`<div class="card empty-result"><p>${escHtml(copy.empty)}</p></div>`;
+      return;
+    }
+    const locale=this.lang==='en'?'en-US':this.lang;
+    $('reports-list').innerHTML=`<p class="reports-message" aria-live="polite"></p>${reports.map(report=>{
+      const created=report.createdAt?new Date(report.createdAt).toLocaleString(locale):'';
+      const top=(report.result?.top||[]).slice(0,3).map(item=>{
+        const supplement=supplementById(item.id);
+        return escHtml(supplement?localizedSupplement(supplement).name:tr(item.name||item.id));
+      }).join(this.lang==='en'?', ':'、')||copy.localOnly;
+      const status=report.paid?copy.unlocked:copy.locked;
+      return `<article class="card report-card">
+        <div class="report-card-head">
+          <div>
+            <h3>${escHtml(report.title||copy.title)}</h3>
+            <p>${escHtml(created)} · ${escHtml(copy.code)} ${escHtml(report.id.slice(0,8))}</p>
+          </div>
+          <span class="report-status ${report.paid?'is-paid':''}">${escHtml(status)}</span>
+        </div>
+        <p class="report-summary"><strong>${escHtml(copy.top)}：</strong>${top}</p>
+        <p class="report-local-note">${escHtml(copy.localOnly)}</p>
+        <div class="report-actions">
+          <button class="btn btn-outline btn-sm" data-action="view-saved-report" data-report-id="${escHtml(report.id)}">${escHtml(copy.view)}</button>
+          ${report.paid
+            ? `<button class="btn btn-primary btn-sm" data-action="download-saved-report" data-report-id="${escHtml(report.id)}">${escHtml(copy.download)}</button>`
+            : `<button class="btn btn-primary btn-sm" data-action="pay-saved-report" data-report-id="${escHtml(report.id)}">${escHtml(copy.continuePay)}</button>`}
+          <button class="btn btn-outline btn-sm" data-action="copy-report-code" data-report-id="${escHtml(report.id)}">${escHtml(copy.copyCode)}</button>
+        </div>
+      </article>`;
+    }).join('')}`;
+  },
+
   paidReportIds(){
     try{
       const ids=JSON.parse(localStorage.getItem(PAID_REPORTS_KEY)||'[]');
@@ -1146,6 +1302,7 @@ const App = {
       ids.push(reportId);
       localStorage.setItem(PAID_REPORTS_KEY,JSON.stringify(ids.slice(-10)));
     }
+    this.updateSavedReport(reportId,{paid:true,paidAt:new Date().toISOString()});
   },
 
   hasPaidAccess(){
@@ -1501,10 +1658,15 @@ const App = {
       const actions={
         'go-home':()=>this.go('home'),
         'go-quiz':()=>this.go('quiz'),
+        'go-reports':()=>this.go('reports'),
         'scroll-supplements':()=>$('supp-preview').scrollIntoView({behavior:'smooth',block:'center'}),
         'copy-report':()=>this.copyReport(),
         'download-report':()=>this.downloadReport(),
         'unlock-report':()=>this.startCheckout(),
+        'view-saved-report':()=>this.openSavedReport(actionButton.dataset.reportId),
+        'pay-saved-report':()=>this.paySavedReport(actionButton.dataset.reportId),
+        'download-saved-report':()=>this.downloadSavedReport(actionButton.dataset.reportId),
+        'copy-report-code':()=>this.copyReportCode(actionButton.dataset.reportId),
         'confirm-manual-payment':()=>this.confirmManualPayment(),
         'close-manual-payment':()=>this.closeManualCheckout(),
         'refresh-page':()=>location.reload(),
@@ -1539,6 +1701,7 @@ window.App=App;
 
 // ==================== INIT ====================
 (function(){
+  App.getUserId();
   App.bindEvents();
 
   // Supplement preview pills

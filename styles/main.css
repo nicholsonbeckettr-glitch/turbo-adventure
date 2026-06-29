@@ -249,6 +249,24 @@ button.tag:active{transform:scale(.98)}
 .payment-modal-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .result-actions{text-align:center;margin-top:32px}
 .result-divider{margin:0 12px;color:#ccc}
+.reports-shell{max-width:780px;margin:0 auto;padding:34px 20px 48px}
+.reports-head{margin-bottom:18px}
+.reports-head h2{font-size:24px;color:var(--green);margin-bottom:6px}
+.reports-head p{font-size:13px;color:var(--dim);line-height:1.7}
+.reports-message{min-height:20px;margin-bottom:8px;font-size:12px;color:var(--green)}
+.report-card{padding:18px;margin-bottom:12px}
+.report-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.report-card-head h3{font-size:16px;color:var(--green);margin-bottom:4px}
+.report-card-head p{font-size:11px;color:var(--dim);word-break:break-all}
+.report-status{
+  flex:0 0 auto;padding:4px 9px;border-radius:999px;background:#fff3e0;color:#e65100;
+  font-size:11px;font-weight:800;
+}
+.report-status.is-paid{background:#e8f5e9;color:#1b5e20}
+.report-summary{font-size:12px;color:var(--dim);line-height:1.7}
+.report-summary strong{color:var(--text)}
+.report-local-note{margin-top:4px;font-size:11px;color:#806000}
+.report-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .detail-shell{max-width:880px;margin:0 auto;padding:34px 20px 48px}
 .detail-back{margin-bottom:14px}
 .detail-card{padding:24px}
@@ -315,7 +333,7 @@ button.tag:active{transform:scale(.98)}
 }
 @media(max-width:640px){
   .home-shell{padding:16px 14px 34px}
-  .quiz-shell,.result-shell,.detail-shell{padding-top:78px}
+  .quiz-shell,.result-shell,.detail-shell,.reports-shell{padding-top:78px}
   .hero{padding:18px;border-radius:14px}
   .brand-wordmark-img{width:min(100%,190px)}
   .hero-lead{font-size:15px}
