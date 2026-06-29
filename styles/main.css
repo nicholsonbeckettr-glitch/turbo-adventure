@@ -207,7 +207,14 @@ button.tag:active{transform:scale(.98)}
 .generating-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
 .generating-tag{border-color:rgba(216,111,88,.28);background:#fff3e0;color:#8a4a00}
 .generating-removed{padding:10px;border-radius:8px;background:#ffebee;color:#a82020;font-size:12px;line-height:1.6}
-.generating-keep{margin-top:8px;color:#806000;font-size:11px;line-height:1.6}
+.generating-keep{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-top:12px;color:#806000;font-size:11px;line-height:1.6;text-align:center;
+}
+.generating-keep::before,.generating-keep::after{
+  content:"";width:44px;height:1px;flex:0 1 44px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
 .generating-skeleton{display:grid;gap:10px}
 .skeleton-card{
   min-height:118px;border:1px solid var(--border);border-radius:10px;
