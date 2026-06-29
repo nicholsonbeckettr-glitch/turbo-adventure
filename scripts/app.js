@@ -126,6 +126,7 @@ const UI_COPY={
     nextTitle:'下一步建议', nextBody:names=>`优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。`,
     currentLifestyle:'当前生活方式', copyReport:'复制报告', downloadReport:'下载 PDF 报告', unlockReport:'解锁完整 PDF 报告', unlocking:'正在打开收银台...', paymentError:'暂时无法打开收银台，请稍后重试。', paymentPending:'支付完成后回到本页，会自动解锁完整报告。', buyList:'查看筛选清单', brandCoop:'品牌合作',
     reports:{title:'我的报告', intro:'这里保存当前浏览器生成过的报告，可继续支付、下载 PDF 或复制报告码。', empty:'当前浏览器还没有保存报告。', unlocked:'已解锁', locked:'未解锁', view:'查看报告', continuePay:'继续支付', download:'下载 PDF', copyCode:'复制报告码', codeCopied:'报告码已复制', code:'报告码', top:'推荐优先级', localOnly:'解锁状态以当前浏览器记录为准。'},
+    quizPicker:{title:'选择你的补剂报告', intro:'先选一个场景，再回答对应问卷。专题问卷会优先筛对应人群常见成分，并提示重复、冲突和不适用情况。'},
     generating:{title:'正在生成你的补剂风险审查报告', subtitle:'我们会先排除不适合自行尝试的方向，再整理可执行的 7 天试用计划。', keep:'不要关闭页面，结果会保存在本地浏览器中。', removed:n=>`已移除不适合自行尝试的成分：${n} 项`, tags:{risk:n=>`风险提示 ${n} 条`, duplicate:n=>`重复方向 ${n} 项`, caution:n=>`冲突核对 ${n} 项`, evidence:n=>`强/中证据候选 ${n} 项`, targets:n=>`健康目标 ${n} 项`}, steps:['正在读取你的健康目标','正在排查可能不健康的风险','正在检查已有补剂的重复方向','正在匹配证据等级和适用人群','正在生成相应建议以及方案','正在整理完整 PDF 报告']},
     manualPay:{title:'支付宝扫码支付', amount:'支付金额', order:'订单号', intro:'请使用支付宝扫码支付，支付完成后点击下方按钮提交确认。', done:'我已完成支付', refresh:'付款后刷新', close:'稍后支付', pending:'稍等确认订单中，确认完成后将自动解锁完整报告。', notifyError:'暂时无法提交确认，请稍后重试。'},
     detail:{targets:'匹配目标', use:'使用与复盘', dose:'建议剂量：', cycle:'观察周期：', risk:'风险边界', mechanism:'机理流程', focus:'知识库重点', literature:'文献依据', source:'查看完整知识库原文', noSummary:'知识库暂未配置该部分摘要。', defaultRef:'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。'},
@@ -154,6 +155,7 @@ const UI_COPY={
     nextTitle:'下一步建議', nextBody:names=>`優先核對 ${names} 的禁忌、藥物交互作用、第三方檢測和實際劑量。建議只選擇 1-2 個高匹配項做 7 天試用，並記錄睡眠、精力、壓力或訓練表現評分。本站未來可能透過廣告、贊助或聯盟連結獲得收入；商業合作不影響匹配排序。`,
     currentLifestyle:'目前生活方式', copyReport:'複製報告', downloadReport:'下載 PDF 報告', unlockReport:'解鎖完整 PDF 報告', unlocking:'正在打開收銀台...', paymentError:'暫時無法打開收銀台，請稍後重試。', paymentPending:'支付完成後回到本頁，會自動解鎖完整報告。', buyList:'查看篩選清單', brandCoop:'品牌合作',
     reports:{title:'我的報告', intro:'這裡保存目前瀏覽器生成過的報告，可繼續支付、下載 PDF 或複製報告碼。', empty:'目前瀏覽器還沒有保存報告。', unlocked:'已解鎖', locked:'未解鎖', view:'查看報告', continuePay:'繼續支付', download:'下載 PDF', copyCode:'複製報告碼', codeCopied:'報告碼已複製', code:'報告碼', top:'推薦優先級', localOnly:'解鎖狀態以目前瀏覽器記錄為準。'},
+    quizPicker:{title:'選擇你的補劑報告', intro:'先選一個場景，再回答對應問卷。專題問卷會優先篩對應人群常見成分，並提示重複、衝突和不適用情況。'},
     generating:{title:'正在生成你的補劑風險審查報告', subtitle:'我們會先排除不適合自行嘗試的方向，再整理可執行的 7 天試用計畫。', keep:'不要關閉頁面，結果會保存在本機瀏覽器中。', removed:n=>`已移除不適合自行嘗試的成分：${n} 項`, tags:{risk:n=>`風險提示 ${n} 條`, duplicate:n=>`重複方向 ${n} 項`, caution:n=>`衝突核對 ${n} 項`, evidence:n=>`強/中證據候選 ${n} 項`, targets:n=>`健康目標 ${n} 項`}, steps:['正在讀取你的健康目標','正在排查可能不健康的風險','正在檢查已有補劑的重複方向','正在匹配證據等級和適用人群','正在生成相應建議以及方案','正在整理完整 PDF 報告']},
     manualPay:{title:'支付寶掃碼支付', amount:'支付金額', order:'訂單號', intro:'請使用支付寶掃碼支付，支付完成後點擊下方按鈕提交確認。', done:'我已完成支付', refresh:'付款後刷新', close:'稍後支付', pending:'稍等確認訂單中，確認完成後將自動解鎖完整報告。', notifyError:'暫時無法提交確認，請稍後重試。'},
     detail:{targets:'匹配目標', use:'使用與複盤', dose:'建議劑量：', cycle:'觀察週期：', risk:'風險邊界', mechanism:'機理流程', focus:'知識庫重點', literature:'文獻依據', source:'查看完整知識庫原文', noSummary:'知識庫暫未配置該部分摘要。', defaultRef:'該文獻作為目前成分建議的基礎參考，具體適用性仍需結合個人情況判斷。'},
@@ -182,6 +184,7 @@ const UI_COPY={
     nextTitle:'Next step', nextBody:names=>`First check contraindications, medication interactions, third-party testing, and actual dose for ${names}. Pick only 1-2 high-match items for a 7-day trial and record sleep, energy, stress, or training scores. This site may later earn revenue through ads, sponsorships, or affiliate links; commercial relationships do not affect match ranking.`,
     currentLifestyle:'current lifestyle', copyReport:'Copy report', downloadReport:'Download PDF report', unlockReport:'Unlock full PDF report', unlocking:'Opening checkout...', paymentError:'Checkout is temporarily unavailable. Please try again later.', paymentPending:'After payment, return to this page and the full report will unlock automatically.', buyList:'View shortlist', brandCoop:'Partnerships',
     reports:{title:'My reports', intro:'Reports generated in this browser are saved here. You can continue payment, download the PDF, or copy the report code.', empty:'No reports are saved in this browser yet.', unlocked:'Unlocked', locked:'Locked', view:'View report', continuePay:'Continue payment', download:'Download PDF', copyCode:'Copy code', codeCopied:'Report code copied', code:'Report code', top:'Priority picks', localOnly:'Unlock status is based on this browser record.'},
+    quizPicker:{title:'Choose your supplement report', intro:'Pick a scenario first, then answer the matching quiz. Scenario reports prioritize common ingredients for that context and flag duplicates, conflicts, and unsuitable situations.'},
     generating:{title:'Generating your supplement risk-review report', subtitle:'We first remove directions unsuitable for self-trial, then prepare an executable 7-day trial plan.', keep:'Do not close this page. The result will be saved in this browser.', removed:n=>`Ingredients removed as unsuitable for self-trial: ${n}`, tags:{risk:n=>`${n} risk notes`, duplicate:n=>`${n} duplicate directions`, caution:n=>`${n} conflict checks`, evidence:n=>`${n} strong/moderate candidates`, targets:n=>`${n} health targets`}, steps:['Reading your health goals','Checking possible unhealthy risks','Checking duplicate directions from current supplements','Matching evidence level and suitable populations','Generating corresponding suggestions and plans','Preparing the full PDF report']},
     manualPay:{title:'Pay with Alipay', amount:'Amount', order:'Order ID', intro:'Scan with Alipay. After paying, tap the button below to request confirmation.', done:'I have paid', refresh:'Refresh after payment', close:'Pay later', pending:'Confirming your order. The full report will unlock automatically after confirmation.', notifyError:'Could not submit confirmation. Please try again later.'},
     detail:{targets:'Matched goals', use:'Use and review', dose:'Suggested dose: ', cycle:'Review window: ', risk:'Risk boundaries', mechanism:'Absorption and use pathway', focus:'Knowledge highlights', literature:'Evidence', source:'View original Chinese source note', noSummary:'No summary has been configured for this section.', defaultRef:'This source is a base reference for the current ingredient suggestion; personal fit still depends on your context.'},
@@ -190,6 +193,21 @@ const UI_COPY={
       checks:['Are you taking prescription medication, especially anticoagulants, blood-pressure, glucose-lowering, or sedative drugs?','Are you pregnant, breastfeeding, preparing for surgery, or dealing with liver or kidney disease?','Does the product provide third-party testing, clear dosage, active ingredient content, and batch information?','Have you set a review window so supplements do not stack up without a purpose?'],
       reviewRows:['Day 0: record target scores, medications, current supplements, and the 1-2 ingredients you plan to test.','Day 3: record adverse reactions and changes in sleep, energy, stress, or training performance.','Day 7: compare score changes and decide whether to continue, adjust dose, stop, or consult a clinician.','Day 14: if there is still no clear benefit, stop ineffective items first and avoid long-term stacking.']},
     consoleReady:'ready', consoleStats:(s,q)=>`${s} ingredients · ${q} quiz questions · evidence-informed matching`,
+  },
+};
+
+const QUIZ_SET_COPY={
+  'zh-TW':{
+    general:{title:'通用補劑篩選', subtitle:'適合還沒有明確單一場景，只想先按目標、身體信號和風險做一次整體篩選。'},
+    sleep:{title:'熬夜/睡眠/壓力人群補劑報告', subtitle:'優先排查入睡、夜醒、壓力、咖啡因、助眠補劑重複和鎮靜類用藥風險。'},
+    women:{title:'女性基礎營養/經期營養報告', subtitle:'圍繞經期疲勞、飲食缺口、日曬、皮膚頭髮、腸胃和孕哺風險，先做基礎營養篩選。'},
+    fitness:{title:'健身新手補劑避坑報告', subtitle:'按訓練目標、蛋白攝入、恢復、睡眠、既有補劑和血壓/腎功能風險篩掉不必要組合。'},
+  },
+  en:{
+    general:{title:'General supplement screen', subtitle:'For people without one clear scenario who want an overall screen by goals, body signals, and risk.'},
+    sleep:{title:'Sleep, late nights, and stress report', subtitle:'Prioritizes sleep onset, night waking, stress, caffeine, duplicate sleep aids, and sedative medication risks.'},
+    women:{title:"Women's basic nutrition and cycle report", subtitle:'Screens basic nutrition around cycle-related fatigue, diet gaps, sun exposure, skin and hair, digestion, and pregnancy or breastfeeding risk.'},
+    fitness:{title:'Fitness beginner supplement filter', subtitle:'Filters unnecessary combinations by training goals, protein intake, recovery, sleep, current supplements, and blood pressure or kidney risk.'},
   },
 };
 
@@ -395,6 +413,16 @@ function setText(id,value){
 function currentLang(){
   const saved=localStorage.getItem(LANG_KEY);
   return LANGS.includes(saved)?saved:'zh-CN';
+}
+
+function localizedQuizSet(set){
+  if(!set)return set;
+  const lang=App?.lang||currentLang();
+  const copy=QUIZ_SET_COPY[lang]?.[set?.id];
+  if(copy)return {...set,...copy};
+  return lang==='zh-TW'
+    ? {...set,title:toTraditional(set.title),subtitle:toTraditional(set.subtitle)}
+    : set;
 }
 
 function markdownToHtml(markdown=''){
@@ -692,6 +720,7 @@ const App = {
   },
 
   renderQuizPicker(){
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
     $('quiz-picker').hidden=false;
     $('quiz-runner').hidden=true;
     $('quiz-progress').style.width='0%';
@@ -700,15 +729,18 @@ const App = {
     $('quiz-opts').innerHTML='';
     const sets=[QUIZ_SETS.general,QUIZ_SETS.sleep,QUIZ_SETS.women,QUIZ_SETS.fitness].filter(Boolean);
     $('quiz-picker').innerHTML=`<div class="quiz-picker-head">
-      <h2>选择你的补剂报告</h2>
-      <p>先选一个场景，再回答对应问卷。专题问卷会优先筛对应人群常见成分，并提示重复、冲突和不适用情况。</p>
+      <h2>${escHtml(copy.quizPicker.title)}</h2>
+      <p>${escHtml(copy.quizPicker.intro)}</p>
     </div>
     <div class="quiz-set-grid">
-      ${sets.map((set,index)=>`<button class="quiz-set-card anim-fade" type="button" style="--delay:${index*.05}s" data-quiz-set-id="${escHtml(set.id)}">
-        <span class="quiz-set-kicker">${set.id===DEFAULT_QUIZ_SET_ID?'GENERAL':`SCENE 0${index}`}</span>
-        <span class="quiz-set-title">${escHtml(set.title)}</span>
-        <span class="quiz-set-desc">${escHtml(set.subtitle)}</span>
-      </button>`).join('')}
+      ${sets.map((rawSet,index)=>{
+        const set=localizedQuizSet(rawSet);
+        return `<button class="quiz-set-card anim-fade" type="button" style="--delay:${index*.05}s" data-quiz-set-id="${escHtml(set.id)}">
+          <span class="quiz-set-kicker">${set.id===DEFAULT_QUIZ_SET_ID?'GENERAL':`SCENE 0${index}`}</span>
+          <span class="quiz-set-title">${escHtml(set.title)}</span>
+          <span class="quiz-set-desc">${escHtml(set.subtitle)}</span>
+        </button>`;
+      }).join('')}
     </div>`;
   },
 
@@ -829,7 +861,7 @@ const App = {
     this.resultMode=mode;
     this.saveCurrentReport(this.result);
     const {top,userTargets,safetyNotes=[]}=this.result;
-    const set=this.quizSet();
+    const set=localizedQuizSet(this.quizSet());
     const unlocked=this.hasPaidAccess();
     const visibleResults=unlocked
       ? (mode==='all'?top:this.featuredResults(top))
@@ -1239,7 +1271,7 @@ const App = {
       id:reportId,
       userId:this.getUserId(),
       quizSetId:this.quizSetId,
-      title:this.quizSet().title,
+      title:localizedQuizSet(this.quizSet()).title,
       lang:this.lang,
       answers:this.answers.slice(),
       result:this.currentReportSnapshot(result),
@@ -1316,6 +1348,8 @@ const App = {
     const locale=this.lang==='en'?'en-US':this.lang;
     $('reports-list').innerHTML=`<p class="reports-message" aria-live="polite"></p>${reports.map(report=>{
       const created=report.createdAt?new Date(report.createdAt).toLocaleString(locale):'';
+      const set=localizedQuizSet(QUIZ_SETS[report.quizSetId]||QUIZ_SETS[DEFAULT_QUIZ_SET_ID]);
+      const title=set?.title||report.title||copy.title;
       const top=(report.result?.top||[]).slice(0,3).map(item=>{
         const supplement=supplementById(item.id);
         return escHtml(supplement?localizedSupplement(supplement).name:tr(item.name||item.id));
@@ -1324,7 +1358,7 @@ const App = {
       return `<article class="card report-card">
         <div class="report-card-head">
           <div>
-            <h3>${escHtml(report.title||copy.title)}</h3>
+            <h3>${escHtml(title)}</h3>
             <p>${escHtml(created)} · ${escHtml(copy.code)} ${escHtml(report.id.slice(0,8))}</p>
           </div>
           <span class="report-status ${report.paid?'is-paid':''}">${escHtml(status)}</span>
@@ -1519,7 +1553,7 @@ const App = {
 
   buildReport({top,userTargets,riskNotes=[],safetyNotes=[]},kb){
     const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
-    const set=this.quizSet();
+    const set=localizedQuizSet(this.quizSet());
     const reportTypeLabel=this.lang==='en'?'Report type':this.lang==='zh-TW'?'報告類型':'报告类型';
     const locale=this.lang==='en'?'en-US':this.lang;
     const generatedAt=new Date().toLocaleString(locale);
