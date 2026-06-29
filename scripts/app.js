@@ -121,6 +121,7 @@ const UI_COPY={
     trialHold:'当前不建议自行试用补剂；先咨询医生或营养师，并在获得明确建议后再复评。',
     nextTitle:'下一步建议', nextBody:names=>`优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。`,
     currentLifestyle:'当前生活方式', copyReport:'复制报告', downloadReport:'下载 PDF 报告', unlockReport:'解锁完整 PDF 报告', unlocking:'正在打开收银台...', paymentError:'暂时无法打开收银台，请稍后重试。', paymentPending:'支付完成后回到本页，会自动解锁完整报告。', buyList:'查看筛选清单', brandCoop:'品牌合作',
+    manualPay:{title:'支付宝扫码支付', amount:'支付金额', order:'订单号', intro:'请使用支付宝扫码支付，支付完成后点击下方按钮提交确认。', done:'我已完成支付', close:'稍后支付', pending:'稍等确认订单中，确认完成后将自动解锁完整报告。', notifyError:'暂时无法提交确认，请稍后重试。'},
     detail:{targets:'匹配目标', use:'使用与复盘', dose:'建议剂量：', cycle:'观察周期：', risk:'风险边界', mechanism:'机理流程', focus:'知识库重点', literature:'文献依据', source:'查看完整知识库原文', noSummary:'知识库暂未配置该部分摘要。', defaultRef:'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。'},
     focus:{key:'重点结论', fit:'适合人群', notFit:'不适合人群', dose:'剂量与复盘', evidence:'证据更可靠', risk:'风险边界', extra:'补充要点'},
     report:{title:'保健成分综合报告', generated:'生成时间', summary:'匹配摘要', targets:'你的主要健康目标', risks:'风险筛查', safety:'安全阻断', priority:'推荐优先级', cross:'交叉验证', reason:'匹配原因', dose:'建议剂量', cycle:'建议周期', usage:'其他人使用方案', warning:'风险提示', evidence:'证据等级', literature:'文献', oneLine:'一句话总结', note:'知识库备注', checklist:'使用前检查清单', trial:'试用建议', review:'7 天复盘表', noTargets:'未识别到明显目标', noRisks:'未识别到特殊高风险项', none:'暂无', weighted:'由问卷加权命中', disclaimer:'免责声明：本报告仅供教育参考，不构成医疗建议，不能替代医生诊断、治疗或用药建议。', pdfLoading:'PDF 组件暂未加载完成，请刷新页面后重试。',
@@ -146,6 +147,7 @@ const UI_COPY={
     trialHold:'目前不建議自行試用補劑；先諮詢醫師或營養師，並在獲得明確建議後再複評。',
     nextTitle:'下一步建議', nextBody:names=>`優先核對 ${names} 的禁忌、藥物交互作用、第三方檢測和實際劑量。建議只選擇 1-2 個高匹配項做 7 天試用，並記錄睡眠、精力、壓力或訓練表現評分。本站未來可能透過廣告、贊助或聯盟連結獲得收入；商業合作不影響匹配排序。`,
     currentLifestyle:'目前生活方式', copyReport:'複製報告', downloadReport:'下載 PDF 報告', unlockReport:'解鎖完整 PDF 報告', unlocking:'正在打開收銀台...', paymentError:'暫時無法打開收銀台，請稍後重試。', paymentPending:'支付完成後回到本頁，會自動解鎖完整報告。', buyList:'查看篩選清單', brandCoop:'品牌合作',
+    manualPay:{title:'支付寶掃碼支付', amount:'支付金額', order:'訂單號', intro:'請使用支付寶掃碼支付，支付完成後點擊下方按鈕提交確認。', done:'我已完成支付', close:'稍後支付', pending:'稍等確認訂單中，確認完成後將自動解鎖完整報告。', notifyError:'暫時無法提交確認，請稍後重試。'},
     detail:{targets:'匹配目標', use:'使用與複盤', dose:'建議劑量：', cycle:'觀察週期：', risk:'風險邊界', mechanism:'機理流程', focus:'知識庫重點', literature:'文獻依據', source:'查看完整知識庫原文', noSummary:'知識庫暫未配置該部分摘要。', defaultRef:'該文獻作為目前成分建議的基礎參考，具體適用性仍需結合個人情況判斷。'},
     focus:{key:'重點結論', fit:'適合人群', notFit:'不適合人群', dose:'劑量與複盤', evidence:'證據更可靠', risk:'風險邊界', extra:'補充要點'},
     report:{title:'保健成分綜合報告', generated:'生成時間', summary:'匹配摘要', targets:'你的主要健康目標', risks:'風險篩查', safety:'安全阻斷', priority:'推薦優先級', cross:'交叉驗證', reason:'匹配原因', dose:'建議劑量', cycle:'建議週期', usage:'其他人使用方案', warning:'風險提示', evidence:'證據等級', literature:'文獻', oneLine:'一句話總結', note:'知識庫備註', checklist:'使用前檢查清單', trial:'試用建議', review:'7 天複盤表', noTargets:'未識別到明顯目標', noRisks:'未識別到特殊高風險項', none:'暫無', weighted:'由問卷加權命中', disclaimer:'免責聲明：本報告僅供教育參考，不構成醫療建議，不能替代醫師診斷、治療或用藥建議。', pdfLoading:'PDF 元件暫未載入完成，請刷新頁面後重試。',
@@ -171,6 +173,7 @@ const UI_COPY={
     trialHold:'Self-trial is not recommended right now. Consult a clinician or dietitian first, then reassess after clear guidance.',
     nextTitle:'Next step', nextBody:names=>`First check contraindications, medication interactions, third-party testing, and actual dose for ${names}. Pick only 1-2 high-match items for a 7-day trial and record sleep, energy, stress, or training scores. This site may later earn revenue through ads, sponsorships, or affiliate links; commercial relationships do not affect match ranking.`,
     currentLifestyle:'current lifestyle', copyReport:'Copy report', downloadReport:'Download PDF report', unlockReport:'Unlock full PDF report', unlocking:'Opening checkout...', paymentError:'Checkout is temporarily unavailable. Please try again later.', paymentPending:'After payment, return to this page and the full report will unlock automatically.', buyList:'View shortlist', brandCoop:'Partnerships',
+    manualPay:{title:'Pay with Alipay', amount:'Amount', order:'Order ID', intro:'Scan with Alipay. After paying, tap the button below to request confirmation.', done:'I have paid', close:'Pay later', pending:'Confirming your order. The full report will unlock automatically after confirmation.', notifyError:'Could not submit confirmation. Please try again later.'},
     detail:{targets:'Matched goals', use:'Use and review', dose:'Suggested dose: ', cycle:'Review window: ', risk:'Risk boundaries', mechanism:'Absorption and use pathway', focus:'Knowledge highlights', literature:'Evidence', source:'View original Chinese source note', noSummary:'No summary has been configured for this section.', defaultRef:'This source is a base reference for the current ingredient suggestion; personal fit still depends on your context.'},
     focus:{key:'Key takeaway', fit:'Who may fit', notFit:'Who should avoid', dose:'Dose and review', evidence:'Stronger evidence', risk:'Risk boundary', extra:'More notes'},
     report:{title:'Ingredient match report', generated:'Generated at', summary:'Match summary', targets:'Main health goals', risks:'Risk screen', safety:'Safety stop', priority:'Priority list', cross:'Cross-check', reason:'Match reason', dose:'Suggested dose', cycle:'Suggested review window', usage:'How others use it', warning:'Risk notes', evidence:'Evidence level', literature:'Reference', oneLine:'One-line summary', note:'Knowledge note', checklist:'Pre-use checklist', trial:'Trial suggestion', review:'7-day review table', noTargets:'No clear goal identified', noRisks:'No special high-risk item identified', none:'None', weighted:'Matched by quiz weighting', disclaimer:'Disclaimer: this report is for education only and is not medical advice. It cannot replace diagnosis, treatment, or medication guidance from a clinician.', pdfLoading:'The PDF component is still loading. Please refresh and try again.',
@@ -571,7 +574,7 @@ function mergeKnowledge(base, extra){
 }
 
 const App = {
-  qIdx:0, answers:[], knowledge:null, result:null, lang:currentLang(), quizSetId:DEFAULT_QUIZ_SET_ID,
+  qIdx:0, answers:[], knowledge:null, result:null, manualCheckout:null, lang:currentLang(), quizSetId:DEFAULT_QUIZ_SET_ID,
   quizSet(id=this.quizSetId){
     return QUIZ_SETS[id]||QUIZ_SETS[DEFAULT_QUIZ_SET_ID];
   },
@@ -1168,6 +1171,82 @@ const App = {
     }
   },
 
+  async verifyCurrentPayment(){
+    const reportId=this.currentReportId();
+    const res=await fetch(`/api/verify-payment?reportId=${encodeURIComponent(reportId)}`);
+    const data=await res.json();
+    if(data.paid){
+      this.markReportPaid(reportId);
+      this.closeManualCheckout();
+      if($('sec-result').classList.contains('on'))this.showResult({updateHash:false,trackResult:false,mode:this.resultMode||'summary'});
+      return true;
+    }
+    return false;
+  },
+
+  async pollPaymentUnlock(){
+    for(let attempt=0;attempt<60;attempt++){
+      try{
+        if(await this.verifyCurrentPayment())return;
+      }catch(e){}
+      await new Promise(resolve=>setTimeout(resolve,3000));
+    }
+  },
+
+  showManualCheckout(data){
+    this.manualCheckout=data;
+    this.closeManualCheckout();
+    const copy=(UI_COPY[this.lang]||UI_COPY['zh-CN']).manualPay;
+    const qrUrl=data.qrUrl||'/assets/alipay-qr.jpg';
+    const amount=data.amount||'6.90';
+    const orderId=data.orderId||data.reportId;
+    document.body.insertAdjacentHTML('beforeend', `<div class="payment-modal" role="dialog" aria-modal="true" aria-labelledby="payment-title">
+      <div class="payment-modal-card">
+        <button class="payment-modal-close" type="button" data-action="close-manual-payment" aria-label="${escHtml(copy.close)}">×</button>
+        <h2 id="payment-title">${escHtml(copy.title)}</h2>
+        <p class="payment-modal-intro">${escHtml(copy.intro)}</p>
+        <img class="payment-qr" src="${escHtml(qrUrl)}" alt="${escHtml(copy.title)}">
+        <div class="payment-order">
+          <span>${escHtml(copy.amount)}：<strong>${escHtml(amount)} 元</strong></span>
+          <span>${escHtml(copy.order)}：<strong>${escHtml(orderId)}</strong></span>
+        </div>
+        <p class="payment-status" id="payment-status"></p>
+        <div class="payment-modal-actions">
+          <button class="btn btn-primary btn-sm" type="button" data-action="confirm-manual-payment">${escHtml(copy.done)}</button>
+          <button class="btn btn-outline btn-sm" type="button" data-action="close-manual-payment">${escHtml(copy.close)}</button>
+        </div>
+      </div>
+    </div>`);
+  },
+
+  closeManualCheckout(){
+    document.querySelector('.payment-modal')?.remove();
+  },
+
+  async confirmManualPayment(){
+    if(!this.manualCheckout)return;
+    const copy=(UI_COPY[this.lang]||UI_COPY['zh-CN']).manualPay;
+    const button=document.querySelector('[data-action="confirm-manual-payment"]');
+    const status=$('payment-status');
+    if(button)button.disabled=true;
+    if(status)status.textContent=copy.pending;
+    try{
+      const res=await fetch(this.manualCheckout.confirmEndpoint||'/api/notify-payment',{
+        method:'POST',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({
+          reportId:this.manualCheckout.reportId,
+          userId:this.getUserId(),
+        }),
+      });
+      if(!res.ok)throw new Error('notify failed');
+      this.pollPaymentUnlock();
+    }catch(e){
+      if(status)status.textContent=copy.notifyError;
+      if(button)button.disabled=false;
+    }
+  },
+
   async startCheckout(){
     const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
     const button=document.querySelector('[data-action="unlock-report"]');
@@ -1189,7 +1268,13 @@ const App = {
         }),
       });
       const data=await res.json();
-      if(!res.ok||!data.url)throw new Error(data.error||'checkout failed');
+      if(!res.ok)throw new Error(data.error||'checkout failed');
+      if(data.provider==='manual_alipay'){
+        if(button&&original)button.textContent=original;
+        this.showManualCheckout(data);
+        return;
+      }
+      if(!data.url)throw new Error(data.error||'checkout failed');
       location.href=data.url;
     }catch(e){
       alert(copy.paymentError);
@@ -1418,6 +1503,8 @@ const App = {
         'copy-report':()=>this.copyReport(),
         'download-report':()=>this.downloadReport(),
         'unlock-report':()=>this.startCheckout(),
+        'confirm-manual-payment':()=>this.confirmManualPayment(),
+        'close-manual-payment':()=>this.closeManualCheckout(),
         'toggle-language-menu':()=>this.toggleLanguageMenu(),
       };
       actions[actionButton.dataset.action]?.();

@@ -100,6 +100,18 @@ async function alipayCheckout(request, env, reportId, body) {
   return json({ url: `${gateway}?${params.toString()}`, reportId, provider: 'alipay' });
 }
 
+function manualCheckout(env, reportId) {
+  if (env.ALIPAY_MANUAL_PAYMENT === '0') return null;
+  return json({
+    provider: 'manual_alipay',
+    reportId,
+    orderId: reportId,
+    amount: String(env.ALIPAY_AMOUNT || '6.90'),
+    qrUrl: env.ALIPAY_PERSONAL_QR_URL || '/assets/alipay-qr.jpg',
+    confirmEndpoint: '/api/notify-payment',
+  });
+}
+
 function paymentLinkUrl(env, reportId) {
   if (!env.PAYMENT_LINK_URL) return '';
   const url = new URL(env.PAYMENT_LINK_URL);
@@ -162,6 +174,9 @@ export async function onRequestPost({ request, env }) {
     paid: false,
   }));
   await writeEvent(env, 'checkout_start', body);
+
+  const manual = manualCheckout(env, reportId);
+  if (manual) return manual;
 
   const alipay = await alipayCheckout(request, env, reportId, body);
   if (alipay) return alipay;
