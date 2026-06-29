@@ -126,6 +126,7 @@ const UI_COPY={
     nextTitle:'下一步建议', nextBody:names=>`优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。`,
     currentLifestyle:'当前生活方式', copyReport:'复制报告', downloadReport:'下载 PDF 报告', unlockReport:'解锁完整 PDF 报告', unlocking:'正在打开收银台...', paymentError:'暂时无法打开收银台，请稍后重试。', paymentPending:'支付完成后回到本页，会自动解锁完整报告。', buyList:'查看筛选清单', brandCoop:'品牌合作',
     reports:{title:'我的报告', intro:'这里保存当前浏览器生成过的报告，可继续支付、下载 PDF 或复制报告码。', empty:'当前浏览器还没有保存报告。', unlocked:'已解锁', locked:'未解锁', view:'查看报告', continuePay:'继续支付', download:'下载 PDF', copyCode:'复制报告码', codeCopied:'报告码已复制', code:'报告码', top:'推荐优先级', localOnly:'解锁状态以当前浏览器记录为准。'},
+    generating:{title:'正在生成你的补剂风险审查报告', subtitle:'我们会先排除不适合自行尝试的方向，再整理可执行的 7 天试用计划。', keep:'不要关闭页面，结果会保存在本机浏览器中。', removed:n=>`已移除不适合自行尝试的成分：${n} 项`, tags:{risk:n=>`风险提示 ${n} 条`, duplicate:n=>`重复方向 ${n} 项`, caution:n=>`冲突核对 ${n} 项`, evidence:n=>`强/中证据候选 ${n} 项`, targets:n=>`健康目标 ${n} 项`}, steps:['正在读取你的健康目标','正在排查用药、孕哺、肝肾、手术等风险','正在检查已有补剂的重复方向','正在匹配证据等级和适用人群','正在生成可执行的 7 天试用计划','正在整理完整 PDF 报告']},
     manualPay:{title:'支付宝扫码支付', amount:'支付金额', order:'订单号', intro:'请使用支付宝扫码支付，支付完成后点击下方按钮提交确认。', done:'我已完成支付', refresh:'付款后刷新', close:'稍后支付', pending:'稍等确认订单中，确认完成后将自动解锁完整报告。', notifyError:'暂时无法提交确认，请稍后重试。'},
     detail:{targets:'匹配目标', use:'使用与复盘', dose:'建议剂量：', cycle:'观察周期：', risk:'风险边界', mechanism:'机理流程', focus:'知识库重点', literature:'文献依据', source:'查看完整知识库原文', noSummary:'知识库暂未配置该部分摘要。', defaultRef:'该文献作为当前成分建议的基础参考，具体适用性仍需结合个人情况判断。'},
     focus:{key:'重点结论', fit:'适合人群', notFit:'不适合人群', dose:'剂量与复盘', evidence:'证据更可靠', risk:'风险边界', extra:'补充要点'},
@@ -153,6 +154,7 @@ const UI_COPY={
     nextTitle:'下一步建議', nextBody:names=>`優先核對 ${names} 的禁忌、藥物交互作用、第三方檢測和實際劑量。建議只選擇 1-2 個高匹配項做 7 天試用，並記錄睡眠、精力、壓力或訓練表現評分。本站未來可能透過廣告、贊助或聯盟連結獲得收入；商業合作不影響匹配排序。`,
     currentLifestyle:'目前生活方式', copyReport:'複製報告', downloadReport:'下載 PDF 報告', unlockReport:'解鎖完整 PDF 報告', unlocking:'正在打開收銀台...', paymentError:'暫時無法打開收銀台，請稍後重試。', paymentPending:'支付完成後回到本頁，會自動解鎖完整報告。', buyList:'查看篩選清單', brandCoop:'品牌合作',
     reports:{title:'我的報告', intro:'這裡保存目前瀏覽器生成過的報告，可繼續支付、下載 PDF 或複製報告碼。', empty:'目前瀏覽器還沒有保存報告。', unlocked:'已解鎖', locked:'未解鎖', view:'查看報告', continuePay:'繼續支付', download:'下載 PDF', copyCode:'複製報告碼', codeCopied:'報告碼已複製', code:'報告碼', top:'推薦優先級', localOnly:'解鎖狀態以目前瀏覽器記錄為準。'},
+    generating:{title:'正在生成你的補劑風險審查報告', subtitle:'我們會先排除不適合自行嘗試的方向，再整理可執行的 7 天試用計畫。', keep:'不要關閉頁面，結果會保存在本機瀏覽器中。', removed:n=>`已移除不適合自行嘗試的成分：${n} 項`, tags:{risk:n=>`風險提示 ${n} 條`, duplicate:n=>`重複方向 ${n} 項`, caution:n=>`衝突核對 ${n} 項`, evidence:n=>`強/中證據候選 ${n} 項`, targets:n=>`健康目標 ${n} 項`}, steps:['正在讀取你的健康目標','正在排查用藥、孕哺、肝腎、手術等風險','正在檢查已有補劑的重複方向','正在匹配證據等級和適用人群','正在生成可執行的 7 天試用計畫','正在整理完整 PDF 報告']},
     manualPay:{title:'支付寶掃碼支付', amount:'支付金額', order:'訂單號', intro:'請使用支付寶掃碼支付，支付完成後點擊下方按鈕提交確認。', done:'我已完成支付', refresh:'付款後刷新', close:'稍後支付', pending:'稍等確認訂單中，確認完成後將自動解鎖完整報告。', notifyError:'暫時無法提交確認，請稍後重試。'},
     detail:{targets:'匹配目標', use:'使用與複盤', dose:'建議劑量：', cycle:'觀察週期：', risk:'風險邊界', mechanism:'機理流程', focus:'知識庫重點', literature:'文獻依據', source:'查看完整知識庫原文', noSummary:'知識庫暫未配置該部分摘要。', defaultRef:'該文獻作為目前成分建議的基礎參考，具體適用性仍需結合個人情況判斷。'},
     focus:{key:'重點結論', fit:'適合人群', notFit:'不適合人群', dose:'劑量與複盤', evidence:'證據更可靠', risk:'風險邊界', extra:'補充要點'},
@@ -180,6 +182,7 @@ const UI_COPY={
     nextTitle:'Next step', nextBody:names=>`First check contraindications, medication interactions, third-party testing, and actual dose for ${names}. Pick only 1-2 high-match items for a 7-day trial and record sleep, energy, stress, or training scores. This site may later earn revenue through ads, sponsorships, or affiliate links; commercial relationships do not affect match ranking.`,
     currentLifestyle:'current lifestyle', copyReport:'Copy report', downloadReport:'Download PDF report', unlockReport:'Unlock full PDF report', unlocking:'Opening checkout...', paymentError:'Checkout is temporarily unavailable. Please try again later.', paymentPending:'After payment, return to this page and the full report will unlock automatically.', buyList:'View shortlist', brandCoop:'Partnerships',
     reports:{title:'My reports', intro:'Reports generated in this browser are saved here. You can continue payment, download the PDF, or copy the report code.', empty:'No reports are saved in this browser yet.', unlocked:'Unlocked', locked:'Locked', view:'View report', continuePay:'Continue payment', download:'Download PDF', copyCode:'Copy code', codeCopied:'Report code copied', code:'Report code', top:'Priority picks', localOnly:'Unlock status is based on this browser record.'},
+    generating:{title:'Generating your supplement risk-review report', subtitle:'We first remove directions unsuitable for self-trial, then prepare an executable 7-day trial plan.', keep:'Do not close this page. The result will be saved in this browser.', removed:n=>`Ingredients removed as unsuitable for self-trial: ${n}`, tags:{risk:n=>`${n} risk notes`, duplicate:n=>`${n} duplicate directions`, caution:n=>`${n} conflict checks`, evidence:n=>`${n} strong/moderate candidates`, targets:n=>`${n} health targets`}, steps:['Reading your health goals','Checking medication, pregnancy, liver/kidney, and surgery risks','Checking duplicate directions from current supplements','Matching evidence level and suitable populations','Generating an executable 7-day trial plan','Preparing the full PDF report']},
     manualPay:{title:'Pay with Alipay', amount:'Amount', order:'Order ID', intro:'Scan with Alipay. After paying, tap the button below to request confirmation.', done:'I have paid', refresh:'Refresh after payment', close:'Pay later', pending:'Confirming your order. The full report will unlock automatically after confirmation.', notifyError:'Could not submit confirmation. Please try again later.'},
     detail:{targets:'Matched goals', use:'Use and review', dose:'Suggested dose: ', cycle:'Review window: ', risk:'Risk boundaries', mechanism:'Absorption and use pathway', focus:'Knowledge highlights', literature:'Evidence', source:'View original Chinese source note', noSummary:'No summary has been configured for this section.', defaultRef:'This source is a base reference for the current ingredient suggestion; personal fit still depends on your context.'},
     focus:{key:'Key takeaway', fit:'Who may fit', notFit:'Who should avoid', dose:'Dose and review', evidence:'Stronger evidence', risk:'Risk boundary', extra:'More notes'},
@@ -581,7 +584,7 @@ function mergeKnowledge(base, extra){
 }
 
 const App = {
-  qIdx:0, answers:[], knowledge:null, result:null, manualCheckout:null, lang:currentLang(), quizSetId:DEFAULT_QUIZ_SET_ID,
+  qIdx:0, answers:[], knowledge:null, result:null, manualCheckout:null, generationTimer:null, generationStepTimer:null, lang:currentLang(), quizSetId:DEFAULT_QUIZ_SET_ID,
   quizSet(id=this.quizSetId){
     return QUIZ_SETS[id]||QUIZ_SETS[DEFAULT_QUIZ_SET_ID];
   },
@@ -675,6 +678,7 @@ const App = {
   },
 
   go(section, updateHash=true){
+    this.clearGenerationTimers();
     section=ROUTES[section]?section:'home';
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
     $(ROUTES[section]).classList.add('on');
@@ -709,6 +713,7 @@ const App = {
   },
 
   startQuizSet(id=DEFAULT_QUIZ_SET_ID, updateHash=true){
+    this.clearGenerationTimers();
     this.quizSetId=QUIZ_SETS[id]?id:DEFAULT_QUIZ_SET_ID;
     this.qIdx=0;this.answers=[];this.result=null;
     localStorage.setItem(QUIZ_SET_KEY,this.quizSetId);
@@ -751,11 +756,70 @@ const App = {
     if(this.qIdx>=this.quizQuestions().length){
       $('quiz-progress').style.width='100%';
       $('quiz-opts').innerHTML='';
-      setTimeout(()=>this.showResult(),200);
+      this.showGeneratingResult();
     }else{this.renderQ();}
+  },
+
+  clearGenerationTimers(){
+    clearTimeout(this.generationTimer);
+    clearInterval(this.generationStepTimer);
+    this.generationTimer=null;
+    this.generationStepTimer=null;
+  },
+
+  showGeneratingResult(){
+    this.clearGenerationTimers();
+    const result=this.scoreResults();
+    this.result=result;
+    const copy=(UI_COPY[this.lang]||UI_COPY['zh-CN']).generating;
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
+    $('sec-generating').classList.add('on');
+    $('generating-title').textContent=copy.title;
+    $('generating-subtitle').textContent=copy.subtitle;
+    $('generating-keep').textContent=copy.keep;
+    $('generating-removed').textContent=copy.removed(result.blockedIds?.size||0);
+    $('generating-tags').innerHTML=this.generatingTags(result).map(label=>
+      `<span class="tag generating-tag">${escHtml(label)}</span>`
+    ).join('');
+    $('generating-steps').innerHTML=copy.steps.map((step,index)=>
+      `<li class="${index===0?'is-active':''}">${escHtml(step)}</li>`
+    ).join('');
+    this.updateGeneratingProgress(0);
+    let activeStep=0;
+    this.generationStepTimer=setInterval(()=>{
+      activeStep=Math.min(activeStep+1,copy.steps.length-1);
+      this.updateGeneratingProgress(activeStep);
+    },8000/copy.steps.length);
+    this.generationTimer=setTimeout(()=>{
+      this.clearGenerationTimers();
+      this.showResult();
+    },8000);
+    window.scrollTo(0,0);
+  },
+
+  updateGeneratingProgress(activeStep){
+    const steps=[...$('generating-steps').children];
+    steps.forEach((step,index)=>{
+      step.classList.toggle('is-done',index<activeStep);
+      step.classList.toggle('is-active',index===activeStep);
+    });
+    $('generating-progress-fill').style.width=`${Math.min(100,Math.round((activeStep+1)/steps.length*100))}%`;
+  },
+
+  generatingTags(result){
+    const copy=(UI_COPY[this.lang]||UI_COPY['zh-CN']).generating.tags;
+    const strongOrModerate=result.top.filter(item=>['strong','moderate'].includes(item.evidence)).length;
+    return [
+      copy.targets(result.userTargets?.size||0),
+      copy.risk((result.riskNotes?.length||0)+(result.safetyNotes?.length||0)),
+      copy.duplicate(result.duplicateIds?.size||0),
+      copy.caution(result.cautionIds?.size||0),
+      copy.evidence(strongOrModerate),
+    ];
   },
   
   showResult({updateHash=true,trackResult=true,mode='summary'}={}){
+    this.clearGenerationTimers();
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
     $('sec-result').classList.add('on');
     const resultHash=mode==='all'?'result/all':'result';
