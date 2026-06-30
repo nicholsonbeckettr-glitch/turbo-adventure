@@ -124,7 +124,8 @@ const UI_COPY={
     trialBody:(first,second,metrics)=>`先只试用 ${first} 1-2 周，记录${metrics}；如无改善或出现不适，停止并复评，再考虑 ${second}。不要同时新增多个补剂。`,
     trialHold:'当前不建议自行试用补剂；先咨询医生或营养师，并在获得明确建议后再复评。',
     nextTitle:'下一步建议', nextBody:names=>`优先核对 ${names} 的禁忌、药物相互作用、第三方检测和实际剂量。建议只选择 1-2 个高匹配项做 7 天试用，并记录睡眠、精力、压力或训练表现评分。本站未来可能通过广告、赞助或联盟链接获得收入；商业合作不影响匹配排序。`,
-    currentLifestyle:'当前生活方式', copyReport:'复制报告', downloadReport:'下载 PDF 报告', unlockReport:'解锁完整 PDF 报告', unlocking:'正在打开收银台...', paymentError:'暂时无法打开收银台，请稍后重试。', paymentPending:'支付完成后回到本页，会自动解锁完整报告。', buyList:'查看筛选清单', brandCoop:'品牌合作',
+    currentLifestyle:'当前生活方式', copyReport:'复制报告', downloadReport:'下载 PDF 报告', unlockReport:'解锁完整 PDF 报告', shareCover:'系统分享', sharingCover:'正在生成分享封面...', shareFallback:'当前浏览器不支持系统分享，已为你下载分享封面。', unlocking:'正在打开收银台...', paymentError:'暂时无法打开收银台，请稍后重试。', paymentPending:'支付完成后回到本页，会自动解锁完整报告。', buyList:'查看筛选清单', brandCoop:'品牌合作',
+    share:{title:'我的补剂避坑清单', subtitle:'已完成补剂风险审查', text:'我生成了一份补剂风险审查报告。', removed:'已移除', removedUnit:'项不适合自行尝试', priority:'优先尝试', review:'需要核对', reportCode:'报告码', visit:'访问网站生成你的补剂风险审查报告', atlas:'20 种常见成分图鉴', riskLabels:['用药','孕哺','肝肾','手术','重复补剂']},
     reports:{title:'我的报告', intro:'这里保存当前浏览器生成过的报告，可继续支付、下载 PDF 或复制报告码。', empty:'当前浏览器还没有保存报告。', unlocked:'已解锁', locked:'未解锁', view:'查看报告', continuePay:'继续支付', download:'下载 PDF', copyCode:'复制报告码', codeCopied:'报告码已复制', code:'报告码', top:'推荐优先级', localOnly:'解锁状态以当前浏览器记录为准。'},
     quizPicker:{title:'选择你的补剂报告', intro:'先选一个场景，再回答对应问卷。专题问卷会优先筛对应人群常见成分，并提示重复、冲突和不适用情况。'},
     generating:{title:'正在生成你的补剂风险审查报告', subtitle:'我们会先排除不适合自行尝试的方向，再整理可执行的 7 天试用计划。', keep:'不要关闭页面，结果会保存在本地浏览器中。', removed:n=>`已移除不适合自行尝试的成分：${n} 项`, tags:{risk:n=>`风险提示 ${n} 条`, duplicate:n=>`重复方向 ${n} 项`, caution:n=>`冲突核对 ${n} 项`, evidence:n=>`强/中证据候选 ${n} 项`, targets:n=>`健康目标 ${n} 项`}, steps:['正在读取你的健康目标','正在排查可能不健康的风险','正在检查已有补剂的重复方向','正在匹配证据等级和适用人群','正在生成相应建议以及方案','正在整理完整 PDF 报告']},
@@ -153,7 +154,8 @@ const UI_COPY={
     trialBody:(first,second,metrics)=>`先只試用 ${first} 1-2 週，記錄${metrics}；如無改善或出現不適，停止並複評，再考慮 ${second}。不要同時新增多個補劑。`,
     trialHold:'目前不建議自行試用補劑；先諮詢醫師或營養師，並在獲得明確建議後再複評。',
     nextTitle:'下一步建議', nextBody:names=>`優先核對 ${names} 的禁忌、藥物交互作用、第三方檢測和實際劑量。建議只選擇 1-2 個高匹配項做 7 天試用，並記錄睡眠、精力、壓力或訓練表現評分。本站未來可能透過廣告、贊助或聯盟連結獲得收入；商業合作不影響匹配排序。`,
-    currentLifestyle:'目前生活方式', copyReport:'複製報告', downloadReport:'下載 PDF 報告', unlockReport:'解鎖完整 PDF 報告', unlocking:'正在打開收銀台...', paymentError:'暫時無法打開收銀台，請稍後重試。', paymentPending:'支付完成後回到本頁，會自動解鎖完整報告。', buyList:'查看篩選清單', brandCoop:'品牌合作',
+    currentLifestyle:'目前生活方式', copyReport:'複製報告', downloadReport:'下載 PDF 報告', unlockReport:'解鎖完整 PDF 報告', shareCover:'系統分享', sharingCover:'正在生成分享封面...', shareFallback:'目前瀏覽器不支援系統分享，已為你下載分享封面。', unlocking:'正在打開收銀台...', paymentError:'暫時無法打開收銀台，請稍後重試。', paymentPending:'支付完成後回到本頁，會自動解鎖完整報告。', buyList:'查看篩選清單', brandCoop:'品牌合作',
+    share:{title:'我的補劑避坑清單', subtitle:'已完成補劑風險審查', text:'我生成了一份補劑風險審查報告。', removed:'已移除', removedUnit:'項不適合自行嘗試', priority:'優先嘗試', review:'需要核對', reportCode:'報告碼', visit:'訪問網站生成你的補劑風險審查報告', atlas:'20 種常見成分圖鑑', riskLabels:['用藥','孕哺','肝腎','手術','重複補劑']},
     reports:{title:'我的報告', intro:'這裡保存目前瀏覽器生成過的報告，可繼續支付、下載 PDF 或複製報告碼。', empty:'目前瀏覽器還沒有保存報告。', unlocked:'已解鎖', locked:'未解鎖', view:'查看報告', continuePay:'繼續支付', download:'下載 PDF', copyCode:'複製報告碼', codeCopied:'報告碼已複製', code:'報告碼', top:'推薦優先級', localOnly:'解鎖狀態以目前瀏覽器記錄為準。'},
     quizPicker:{title:'選擇你的補劑報告', intro:'先選一個場景，再回答對應問卷。專題問卷會優先篩對應人群常見成分，並提示重複、衝突和不適用情況。'},
     generating:{title:'正在生成你的補劑風險審查報告', subtitle:'我們會先排除不適合自行嘗試的方向，再整理可執行的 7 天試用計畫。', keep:'不要關閉頁面，結果會保存在本機瀏覽器中。', removed:n=>`已移除不適合自行嘗試的成分：${n} 項`, tags:{risk:n=>`風險提示 ${n} 條`, duplicate:n=>`重複方向 ${n} 項`, caution:n=>`衝突核對 ${n} 項`, evidence:n=>`強/中證據候選 ${n} 項`, targets:n=>`健康目標 ${n} 項`}, steps:['正在讀取你的健康目標','正在排查可能不健康的風險','正在檢查已有補劑的重複方向','正在匹配證據等級和適用人群','正在生成相應建議以及方案','正在整理完整 PDF 報告']},
@@ -182,7 +184,8 @@ const UI_COPY={
     trialBody:(first,second,metrics)=>`Try only ${first} for 1-2 weeks and record ${metrics}. If there is no improvement or discomfort appears, stop and reassess before considering ${second}. Do not add multiple supplements at once.`,
     trialHold:'Self-trial is not recommended right now. Consult a clinician or dietitian first, then reassess after clear guidance.',
     nextTitle:'Next step', nextBody:names=>`First check contraindications, medication interactions, third-party testing, and actual dose for ${names}. Pick only 1-2 high-match items for a 7-day trial and record sleep, energy, stress, or training scores. This site may later earn revenue through ads, sponsorships, or affiliate links; commercial relationships do not affect match ranking.`,
-    currentLifestyle:'current lifestyle', copyReport:'Copy report', downloadReport:'Download PDF report', unlockReport:'Unlock full PDF report', unlocking:'Opening checkout...', paymentError:'Checkout is temporarily unavailable. Please try again later.', paymentPending:'After payment, return to this page and the full report will unlock automatically.', buyList:'View shortlist', brandCoop:'Partnerships',
+    currentLifestyle:'current lifestyle', copyReport:'Copy report', downloadReport:'Download PDF report', unlockReport:'Unlock full PDF report', shareCover:'System share', sharingCover:'Generating share cover...', shareFallback:'System sharing is not supported in this browser, so the cover was downloaded.', unlocking:'Opening checkout...', paymentError:'Checkout is temporarily unavailable. Please try again later.', paymentPending:'After payment, return to this page and the full report will unlock automatically.', buyList:'View shortlist', brandCoop:'Partnerships',
+    share:{title:'My supplement risk checklist', subtitle:'Supplement risk review completed', text:'I generated a supplement risk-review report.', removed:'Removed', removedUnit:'unsuitable self-trial items', priority:'Priority picks', review:'Check before use', reportCode:'Report code', visit:'Visit the site to generate your supplement risk-review report', atlas:'20 common ingredients atlas', riskLabels:['Medication','Pregnancy','Liver/kidney','Surgery','Duplicate supplements']},
     reports:{title:'My reports', intro:'Reports generated in this browser are saved here. You can continue payment, download the PDF, or copy the report code.', empty:'No reports are saved in this browser yet.', unlocked:'Unlocked', locked:'Locked', view:'View report', continuePay:'Continue payment', download:'Download PDF', copyCode:'Copy code', codeCopied:'Report code copied', code:'Report code', top:'Priority picks', localOnly:'Unlock status is based on this browser record.'},
     quizPicker:{title:'Choose your supplement report', intro:'Pick a scenario first, then answer the matching quiz. Scenario reports prioritize common ingredients for that context and flag duplicates, conflicts, and unsuitable situations.'},
     generating:{title:'Generating your supplement risk-review report', subtitle:'We first remove directions unsuitable for self-trial, then prepare an executable 7-day trial plan.', keep:'Do not close this page. The result will be saved in this browser.', removed:n=>`Ingredients removed as unsuitable for self-trial: ${n}`, tags:{risk:n=>`${n} risk notes`, duplicate:n=>`${n} duplicate directions`, caution:n=>`${n} conflict checks`, evidence:n=>`${n} strong/moderate candidates`, targets:n=>`${n} health targets`}, steps:['Reading your health goals','Checking possible unhealthy risks','Checking duplicate directions from current supplements','Matching evidence level and suitable populations','Generating corresponding suggestions and plans','Preparing the full PDF report']},
@@ -1078,6 +1081,7 @@ const App = {
       <div class="next-step-actions">
         <button class="btn btn-outline btn-sm" data-action="copy-report">${escHtml(copy.copyReport)}</button>
         <button class="btn btn-primary btn-sm" data-action="${paid?'download-report':'unlock-report'}">${escHtml(paid?copy.downloadReport:copy.unlockReport)}</button>
+        ${paid?`<button class="btn btn-primary btn-sm" data-action="share-cover">${escHtml(copy.shareCover)}</button>`:''}
         ${buyButton}${contactButton}
       </div>
       ${paid?'':`<p class="payment-hint">${escHtml(copy.paymentPending)}</p>`}
@@ -1194,6 +1198,278 @@ const App = {
       .join('\n\n');
     navigator.clipboard?.writeText(text);
     this.track('copy_report');
+  },
+
+  async shareReportCover(button){
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    if(!this.hasPaidAccess()){
+      await this.startCheckout();
+      return;
+    }
+    const original=button?.textContent;
+    if(button){
+      button.textContent=copy.sharingCover;
+      button.disabled=true;
+    }
+    try{
+      const blob=await this.createShareCoverBlob();
+      const file=new File([blob],`supplement-risk-checklist-${new Date().toISOString().slice(0,10)}.png`,{type:'image/png'});
+      const shareData={title:copy.share.title,text:copy.share.text,url:SITE_CONFIG.publicUrl};
+      if(navigator.canShare?.({files:[file]})){
+        await navigator.share({...shareData,files:[file]});
+      }else if(navigator.share){
+        await navigator.share(shareData);
+      }else{
+        this.downloadBlob(blob,file.name);
+        alert(copy.shareFallback);
+      }
+      this.track('share_cover');
+    }catch(e){
+      if(e?.name!=='AbortError'){
+        try{
+          const blob=await this.createShareCoverBlob();
+          this.downloadBlob(blob,`supplement-risk-checklist-${new Date().toISOString().slice(0,10)}.png`);
+          alert(copy.shareFallback);
+        }catch(_){}
+      }
+    }finally{
+      if(button){
+        button.textContent=original;
+        button.disabled=false;
+      }
+    }
+  },
+
+  async createShareCoverBlob(){
+    const copy=UI_COPY[this.lang]||UI_COPY['zh-CN'];
+    const result=this.result||this.scoreResults();
+    const reportId=this.currentReportId();
+    const items=(result.top.length?result.top:SUPPLEMENTS.slice(0,1)).map(localizedSupplement);
+    const riskCount=(result.riskNotes?.length||0)+(result.safetyNotes?.length||0);
+    const siteLabel=SITE_CONFIG.publicUrl.replace(/^https?:\/\//,'').replace(/\/$/,'');
+    const canvas=document.createElement('canvas');
+    canvas.width=1080;
+    canvas.height=1440;
+    const ctx=canvas.getContext('2d');
+    const colors={bg:'#edf2ee',card:'#fffdf7',green:'#153f2b',dim:'#617366',gold:'#b7791f',coral:'#d86f58',red:'#bd2b26',teal:'#0f7671',line:'#d7e1da',soft:'#f8fbf7'};
+    const font=this.lang==='en'?'Inter, Arial, sans-serif':'Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif';
+    const round=(x,y,w,h,r,fill,stroke)=>{
+      ctx.beginPath();
+      ctx.moveTo(x+r,y);
+      ctx.arcTo(x+w,y,x+w,y+h,r);
+      ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r);
+      ctx.arcTo(x,y,x+w,y,r);
+      if(fill){ctx.fillStyle=fill;ctx.fill();}
+      if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}
+    };
+    const text=(value,x,y,size,weight='400',color=colors.green,align='left')=>{
+      ctx.font=`${weight} ${size}px ${font}`;
+      ctx.fillStyle=color;
+      ctx.textAlign=align;
+      ctx.textBaseline='top';
+      ctx.fillText(value,x,y);
+    };
+    const wrap=(value,x,y,maxWidth,lineHeight,size,weight='400',color=colors.dim,maxLines=3,align='left')=>{
+      const raw=String(value||'');
+      const parts=raw.includes(' ')?raw.split(/\s+/):[...raw];
+      let line='',lines=[];
+      ctx.font=`${weight} ${size}px ${font}`;
+      parts.forEach((part,index)=>{
+        const next=raw.includes(' ')?(line?`${line} ${part}`:part):line+part;
+        if(ctx.measureText(next).width>maxWidth&&line){
+          lines.push(line);
+          line=part;
+        }else{
+          line=next;
+        }
+        if(index===parts.length-1&&line)lines.push(line);
+      });
+      const drawX=align==='center'?x+maxWidth/2:align==='right'?x+maxWidth:x;
+      lines.slice(0,maxLines).forEach((lineText,index)=>text(lineText,drawX,y+index*lineHeight,size,weight,color,align));
+      return y+Math.min(lines.length,maxLines)*lineHeight;
+    };
+    const loadImage=src=>new Promise(resolve=>{
+      const img=new Image();
+      img.onload=()=>resolve(img);
+      img.onerror=()=>resolve(null);
+      img.src=src;
+    });
+    const generatedAt=new Date().toLocaleString(this.lang==='en'?'en-US':this.lang,{
+      year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',
+    });
+    const logo=await loadImage('assets/urgent-vitaminc-wordmark.png');
+    const smallCopy=this.lang==='en'
+      ? {
+          spine:'PAID REPORT', spineTitle:'Personalized supplement picks', spineFoot:generatedAt,
+          kicker:'INGREDIENT PRIORITY', eyebrow:'Priority pyramid', title:'Supplement priority',
+          lead:'Your urgent supplement shortlist.',
+          tierHint:'Priority runs top to bottom', layers:'recommended tiers', removed:'Removed',
+          removedBody:n=>`${n} unsuitable self-trial directions`, check:'Confirm before use', riskNote:n=>`${n} risk notes`,
+          reportCode:'Report code', visit:'Share your supplement report',
+        }
+      : this.lang==='zh-TW'
+        ? {
+            spine:'PAID REPORT', spineTitle:'補劑個性化推薦', spineFoot:generatedAt,
+            kicker:'INGREDIENT PRIORITY', eyebrow:'成分優先金字塔', title:'補劑優先級',
+            lead:'屬於你的「緊急補劑」',
+            tierHint:'優先級由上到下', layers:'層推薦', removed:'已排除',
+            removedBody:n=>`${n} 項暫不建議自行嘗試`, check:'使用前再確定', riskNote:n=>`${n} 條風險提示`,
+            reportCode:'報告碼', visit:'分享你的補劑報告',
+          }
+        : {
+            spine:'PAID REPORT', spineTitle:'补剂个性化推荐', spineFoot:generatedAt,
+            kicker:'INGREDIENT PRIORITY', eyebrow:'成分优先金字塔', title:'补剂优先级',
+            lead:'属于你的“紧急补剂”',
+            tierHint:'优先级由上到下', layers:'层推荐', removed:'已排除',
+            removedBody:n=>`${n} 项暂不建议自行尝试`, check:'使用前再确定', riskNote:n=>`${n} 条风险提示`,
+            reportCode:'报告码', visit:'分享你的补剂报告',
+          };
+
+    ctx.fillStyle=colors.bg;
+    ctx.fillRect(0,0,1080,1440);
+    const bg=ctx.createLinearGradient(0,0,1080,1440);
+    bg.addColorStop(0,'#edf2ee');
+    bg.addColorStop(.58,'#fbfaf5');
+    bg.addColorStop(1,'#dde8e2');
+    ctx.fillStyle=bg;
+    ctx.fillRect(0,0,1080,1440);
+    round(38,38,1004,1364,32,colors.card,colors.line);
+    round(38,38,196,1364,32,colors.green,colors.green);
+    ctx.fillStyle=colors.green;
+    ctx.fillRect(196,38,58,1364);
+
+    ctx.save();
+    ctx.translate(92,110);
+    ctx.rotate(Math.PI/2);
+    text(smallCopy.spine,0,0,18,'900','#e4bd73');
+    ctx.restore();
+    wrap(smallCopy.spineTitle,72,1022,104,38,29,'800','#fbfff8',3);
+    wrap(smallCopy.spineFoot,72,1278,126,22,15,'800','#b7cbbf',3);
+
+    const contentX=284;
+    const contentW=720;
+    text(smallCopy.kicker,contentX,88,16,'900',colors.coral);
+    text(smallCopy.reportCode,contentX+contentW,88,16,'900',colors.coral,'right');
+    text(smallCopy.eyebrow,contentX,162,22,'900',colors.gold);
+    wrap(smallCopy.title,contentX,198,520,70,64,'900',colors.green,2);
+    wrap(smallCopy.lead,contentX,280,560,34,23,'600',colors.dim,3);
+
+    round(862,184,142,142,28,colors.green,colors.green);
+    text(String(items.length),933,208,58,'900','#fff','center');
+    text(smallCopy.layers,933,278,18,'900','#e4bd73','center');
+
+    const tierCount=items.length;
+    const density=tierCount<=7?'loose':tierCount<=10?'regular':'compact';
+    const layout={
+      loose:{bodyY:438,bodyH:464,tierH:46,rowH:62,rowGap:10,nameSize:18,metaSize:13},
+      regular:{bodyY:418,bodyH:536,tierH:42,rowH:52,rowGap:8,nameSize:17,metaSize:12},
+      compact:{bodyY:398,bodyH:610,tierH:40,rowH:38,rowGap:7,nameSize:15,metaSize:12},
+    }[density];
+    const bodyY=layout.bodyY;
+    const bodyH=layout.bodyH;
+    const pyramidX=284;
+    const pyramidW=282;
+    const gapW=38;
+    const listX=pyramidX+pyramidW+gapW;
+    const listW=contentX+contentW-listX;
+    round(pyramidX,bodyY,pyramidW,bodyH,24,colors.soft,'#d9e6dc');
+    round(listX,bodyY,listW,bodyH,24,colors.soft,'#d9e6dc');
+    text(smallCopy.tierHint,pyramidX+pyramidW/2,bodyY+22,18,'900',colors.gold,'center');
+
+    const tierTop=bodyY+70;
+    const tierAreaH=bodyH-104;
+    const tierH=Math.max(24,Math.min(layout.tierH,(tierAreaH-(tierCount-1)*8)/tierCount));
+    const tierGap=tierCount>1?(tierAreaH-tierH*tierCount)/(tierCount-1):0;
+    const listPad=14;
+    const rowGap=layout.rowGap;
+    const rowH=Math.max(38,Math.min(layout.rowH,(bodyH-listPad*2-rowGap*(tierCount-1))/tierCount));
+    const listContentH=rowH*tierCount+rowGap*(tierCount-1);
+    const listTop=bodyY+(bodyH-listContentH)/2;
+    const tierCenters=[];
+    const rowCenters=[];
+    items.forEach((item,index)=>{
+      const y=tierTop+index*(tierH+tierGap);
+      const width=Math.min(pyramidW-46,70+index*((pyramidW-72)/Math.max(tierCount-1,1)));
+      const x=pyramidX+(pyramidW-width)/2;
+      const fill=index===0?colors.red:index===1?colors.coral:index===2?'#efc96e':index===3?colors.teal:'#eef6f0';
+      const stroke=index<4?'rgba(0,0,0,.04)':'#d9e6dc';
+      round(x,y,width,tierH,9,fill,stroke);
+      text(String(index+1).padStart(2,'0'),x+width/2,y+(tierH-16)/2,15,'900',index<2?'#fff':colors.green,'center');
+      tierCenters.push({x:pyramidX+pyramidW,y:y+tierH/2});
+      const rowY=listTop+index*(rowH+rowGap);
+      round(listX+listPad,rowY,listW-listPad*2,rowH,14,colors.card,'rgba(23,77,50,.1)');
+      round(listX+listPad+10,rowY+8,30,30,15,colors.green,colors.green);
+      text(String(index+1).padStart(2,'0'),listX+listPad+25,rowY+15,13,'900','#fff','center');
+      const labelX=listX+listPad+52;
+      const nameSize=layout.nameSize;
+      const metaSize=layout.metaSize;
+      const compact=rowH<50;
+      wrap(item.name,labelX,rowY+7,listW-listPad*2-64,compact?18:20,nameSize,'900',colors.green,compact?2:1,'center');
+      if(!compact){
+        const meta=[copy.evidence[item.evidence]||item.evidence, `${copy.match} ${Math.round(item.score||0)}`].filter(Boolean).join(' · ');
+        wrap(meta,labelX,rowY+rowH-20,listW-listPad*2-64,16,metaSize,'700',colors.dim,1,'center');
+      }
+      rowCenters.push({x:listX+listPad,y:rowY+rowH/2});
+    });
+
+    ctx.save();
+    ctx.setLineDash([7,7]);
+    ctx.strokeStyle='rgba(183,121,31,.58)';
+    ctx.lineWidth=2;
+    ctx.lineCap='round';
+    tierCenters.forEach((from,index)=>{
+      const to=rowCenters[index];
+      ctx.beginPath();
+      ctx.moveTo(from.x+6,from.y);
+      ctx.bezierCurveTo(from.x+28,from.y,to.x-28,to.y,to.x-8,to.y);
+      ctx.stroke();
+    });
+    ctx.restore();
+
+    const auditY=Math.min(1030,bodyY+bodyH+22);
+    round(contentX,auditY,310,96,18,colors.soft,'#d9e6dc');
+    text(smallCopy.removed,contentX+20,auditY+16,21,'800',colors.gold);
+    text(smallCopy.removedBody(result.blockedIds?.size||0),contentX+20,auditY+50,18,'800',colors.dim);
+    round(contentX+326,auditY,contentW-326,96,18,'#fff9ed','#efca96');
+    text(smallCopy.check,contentX+346,auditY+16,21,'800',colors.gold);
+    wrap(copy.share.riskLabels.join(this.lang==='en'?' / ':' / '),contentX+346,auditY+48,contentW-374,24,18,'800',colors.dim,2);
+    if(riskCount){
+      round(contentX+contentW-126,auditY+12,106,28,14,'#fffdf7','#efca96');
+      text(smallCopy.riskNote(riskCount),contentX+contentW-73,auditY+18,13,'800',colors.coral,'center');
+    }
+
+    ctx.strokeStyle='rgba(183,121,31,.5)';
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(contentX,1238);
+    ctx.lineTo(contentX+contentW,1238);
+    ctx.stroke();
+    if(logo){
+      const logoW=150;
+      const logoH=logo.height*logoW/logo.width;
+      const logoX=contentX+contentW/2-logoW/2;
+      ctx.fillStyle=colors.card;
+      ctx.fillRect(logoX-14,1238-logoH/2-6,logoW+28,logoH+12);
+      ctx.drawImage(logo,logoX,1238-logoH/2,logoW,logoH);
+    }else{
+      ctx.fillStyle=colors.card;
+      ctx.fillRect(contentX+contentW/2-70,1220,140,36);
+      text('紧急维C',contentX+contentW/2,1226,24,'900',colors.green,'center');
+    }
+    text(siteLabel,contentX+contentW/2,1274,30,'900',colors.green,'center');
+    text(smallCopy.visit,contentX+contentW/2,1322,20,'700',colors.dim,'center');
+
+    return await new Promise(resolve=>canvas.toBlob(resolve,'image/png',.95));
+  },
+
+  downloadBlob(blob,filename){
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=filename;
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
   },
 
   async loadKnowledge(){
@@ -1761,6 +2037,7 @@ const App = {
         'copy-report':()=>this.copyReport(),
         'download-report':()=>this.downloadReport(),
         'unlock-report':()=>this.startCheckout(),
+        'share-cover':()=>this.shareReportCover(actionButton),
         'view-saved-report':()=>this.openSavedReport(actionButton.dataset.reportId),
         'pay-saved-report':()=>this.paySavedReport(actionButton.dataset.reportId),
         'download-saved-report':()=>this.downloadSavedReport(actionButton.dataset.reportId),
