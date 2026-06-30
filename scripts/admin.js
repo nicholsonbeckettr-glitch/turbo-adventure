@@ -2,20 +2,25 @@ const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const Admin={
+  token(){
+    return $('token').value.trim();
+  },
+
   headers(){
     return {
-      authorization:`Bearer ${$('token').value}`,
+      authorization:`Bearer ${this.token()}`,
       'content-type':'application/json',
     };
   },
 
   async load(){
+    if(!this.token()){$('msg').textContent='请先输入 ADMIN_TOKEN';return;}
     $('msg').textContent='读取中...';
-    sessionStorage.setItem('admin-token',$('token').value);
+    sessionStorage.setItem('admin-token',this.token());
     try{
       const res=await fetch('/api/admin',{headers:this.headers()});
-      if(!res.ok){$('msg').textContent='验证失败或后台未配置完成';return;}
-      const data=await res.json();
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok){$('msg').textContent=data.error||'验证失败或后台未配置完成';return;}
       this.render(data);
     }catch(e){
       $('msg').textContent='网络错误，稍后重试';
@@ -24,9 +29,10 @@ const Admin={
 
   async markPaid(){
     const reportId=$('report-id').value.trim();
+    if(!this.token()){$('pay-msg').textContent='请先输入 ADMIN_TOKEN';return;}
     if(!reportId){$('pay-msg').textContent='请先输入付款弹窗里的订单号 / reportId / 报告码';return;}
     $('pay-msg').textContent='标记中...';
-    sessionStorage.setItem('admin-token',$('token').value);
+    sessionStorage.setItem('admin-token',this.token());
     try{
       const res=await fetch('/api/admin',{
         method:'POST',

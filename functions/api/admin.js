@@ -20,8 +20,8 @@ const bump = (obj, key) => {
 };
 
 function authorized(request, env) {
-  const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
-  return Boolean(env.ADMIN_TOKEN && token === env.ADMIN_TOKEN);
+  const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '').trim();
+  return Boolean(env.ADMIN_TOKEN && token === String(env.ADMIN_TOKEN).trim());
 }
 
 function normalizeReportInput(value) {
@@ -81,10 +81,10 @@ async function markPaid(env, reportId) {
 }
 
 export async function onRequestGet({ request, env }) {
-  if (!env.ANALYTICS) return json({ error: 'ANALYTICS KV binding missing' }, 500);
-  if (!env.ADMIN_TOKEN) return json({ error: 'ADMIN_TOKEN missing' }, 500);
+  if (!env.ANALYTICS) return json({ error: '后台 ANALYTICS KV 未绑定。' }, 500);
+  if (!env.ADMIN_TOKEN) return json({ error: '后台 ADMIN_TOKEN 未配置。' }, 500);
 
-  if (!authorized(request, env)) return json({ error: 'unauthorized' }, 401);
+  if (!authorized(request, env)) return json({ error: '管理员验证失败，请检查 ADMIN_TOKEN。' }, 401);
 
   const [eventKeys, userKeys] = await Promise.all([
     listKeys(env.ANALYTICS, 'event:'),
@@ -119,9 +119,9 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!env.ANALYTICS) return json({ error: 'ANALYTICS KV binding missing' }, 500);
-  if (!env.ADMIN_TOKEN) return json({ error: 'ADMIN_TOKEN missing' }, 500);
-  if (!authorized(request, env)) return json({ error: 'unauthorized' }, 401);
+  if (!env.ANALYTICS) return json({ error: '后台 ANALYTICS KV 未绑定。' }, 500);
+  if (!env.ADMIN_TOKEN) return json({ error: '后台 ADMIN_TOKEN 未配置。' }, 500);
+  if (!authorized(request, env)) return json({ error: '管理员验证失败，请检查 ADMIN_TOKEN。' }, 401);
 
   let body;
   try {
