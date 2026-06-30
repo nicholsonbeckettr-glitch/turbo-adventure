@@ -24,7 +24,7 @@ const Admin={
 
   async markPaid(){
     const reportId=$('report-id').value.trim();
-    if(!reportId){$('pay-msg').textContent='请先输入 reportId';return;}
+    if(!reportId){$('pay-msg').textContent='请先输入付款弹窗里的订单号 / reportId / 报告码';return;}
     $('pay-msg').textContent='标记中...';
     sessionStorage.setItem('admin-token',$('token').value);
     try{
@@ -33,8 +33,10 @@ const Admin={
         headers:this.headers(),
         body:JSON.stringify({reportId}),
       });
-      if(!res.ok){$('pay-msg').textContent='标记失败，请检查 token 或 reportId';return;}
-      $('pay-msg').textContent=`已标记 ${reportId} 为已支付，用户刷新结果页后会解锁。`;
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok){$('pay-msg').textContent=data.error||'标记失败，请检查 token 或订单号';return;}
+      if(data.reportId)$('report-id').value=data.reportId;
+      $('pay-msg').textContent=`已标记 ${data.reportId||reportId} 为已支付，用户回到同一份报告页后会自动解锁。`;
       await this.load();
     }catch(e){
       $('pay-msg').textContent='网络错误，稍后重试';

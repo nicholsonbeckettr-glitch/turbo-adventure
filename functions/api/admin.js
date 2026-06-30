@@ -24,6 +24,45 @@ function authorized(request, env) {
   return Boolean(env.ADMIN_TOKEN && token === env.ADMIN_TOKEN);
 }
 
+function normalizeReportInput(value) {
+  return String(value || '')
+    .trim()
+    .replace(/^(订单号|訂單號|报告码|報告碼|report\s*id|order\s*id)\s*[:：#-]?\s*/i, '')
+    .replace(/\s+/g, '')
+    .slice(0, 80);
+}
+
+async function resolveReportId(env, rawValue) {
+  const input = normalizeReportInput(rawValue);
+  if (!input) {
+    return { error: '请先输入付款弹窗里的订单号 / reportId / 报告码。', status: 400 };
+  }
+
+  const exactCheckout = await env.ANALYTICS.get(`checkout:${input}`, 'json');
+  const exactPaid = await env.ANALYTICS.get(`paid:${input}`, 'json');
+  if (exactCheckout || exactPaid) return { reportId: input, input };
+
+  if (input.length < 6) {
+    return { error: '报告码太短，请至少输入前 6 位，或输入完整订单号。', status: 400 };
+  }
+
+  const lowerInput = input.toLowerCase();
+  const checkoutKeys = await listKeys(env.ANALYTICS, 'checkout:');
+  const matches = checkoutKeys
+    .map(key => key.slice('checkout:'.length))
+    .filter(reportId => reportId.toLowerCase().startsWith(lowerInput));
+
+  if (matches.length === 1) return { reportId: matches[0], input };
+  if (matches.length > 1) {
+    return { error: '这个报告码匹配到多个订单，请输入更完整的订单号。', status: 409 };
+  }
+
+  return {
+    error: '没有找到这个订单号对应的待付款报告。请确认输入的是付款弹窗里的订单号/reportId，不是支付宝或微信流水号。',
+    status: 404,
+  };
+}
+
 async function markPaid(env, reportId) {
   const now = new Date().toISOString();
   const checkout = await env.ANALYTICS.get(`checkout:${reportId}`, 'json');
@@ -91,9 +130,9 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'invalid json' }, 400);
   }
 
-  const reportId = typeof body.reportId === 'string' ? body.reportId.trim().slice(0, 80) : '';
-  if (!reportId) return json({ error: 'missing reportId' }, 400);
+  const resolved = await resolveReportId(env, body.reportId);
+  if (resolved.error) return json({ error: resolved.error }, resolved.status);
 
-  await markPaid(env, reportId);
-  return json({ ok: true, reportId });
+  await markPaid(env, resolved.reportId);
+  return json({ ok: true, reportId: resolved.reportId, input: resolved.input });
 }
